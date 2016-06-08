@@ -1,18 +1,19 @@
 renderPieChart <- function(div_id,
                            data,
-                           name,
+                           item_name = "-",
                            radius, 
-                           center_x, center_y){
+                           center_x, center_y,
+                           running_in_shiny = TRUE){
   
   part_1 <- paste("var " , 
                   div_id, 
                   " = echarts.init(document.getElementById('",
                   div_id, 
-                  "));",
+                  "'));",
                   sep="")
                   
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: \"{a} <br/>{b} : {c} ({d}%)\"}, series : [{name: '",
-                  name, "', type: 'pie', radius:'",
+                  item_name, "', type: 'pie', radius:'",
                   radius, "', center :['",
                   center_x, "','",
                   center_y, "'],",
@@ -30,16 +31,19 @@ renderPieChart <- function(div_id,
                   ");",
                   sep="")
  
-  final <- paste(part_1, part_2, part_3, part_4,
+  to_eval <- paste(part_1, part_2, part_3, part_4,
                  sep="")
   
-  print(final)
+  if(running_in_shiny == TRUE){
+    eval(parse(text = paste("tags$script(",
+                            to_eval,
+                            ")",
+                            sep=""))
+    )
+  } else {
+    cat(to_eval)
+  }
   
-  eval(parse(text = paste("tags$script(",
-                          final,
-                          ")",
-                          sep=""))
-  )
 }
 
 
@@ -47,6 +51,7 @@ test_data = data.frame(a=c("A", "B", "C"),
                        b=c(1,2,3))
 renderPieChart("Weekly_Toal", 
                test_data,
-               "A Plot for Testing",
+               "Sales Count",
                "50%",
-               "45%", "65%")
+               "50%", "50%",
+               running_in_shiny = FALSE)
