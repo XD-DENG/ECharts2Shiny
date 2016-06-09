@@ -9,7 +9,3 @@ renderPieChart("Weekly_Total",
 
 
 runPieChart("Test", running_in_shiny = FALSE)
-
-
-placeholder.PieChart("Test", "100%", "300px",
-                     running_in_shiny = FALSE)
