@@ -1,6 +1,5 @@
 renderPieChart <- function(div_id,
                            data,
-                           item_name = "-",
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
                            envir,
@@ -13,8 +12,7 @@ renderPieChart <- function(div_id,
                   "'));",
                   sep="")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{a} <br/>{b} : {c} ({d}%)'}, series : [{name: '",
-                  item_name, "', type: 'pie', radius:'",
+  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, series : [{type: 'pie', radius:'",
                   radius, "', center :['",
                   center_x, "','",
                   center_y, "'],",

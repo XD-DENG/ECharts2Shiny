@@ -15,7 +15,6 @@ shinyServer(function(input, output) {
   renderPieChart(div_id = "test_1", 
                  data = dat, 
                  envir = shiny_envir,
-                 item_name = "Item",
                  radius = "70%",center_x = "50%", center_y = "50%")
 
 
