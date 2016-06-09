@@ -7,12 +7,10 @@ shinyUI(fluidPage(
   
 
   
-  tags$div(id="Weekly_Total_1", style="width: '100%';height:300px;"),
-  tags$script(src="test.js")
-  # uiOutput("test")
+  tags$div(id="Weekly_Total_1", style="width: '50%';height:300px;"),
 
-  # placeholder.PieChart(div_id = "test", width = "100%", height = "300px"),
-  # runPieChart(div_id = "test")
+  placeholder.PieChart(div_id = "Weekly_Total_1", width = "50%", height = "300px"),
+  runPieChart(div_id = "Weekly_Total_1")
 
 )
 )

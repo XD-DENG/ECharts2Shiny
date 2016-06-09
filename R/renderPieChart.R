@@ -3,6 +3,7 @@ renderPieChart <- function(div_id,
                            item_name = "-",
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
+                           envir,
                            running_in_shiny = TRUE){
 
   part_1 <- paste("var " ,
@@ -39,8 +40,7 @@ renderPieChart <- function(div_id,
                  sep="")
 
   if(running_in_shiny == TRUE){
-    eval(parse(text = to_eval)
-    )
+    eval(parse(text = to_eval), envir = envir)
   } else {
     cat(to_eval)
   }
