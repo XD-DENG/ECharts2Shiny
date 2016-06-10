@@ -1,8 +1,8 @@
 renderPieChart <- function(div_id,
                            data,
                            radius = "50%",
-                           center_x = "50%", center_y = "50%",
                            envir,
+                           center_x = "50%", center_y = "50%",
                            running_in_shiny = TRUE){
 
   part_1 <- paste("var " ,
