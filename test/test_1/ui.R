@@ -18,9 +18,20 @@ shinyUI(fluidPage(
            deliverChart(div_id = "test_2")  # Deliver the plotting
            )
   ),
-  
-  tags$div(id="test_3", style="width:50%;height:200px;"),  
-  deliverChart(div_id = "test_3")  
+
+  fluidRow(
+    column(6,
+           tags$div(id="test_3", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_3")
+           ),
+    column(6,
+           tags$div(id="test_4", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_4")
+           )
+  )
+
+
+
 
 )
 )

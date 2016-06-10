@@ -1,9 +1,21 @@
 renderBarChart <- function(div_id,
                            data,
+                           direction = "horizontal",
                            grid_top = "3%", grip_bottom = "10%",
                            grid_left = "3%", grip_right = "4%",
                            running_in_shiny = TRUE){
-  
+
+  if(direction == "horizontal"){
+    direction_vector = c("xAxis", "yAxis")
+  }else{
+    if(direction == "vertical"){
+      direction_vector = c("yAxis", "xAxis")
+    }else{
+      stop("The 'direction' argument can be either 'horizontal' or 'vertical'")
+    }
+
+  }
+
   names(data) <- c("name", "value")
   yaxis_name <- data$name
   data <- as.character(jsonlite::toJSON(data))
@@ -16,8 +28,12 @@ renderBarChart <- function(div_id,
                   "'));",
                   sep="")
 
-  part_2 <- paste("option_", div_id, 
-                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{saveAsImage:{}}}, xAxis:[{type:'value'}], yAxis:[{type:'category', axisTick:{show:false}, data:[",
+  part_2 <- paste("option_", div_id,
+                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{saveAsImage:{}}}, ",
+                  direction_vector[1],
+                  ":[{type:'value'}], ",
+                  direction_vector[2],
+                  ":[{type:'category', axisTick:{show:false}, data:[",
                   paste(sapply(yaxis_name, function(x){paste("'", x, "'", sep="")}), collapse = ","),
                   "]}],series : [{type: 'bar', ",
                   "label:{normal:{show: true, position:'inside'}},",
