@@ -11,7 +11,7 @@ renderPieChart <- function(div_id,
                   "'));",
                   sep="")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, series : [{type: 'pie', radius:'",
+  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, toolbox:{feature:{saveAsImage:{}}}, series : [{type: 'pie', radius:'",
                   radius, "', center :['",
                   center_x, "','",
                   center_y, "'],",

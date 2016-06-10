@@ -17,5 +17,8 @@ shinyServer(function(input, output) {
                  data = dat, 
                  radius = "50%",center_x = "50%", center_y = "50%")
   
+  renderBarChart(div_id = "test_3", 
+                 data = dat)
+  
   
   })

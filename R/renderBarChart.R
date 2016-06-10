@@ -1,8 +1,13 @@
-renderPieChart <- function(div_id,
+renderBarChart <- function(div_id,
                            data,
-                           radius = "50%",
-                           center_x = "50%", center_y = "50%",
+                           grid_top = "3%", grip_bottom = "10%",
+                           grid_left = "3%", grip_right = "4%",
                            running_in_shiny = TRUE){
+  
+  names(data) <- c("name", "value")
+  yaxis_name <- data$name
+  data <- as.character(jsonlite::toJSON(data))
+  data <- gsub("\"", "\'", data)
 
   part_1 <- paste("var " ,
                   div_id,
@@ -11,18 +16,17 @@ renderPieChart <- function(div_id,
                   "'));",
                   sep="")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, series : [{type: 'pie', radius:'",
-                  radius, "', center :['",
-                  center_x, "','",
-                  center_y, "'],",
+  part_2 <- paste("option_", div_id, 
+                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{saveAsImage:{}}}, xAxis:[{type:'value'}], yAxis:[{type:'category', axisTick:{show:false}, data:[",
+                  paste(sapply(yaxis_name, function(x){paste("'", x, "'", sep="")}), collapse = ","),
+                  "]}],series : [{type: 'bar', ",
+                  "label:{normal:{show: true, position:'inside'}},",
                   sep="")
 
-  names(data) <- c("name", "value")
-  data <- as.character(jsonlite::toJSON(data))
-  data <- gsub("\"", "\'", data)
+
   part_3 <- paste("data:",
                   data,
-                  ", itemStyle: { emphasis: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]};",
+                  "}]};",
                   sep="")
 
   part_4 <- paste(div_id,
