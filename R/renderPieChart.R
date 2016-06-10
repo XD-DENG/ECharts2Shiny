@@ -1,7 +1,6 @@
 renderPieChart <- function(div_id,
                            data,
                            radius = "50%",
-                           envir,
                            center_x = "50%", center_y = "50%",
                            running_in_shiny = TRUE){
 
@@ -38,7 +37,7 @@ renderPieChart <- function(div_id,
                  sep="")
 
   if(running_in_shiny == TRUE){
-    eval(parse(text = to_eval), envir = envir)
+    eval(parse(text = to_eval), envir = parent.frame())
   } else {
     cat(to_eval)
   }
