@@ -3,10 +3,11 @@ library(ECharts2Shiny)
 
 
 shinyUI(fluidPage(
-  
+
   # We HAVE TO to load the ECharts javascript library in advance
-  tags$script(src="echarts.js"),
-  
+
+  loadEChartsLibrary(),
+
   fluidRow(
     column(6,
            tags$div(id="test_1", style="width: '50%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
