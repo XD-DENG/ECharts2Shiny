@@ -5,13 +5,13 @@ library(ECharts2Shiny)
 
 # Prepare sample data for plotting ---------------------------------------
 
-dat_1 <- data.frame(c(1, 2, 3))
-row.names(dat_1) <- c("Type-A", "Type-B", "Type-C")
+dat_1 <- data.frame(matrix(1:3, 1,3))
+names(dat_1) <- c("Type-A", "Type-B", "Type-C")
+
 
 dat_2 <- data.frame(c(1, 2, 3, 1),
                   c(2, 4, 6, 6),
                   c(3, 2, 7, 5))
-
 names(dat_2) <- c("Type-A", "Type-B", "Type-C")
 row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
 

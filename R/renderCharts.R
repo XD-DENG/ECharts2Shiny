@@ -9,10 +9,9 @@ renderPieChart <- function(div_id,
                            center_x = "50%", center_y = "50%",
                            running_in_shiny = TRUE){
   
-  legend_data <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
+  legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   
-  item_name <- names(data)
-  
+  data <- data.frame(t(data))
   names(data) <- "value"
   data$name <- row.names(data)
   row.names(data) <- NULL
