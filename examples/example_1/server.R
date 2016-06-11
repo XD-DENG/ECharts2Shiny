@@ -19,6 +19,7 @@ row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
 
 
 
+
 shinyServer(function(input, output) {
 
   # Call functions from ECharts2Shiny to render charts
@@ -36,7 +37,7 @@ shinyServer(function(input, output) {
                  direction = "vertical", grid_left = "10%",
                  data = dat_2)
 
-
-
+  renderGauge(div_id = "test_5", gauge_name = "Finished Rate",
+              rate = 99.9)
 
   })

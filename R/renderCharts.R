@@ -8,46 +8,46 @@ renderPieChart <- function(div_id,
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
                            running_in_shiny = TRUE){
-  
+
   legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_data <- paste("[", legend_data, "]", sep="")
-  
+
   data <- data.frame(t(data))
   names(data) <- "value"
   data$name <- row.names(data)
   row.names(data) <- NULL
   data <- as.character(jsonlite::toJSON(data))
   data <- gsub("\"", "\'", data)
-  
+
   part_1 <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
                   "'));",
                   sep="")
-  
+
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, toolbox:{feature:{saveAsImage:{}}}, ",
                   "legend:{orient: 'vertical', left: 'left', data:",
                   legend_data,  "},",
                   "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
                   sep="")
-  
+
   part_3 <- paste("data:",
                   data,
                   ", itemStyle: { emphasis: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]};",
                   sep="")
-  
+
   part_4 <- paste(div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
-  
+
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
                    part_1, part_2, part_3, part_4,
                    "\"))})",
                    sep="")
-  
+
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())
   } else {
@@ -78,12 +78,12 @@ renderBarChart <- function(div_id,
       stop("The 'direction' argument can be either 'horizontal' or 'vertical'")
     }
   }
-  
+
   xaxis_name <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   xaxis_name <- paste("[", xaxis_name, "]", sep="")
   legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_name <- paste("[", legend_name, "]", sep="")
-  
+
   # Prepare the data in "series" part
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
@@ -200,4 +200,47 @@ renderLineChart <- function(div_id,
 }
 
 
+
+
+# Gauge -------------------------------------------------------------------
+
+renderGauge <- function(div_id,
+                        gauge_name, rate,
+                        running_in_shiny = TRUE){
+
+  series_data <- paste("[{name:'",gauge_name, "',value:", rate, "}]", sep="")
+
+
+  part_1 <- paste("var " ,
+                  div_id,
+                  " = echarts.init(document.getElementById('",
+                  div_id,
+                  "'));",
+                  sep="")
+
+  part_2 <- paste("option_", div_id, "={tooltip : {formatter: '{b} : {c}%'},toolbox: {feature: {saveAsImage: {}}},",
+                  "series:[{name:'", gauge_name, "', type:'gauge', detail: {formatter:'{value}%'},data:",
+                  series_data,
+                  "}]};",
+                  sep="")
+
+  part_3 <- paste(div_id,
+                  ".setOption(option_",
+                  div_id,
+                  ");",
+                  sep="")
+
+  to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
+                   part_1, part_2, part_3,
+                   "\"))})",
+                   sep="")
+
+
+  if(running_in_shiny == TRUE){
+    eval(parse(text = to_eval), envir = parent.frame())
+  } else {
+    cat(to_eval)
+  }
+
+}
 
