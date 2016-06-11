@@ -29,11 +29,11 @@ shinyServer(function(input, output) {
   renderLineChart(div_id = "test_2",
                   data = dat_2)
 
-  renderBarChart(div_id = "test_3",
+  renderBarChart(div_id = "test_3", grid_left = '1%',
                  data = dat_2)
 
   renderBarChart(div_id = "test_4",
-                 direction = "vertical",
+                 direction = "vertical", grid_left = "10%",
                  data = dat_2)
 
 

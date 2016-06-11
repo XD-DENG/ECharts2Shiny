@@ -65,6 +65,7 @@ renderPieChart <- function(div_id,
 renderBarChart <- function(div_id,
                            data,
                            direction = "horizontal",
+                           grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                            running_in_shiny = TRUE){
 
   # Check if the "direction" value is valid
@@ -107,7 +108,7 @@ renderBarChart <- function(div_id,
 
   part_2 <- paste("option_", div_id,
                   " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{saveAsImage:{}}}, legend:{data:",
-                  legend_name, "},",
+                  legend_name, "}, grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
                   direction_vector[1],
                   ":[{type:'value'}], ",
                   direction_vector[2],
