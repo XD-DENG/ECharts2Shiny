@@ -5,7 +5,7 @@ library(ECharts2Shiny)
 
 # Prepare sample data for plotting ---------------------------------------
 
-dat_1 <- data.frame(matrix(1:3, 1,3))
+dat_1 <- data.frame(matrix(c(3,2,8), 1,3))
 names(dat_1) <- c("Type-A", "Type-B", "Type-C")
 
 

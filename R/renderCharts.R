@@ -10,6 +10,7 @@ renderPieChart <- function(div_id,
                            running_in_shiny = TRUE){
   
   legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
+  legend_data <- paste("[", legend_data, "]", sep="")
   
   data <- data.frame(t(data))
   names(data) <- "value"
@@ -26,13 +27,9 @@ renderPieChart <- function(div_id,
                   sep="")
   
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, toolbox:{feature:{saveAsImage:{}}}, ",
-                  "legend:{orient: 'vertical', left: 'left', data:[",
-                  legend_data,
-                  "]},",
-                  "series : [{type: 'pie', radius:'",
-                  radius, "', center :['",
-                  center_x, "','",
-                  center_y, "'],",
+                  "legend:{orient: 'vertical', left: 'left', data:",
+                  legend_data,  "},",
+                  "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
                   sep="")
   
   part_3 <- paste("data:",
@@ -86,6 +83,7 @@ renderBarChart <- function(div_id,
   legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_name <- paste("[", legend_name, "]", sep="")
   
+  # Prepare the data in "series" part
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'bar', data:[",
@@ -96,6 +94,7 @@ renderBarChart <- function(div_id,
     series_data[i] <- temp
   }
   series_data <- paste(series_data, collapse = ", ")
+  series_data <- paste("[", series_data, "]", sep="")
 
 
 
@@ -107,30 +106,26 @@ renderBarChart <- function(div_id,
                   sep="")
 
   part_2 <- paste("option_", div_id,
-                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, ",
-                  "toolbox:{feature:{saveAsImage:{}}}, legend:{data:",
+                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{saveAsImage:{}}}, legend:{data:",
                   legend_name, "},",
                   direction_vector[1],
                   ":[{type:'value'}], ",
                   direction_vector[2],
                   ":[{type:'category', axisTick:{show:false}, data:",
                   xaxis_name,
-                  "}],series : [",
+                  "}],series :",
+                  series_data,
+                  "};",
                   sep="")
 
-
-  part_3 <- paste(series_data,
-                  "]};",
-                  sep="")
-
-  part_4 <- paste(div_id,
+  part_3 <- paste(div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3, part_4,
+                   part_1, part_2, part_3,
                    "\"))})",
                  sep="")
 
@@ -140,10 +135,6 @@ renderBarChart <- function(div_id,
     cat(to_eval)
   }
 }
-
-
-
-
 
 
 
@@ -182,8 +173,7 @@ renderLineChart <- function(div_id,
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'axis'}, toolbox:{feature:{saveAsImage:{}}}, ",
                   "legend:{data:",
                   legend_name,
-                  "}, yAxis: { type: 'value'},",
-                  "xAxis:{type:'category', boundaryGap: false, data:",
+                  "}, yAxis: { type: 'value'}, xAxis:{type:'category', boundaryGap: false, data:",
                   xaxis_name,
                   "}, series:[",
                   series_data,
