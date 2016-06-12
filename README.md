@@ -1,6 +1,8 @@
 # ECharts2Shiny
 
-ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。该包仍处于开发模式，但基本功能已可用。
+ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。当前支持的图形包括饼图（pie chart），折线图（line chart），柱形图（bar chart），以及仪表盘（gauge）。
+
+该包仍处于开发模式，但基本功能已可用。
 
 ## 特点
 **简洁易用**：只需要3-4行函数，即可在Shiny应用当中插入一个交互图形。
