@@ -5,6 +5,8 @@ library(ECharts2Shiny)
 shinyUI(fluidPage(
   # We HAVE TO to load the ECharts javascript library in advance
   loadEChartsLibrary(),
+  loadEChartsTheme('shine'),
+  loadEChartsTheme('vintage'),
 
   fluidRow(
     column(6,

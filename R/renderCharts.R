@@ -4,10 +4,21 @@
 
 
 renderPieChart <- function(div_id,
-                           data,
+                           data, theme = "default",
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
                            running_in_shiny = TRUE){
+
+  # Check the value for theme
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+
+  if((theme %in% valid_themes) == FALSE){
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+  }
+
+  theme_placeholder <- ifelse(theme == "default",
+                              "",
+                              paste(", '",theme,  "'", sep=""))
 
   legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_data <- paste("[", legend_data, "]", sep="")
@@ -23,7 +34,9 @@ renderPieChart <- function(div_id,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
-                  "'));",
+                  "')",
+                  theme_placeholder,
+                  ");",
                   sep="")
 
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, toolbox:{feature:{saveAsImage:{}}}, ",
@@ -63,10 +76,21 @@ renderPieChart <- function(div_id,
 
 
 renderBarChart <- function(div_id,
-                           data,
+                           data, theme = "default",
                            direction = "horizontal",
                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                            running_in_shiny = TRUE){
+
+  # Check the value for theme
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+
+  if((theme %in% valid_themes) == FALSE){
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+  }
+
+  theme_placeholder <- ifelse(theme == "default",
+                              "",
+                              paste(", '",theme,  "'", sep=""))
 
   # Check if the "direction" value is valid
   if(direction == "horizontal"){
@@ -103,7 +127,9 @@ renderBarChart <- function(div_id,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
-                  "'));",
+                  "')",
+                  theme_placeholder,
+                  ");",
                   sep="")
 
   part_2 <- paste("option_", div_id,
@@ -145,8 +171,20 @@ renderBarChart <- function(div_id,
 
 
 renderLineChart <- function(div_id,
-                            data,
+                            data, theme = "default",
                             running_in_shiny = TRUE){
+
+
+  # Check the value for theme
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+
+  if((theme %in% valid_themes) == FALSE){
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+  }
+
+  theme_placeholder <- ifelse(theme == "default",
+                              "",
+                              paste(", '",theme,  "'", sep=""))
 
   xaxis_name <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   xaxis_name <- paste("[", xaxis_name, "]", sep="")
@@ -157,7 +195,9 @@ renderLineChart <- function(div_id,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
-                  "'));",
+                  "')",
+                  theme_placeholder,
+                  ");",
                   sep="")
 
   series_data <- rep("", dim(data)[2])
@@ -204,9 +244,21 @@ renderLineChart <- function(div_id,
 
 # Gauge -------------------------------------------------------------------
 
-renderGauge <- function(div_id,
+renderGauge <- function(div_id, theme = "default",
                         gauge_name, rate,
                         running_in_shiny = TRUE){
+
+
+  # Check the value for theme
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+
+  if((theme %in% valid_themes) == FALSE){
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+  }
+
+  theme_placeholder <- ifelse(theme == "default",
+                              "",
+                              paste(", '",theme,  "'", sep=""))
 
   series_data <- paste("[{name:'",gauge_name, "',value:", rate, "}]", sep="")
 
@@ -215,7 +267,9 @@ renderGauge <- function(div_id,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
-                  "'));",
+                  "')",
+                  theme_placeholder,
+                  ");",
                   sep="")
 
   part_2 <- paste("option_", div_id, "={tooltip : {formatter: '{b} : {c}%'},toolbox: {feature: {saveAsImage: {}}},",
