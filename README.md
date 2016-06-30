@@ -1,8 +1,8 @@
 # ECharts2Shiny
 
-- [中文版](#ECharts2Shiny包)
+- [中文版](#echarts2shiny包)
 
-As a R package, ECharts2Shiny can help embed the interactive charts plotted by ECharts library into our Shiny application. Currently, we can support pie charts, line charts, bar charts, and gauge.
+As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by *ECharts* library into our *Shiny* application. Currently, we can support pie charts, line charts, bar charts, and gauge.
 
 
 
@@ -10,7 +10,7 @@ As a R package, ECharts2Shiny can help embed the interactive charts plotted by E
 
 **Easy to Use**: Only 3-4 lines are needed to insert an interactive chart into our Shiny application.
 
-**Customisable**: As rich options as possible are kept, including the 'grid' option in the original ECharts library.
+**Customisable**: As rich options as possible are kept, including the 'grid' option in the original *ECharts* library.
 
 **Theme Options**: In line with the original ECharts library, users can select the theme for their interactive charts, including 'roma', 'shine', 'vintage', 'maracons', and 'infographic'. Users can select the theme of diverse fashion according to their needs and preference.
 
@@ -60,54 +60,11 @@ shinyServer(function(input, output) {
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
-##例子
-ui.R
-
-```{r}
-library(shiny)
-library(ECharts2Shiny)
-
-shinyUI(fluidPage(
-
-  # We HAVE TO to load the ECharts javascript library in advance
-  loadEChartsLibrary(),
-
-  tags$div(id="test", style="width:80%;height:300px;"),
-  deliverChart(div_id = "test")
-  )
-)
-```
-
-server.R
-
-```{r}
-library(shiny)
-library(ECharts2Shiny)
-
-# Prepare sample data for plotting
-dat <- data.frame(c(1, 2, 3, 1),
-                  c(2, 4, 6, 6),
-                  c(3, 2, 7, 5))
-names(dat) <- c("Type-A", "Type-B", "Type-C")
-row.names(dat) <- c("Time-1", "Time-2", "Time-3", "Time-4")
-
-
-shinyServer(function(input, output) {
-
-  # Call functions from ECharts2Shiny to render charts
-  renderBarChart(div_id = "test", grid_left = '1%',
-                 data = dat)
-  })
-
-```
-![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
-
-
 
 
 # How It Works
 
-ECharts2Shiny will create the "www/" folder in the Shiny application directory (if there is not one) and copy the Javascript library file of ECharts into the "www/" folder. Then it will work as a wrapper of the `tags$script()` function of *shiny* to load the JS file and plot the charts in Shiny application.
+*ECharts2Shiny* will create the `www/` folder in the Shiny application directory (if there is not one) and copy the Javascript library file of ECharts into the `www/` folder. Then it will work as a wrapper of the `tags$script()` function of *shiny* to load the JS file and plot the charts in Shiny application.
 
 The JS file of ECharts library is embeded in this package. We have a specific function to help us prepare it for using it in Shiny application so users don't need to worry about the Javascript file at all. The only "extra" work we need to do is to add one line in the beginnign part of UI component of ui.R file.
 ```
@@ -120,6 +77,7 @@ Actually, the .js library file can also be downloaded directly from internet.
 tags$script(src="http://echarts.baidu.com/dist/echarts.min.js")
 ```
 But I didn't choose this options due to (1) this may make the application slow if we have weak internet connection; (2) sometimes the application may be deployed in environment without internet connection.
+
 
 
 
