@@ -1,4 +1,5 @@
 \name{loadEChartsTheme}
+\alias{loadEChartsTheme}
 \title{
 Load the Theme File of ECharts to the Shiny Application
 }
@@ -6,7 +7,7 @@ Load the Theme File of ECharts to the Shiny Application
 This function will help load the theme file of ECharts into the current Shiny application. This is not mandatory for the basic use of this package. But if users want to try different theme, they need to load the corresponding theme file.
 }
 \usage{
-loadEChartsTheme(theme, ...)
+loadEChartsTheme(theme, running_in_shiny = TRUE)
 }
 \arguments{
   \item{theme}{
@@ -30,6 +31,7 @@ loadEChartsTheme(theme, ...)
 }
 
 \examples{
+# please refer to vignettes for the practical examples
 loadEChartsTheme(theme = "roma", running_in_shiny = FALSE)
 }
 

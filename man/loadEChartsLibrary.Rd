@@ -8,7 +8,7 @@
   This function will help load the Javascript library file of ECharts to the current shiny project. This is mandatory before we can plot with ECharts in Shiny applications.
 }
 \usage{
-loadEChartsLibrary()
+loadEChartsLibrary(running_in_shiny = TRUE)
 }
 
 \arguments{
@@ -22,9 +22,7 @@ loadEChartsLibrary()
   This is the preparation for plotting with ECharts in Shiny application.
 }
 
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
   Xiaodong DENG
 
@@ -34,10 +32,9 @@ loadEChartsLibrary()
   Please note that the file will be written into your Shiny application directory.
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 
 \examples{
+# please refer to vignettes for the practical examples
 loadEChartsLibrary(running_in_shiny = FALSE)
 }
 
