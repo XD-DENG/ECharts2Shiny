@@ -3,9 +3,8 @@
 exportPattern(".")
 
 # Import all packages listed as Imports or Depends
-import(
-  jsonlite
-)
+importFrom(jsonlite, toJSON)
+
 import(
   shiny
 )
