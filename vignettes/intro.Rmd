@@ -117,7 +117,7 @@ shinyServer(function(input, output) {
 ```
 
 ```{r, out.width = 800}
-knitr::include_graphics("a.png")
+knitr::include_graphics("Capture.png")
 ```
 
 
@@ -133,7 +133,7 @@ loadEChartsLibrary()
 (You may need to add one comma at the end of this line. You should know why if you have the basic knowledge of the ui.R file in Shiny).
 
 Actually, the .js library file can also be downloaded directly from internet.
-```{r}
+```{r, eval=FALSE}
 tags$script(src="http://echarts.baidu.com/dist/echarts.min.js")
 ```
 But I didn't choose this options due to (1) this may make the application slow if we have weak internet connection; (2) sometimes the application may be deployed in environment without internet connection.
