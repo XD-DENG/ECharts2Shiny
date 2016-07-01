@@ -10,3 +10,5 @@ Description: With this package, users can embed interactive charts to their Shin
 URL: https://github.com/XD-DENG/ECharts2Shiny/
 License: MIT + file LICENSE
 LazyData: TRUE
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
