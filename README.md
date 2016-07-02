@@ -1,4 +1,5 @@
 # ECharts2Shiny
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
 - [中文版](#echarts2shiny包)
 
@@ -27,13 +28,42 @@ library(shiny)
 library(ECharts2Shiny)
 
 shinyUI(fluidPage(
-
   # We HAVE TO to load the ECharts javascript library in advance
   loadEChartsLibrary(),
+  loadEChartsTheme('shine'),
+  loadEChartsTheme('vintage'),
 
-  tags$div(id="test", style="width:80%;height:300px;"),
-  deliverChart(div_id = "test")
+  fluidRow(
+    column(6,
+           tags$div(id="test_1", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_1")  # Deliver the plotting
+           ),
+    column(6,
+           tags$div(id="test_2", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_2")
+           )
+  ),
+
+  fluidRow(
+    column(6,
+           tags$div(id="test_3", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_3")
+           ),
+    column(6,
+           tags$div(id="test_4", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_4")
+           )
+  ),
+
+  fluidRow(
+    column(6,
+           tags$div(id="test_5", style="width:100%;height:400px;"),
+           deliverChart(div_id = "test_5")
+    ),
+    column(6
+    )
   )
+)
 )
 ```
 
@@ -43,21 +73,38 @@ server.R
 library(shiny)
 library(ECharts2Shiny)
 
-# Prepare sample data for plotting
-dat <- data.frame(c(1, 2, 3, 1),
+# Prepare sample data for plotting ---------------------------------------
+
+dat_1 <- data.frame(matrix(c(3,2,8), 1,3))
+names(dat_1) <- c("Type-A", "Type-B", "Type-C")
+
+
+dat_2 <- data.frame(c(1, 2, 3, 1),
                   c(2, 4, 6, 6),
                   c(3, 2, 7, 5))
-names(dat) <- c("Type-A", "Type-B", "Type-C")
-row.names(dat) <- c("Time-1", "Time-2", "Time-3", "Time-4")
-
+names(dat_2) <- c("Type-A", "Type-B", "Type-C")
+row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
 
 shinyServer(function(input, output) {
 
   # Call functions from ECharts2Shiny to render charts
-  renderBarChart(div_id = "test", grid_left = '1%',
-                 data = dat)
-  })
+  renderPieChart(div_id = "test_1",
+                 data = dat_1,
+                 radius = "70%",center_x = "50%", center_y = "50%")
 
+  renderLineChart(div_id = "test_2", theme = "shine",
+                  data = dat_2)
+
+  renderBarChart(div_id = "test_3", grid_left = '1%',
+                 data = dat_2)
+
+  renderBarChart(div_id = "test_4", theme = "vintage",
+                 direction = "vertical", grid_left = "10%",
+                 data = dat_2)
+
+  renderGauge(div_id = "test_5", gauge_name = "Finished Rate",
+              rate = 99.9)
+  })
 ```
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
@@ -85,6 +132,7 @@ But I didn't choose this options due to (1) this may make the application slow i
 
 
 # ECharts2Shiny包
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
 ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。当前支持的图形包括饼图（pie chart），折线图（line chart），柱形图（bar chart），以及仪表盘（gauge）。
 
@@ -113,13 +161,42 @@ library(shiny)
 library(ECharts2Shiny)
 
 shinyUI(fluidPage(
-
   # We HAVE TO to load the ECharts javascript library in advance
   loadEChartsLibrary(),
+  loadEChartsTheme('shine'),
+  loadEChartsTheme('vintage'),
 
-  tags$div(id="test", style="width:80%;height:300px;"),
-  deliverChart(div_id = "test")
+  fluidRow(
+    column(6,
+           tags$div(id="test_1", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_1")  # Deliver the plotting
+           ),
+    column(6,
+           tags$div(id="test_2", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_2")
+           )
+  ),
+
+  fluidRow(
+    column(6,
+           tags$div(id="test_3", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_3")
+           ),
+    column(6,
+           tags$div(id="test_4", style="width:80%;height:300px;"),
+           deliverChart(div_id = "test_4")
+           )
+  ),
+
+  fluidRow(
+    column(6,
+           tags$div(id="test_5", style="width:100%;height:400px;"),
+           deliverChart(div_id = "test_5")
+    ),
+    column(6
+    )
   )
+)
 )
 ```
 
@@ -129,21 +206,38 @@ server.R
 library(shiny)
 library(ECharts2Shiny)
 
-# Prepare sample data for plotting
-dat <- data.frame(c(1, 2, 3, 1),
+# Prepare sample data for plotting ---------------------------------------
+
+dat_1 <- data.frame(matrix(c(3,2,8), 1,3))
+names(dat_1) <- c("Type-A", "Type-B", "Type-C")
+
+
+dat_2 <- data.frame(c(1, 2, 3, 1),
                   c(2, 4, 6, 6),
                   c(3, 2, 7, 5))
-names(dat) <- c("Type-A", "Type-B", "Type-C")
-row.names(dat) <- c("Time-1", "Time-2", "Time-3", "Time-4")
-
+names(dat_2) <- c("Type-A", "Type-B", "Type-C")
+row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
 
 shinyServer(function(input, output) {
 
   # Call functions from ECharts2Shiny to render charts
-  renderBarChart(div_id = "test", grid_left = '1%',
-                 data = dat)
-  })
+  renderPieChart(div_id = "test_1",
+                 data = dat_1,
+                 radius = "70%",center_x = "50%", center_y = "50%")
 
+  renderLineChart(div_id = "test_2", theme = "shine",
+                  data = dat_2)
+
+  renderBarChart(div_id = "test_3", grid_left = '1%',
+                 data = dat_2)
+
+  renderBarChart(div_id = "test_4", theme = "vintage",
+                 direction = "vertical", grid_left = "10%",
+                 data = dat_2)
+
+  renderGauge(div_id = "test_5", gauge_name = "Finished Rate",
+              rate = 99.9)
+  })
 ```
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
