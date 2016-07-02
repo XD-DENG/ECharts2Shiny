@@ -5,9 +5,17 @@
 
 As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by *ECharts* library into our *Shiny* application. Currently, we can support pie charts, line charts, bar charts, and gauge.
 
+- [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
 - [How It Works](#how-it-works)
+
+
+## How to Install
+
+```{r}
+install.packages("ECharts2Shiny")
+```
 
 ## Features
 
@@ -138,11 +146,17 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 
 该包仍处于开发模式，但基本功能已可用。
 
+- [安装](#安装)
 - [特点](#特点)
 - [例子](#例子)
 - [原理](#原理)
 
 
+##安装
+
+```{r}
+install.packages("ECharts2Shiny")
+```
 
 ## 特点
 **简洁易用**：只需要3-4行函数，即可在Shiny应用当中插入一个交互图形。
