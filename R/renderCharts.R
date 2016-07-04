@@ -172,6 +172,7 @@ renderBarChart <- function(div_id,
 
 renderLineChart <- function(div_id,
                             data, theme = "default",
+                            stack_plot = FALSE, 
                             running_in_shiny = TRUE){
 
 
@@ -202,7 +203,11 @@ renderLineChart <- function(div_id,
 
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
-    temp <- paste("{name:'", names(data)[i], "', type:'line', data:[",
+    temp <- paste("{name:'", names(data)[i], "', type:'line', ",
+                  ifelse(stack_plot, 
+                         "stack: ' ', areaStyle: {normal: {}},",
+                         " "),
+                  "data:[",
                   paste(data[, i], collapse = ", "),
                   "]}",
                   sep=""

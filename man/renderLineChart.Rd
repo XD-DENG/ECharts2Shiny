@@ -8,7 +8,9 @@ Render the Line Chart Plotted by ECharts into Shiny Application
 renderLineChart() function helps render the line chart into Shiny application.
 }
 \usage{
-renderLineChart(div_id, data, theme = "default", running_in_shiny = TRUE)
+renderLineChart(div_id, data, theme = "default", 
+                stack_plot = FALSE, 
+                running_in_shiny = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +22,9 @@ The division id users specified for this chart. The division will be specified i
 }
   \item{theme}{
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+}
+  \item{stack_plot}{
+Whether do stack line chart. The default value is FALSE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
