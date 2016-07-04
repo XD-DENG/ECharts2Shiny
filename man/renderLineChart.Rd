@@ -10,7 +10,7 @@ renderLineChart() function helps render the line chart into Shiny application.
 \usage{
 renderLineChart(div_id, data, theme = "default",
                 stack_plot = FALSE,
-                show.legend = TRUE,
+                show.legend = TRUE, show.tools = TRUE,
                 running_in_shiny = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -29,6 +29,9 @@ Whether do stack line chart. The default value is FALSE.
 }
   \item{show.legend}{
 If display the legends. The default value is TRUE.
+}
+  \item{show.tools}{
+If display the tool bar. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

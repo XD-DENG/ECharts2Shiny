@@ -7,7 +7,7 @@ renderPieChart <- function(div_id,
                            data, theme = "default",
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
-                           show.legend = TRUE,
+                           show.legend = TRUE, show.tools = TRUE,
                            running_in_shiny = TRUE){
 
   # Check the value for theme
@@ -40,7 +40,12 @@ renderPieChart <- function(div_id,
                   ");",
                   sep="")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, toolbox:{feature:{saveAsImage:{}}}, ",
+  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, ",
+                  
+                  ifelse(show.tools,
+                         "toolbox:{feature:{saveAsImage:{}}}, ",
+                         ""),
+                  
                   ifelse(show.legend,
                          paste("legend:{orient: 'vertical', left: 'left', data:",
                                legend_data,  "},",
@@ -84,7 +89,7 @@ renderBarChart <- function(div_id,
                            stack_plot = FALSE,
                            direction = "horizontal",
                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
-                           show.legend = TRUE,
+                           show.legend = TRUE, show.tools = TRUE,
                            running_in_shiny = TRUE){
 
   # Check the value for theme
@@ -143,7 +148,12 @@ renderBarChart <- function(div_id,
                   sep="")
 
   part_2 <- paste("option_", div_id,
-                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
+                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, ",
+                  
+                  ifelse(show.tools,
+                         "toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
+                         ""),
+                  
                   ifelse(show.legend,
                          paste("legend:{data:",
                                legend_name, "},",
@@ -188,7 +198,7 @@ renderBarChart <- function(div_id,
 renderLineChart <- function(div_id,
                             data, theme = "default",
                             stack_plot = FALSE,
-                            show.legend = TRUE,
+                            show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
 
 
@@ -232,7 +242,12 @@ renderLineChart <- function(div_id,
   }
   series_data <- paste(series_data, collapse = ", ")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'axis'}, toolbox:{feature:{saveAsImage:{}}}, ",
+  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'axis'}, ",
+                  
+                  ifelse(show.tools,
+                         "toolbox:{feature:{saveAsImage:{}}}, ",
+                         ""),
+                  
                   ifelse(show.legend,
                          paste("legend:{data:",
                                legend_name,
@@ -271,6 +286,7 @@ renderLineChart <- function(div_id,
 
 renderGauge <- function(div_id, theme = "default",
                         gauge_name, rate,
+                        show.tools = TRUE,
                         running_in_shiny = TRUE){
 
 
@@ -297,7 +313,12 @@ renderGauge <- function(div_id, theme = "default",
                   ");",
                   sep="")
 
-  part_2 <- paste("option_", div_id, "={tooltip : {formatter: '{b} : {c}%'},toolbox: {feature: {saveAsImage: {}}},",
+  part_2 <- paste("option_", div_id, "={tooltip : {formatter: '{b} : {c}%'}, ",
+                  
+                  ifelse(show.tools,
+                         "toolbox: {feature: {saveAsImage: {}}},",
+                         ""),
+                  
                   "series:[{name:'", gauge_name, "', type:'gauge', detail: {formatter:'{value}%'},data:",
                   series_data,
                   "}]};",
