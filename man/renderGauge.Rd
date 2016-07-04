@@ -8,7 +8,8 @@ Render the Gauge Chart Plotted by ECharts into Shiny Application
 renderGauge() function helps render the gauge chart into Shiny application.
 }
 \usage{
-renderGauge(div_id, theme = "default", gauge_name, rate, running_in_shiny = TRUE)
+renderGauge(div_id, theme = "default", gauge_name, rate, 
+            show.tools = TRUE, running_in_shiny = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,6 +24,9 @@ renderGauge(div_id, theme = "default", gauge_name, rate, running_in_shiny = TRUE
 }
   \item{rate}{
   As the gauge helps show some kind of rate, users need to give this rate value.
+}
+  \item{show.tools}{
+If display the tool bar. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

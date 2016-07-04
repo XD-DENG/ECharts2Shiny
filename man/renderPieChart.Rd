@@ -8,7 +8,9 @@ Render the Pie Chart Plotted by ECharts into Shiny Application
 renderPieChart() function helps render the pie chart into Shiny application.
 }
 \usage{
-renderPieChart(div_id, data, theme, radius,center_x,center_y,running_in_shiny)
+renderPieChart(div_id, data, theme, radius,center_x,center_y,
+               show.legend, show.tools = TRUE,
+               running_in_shiny)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,6 +31,12 @@ The position of the center of the pie chart (x axis). Default value is "50\%".
 }
   \item{center_y}{
 The position of the center of the pie chart (y axis). Default value is "50\%".
+}
+  \item{show.legend}{
+If display the legends. The default value is TRUE.
+}
+  \item{show.tools}{
+If display the tool bar. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
