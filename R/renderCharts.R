@@ -138,7 +138,7 @@ renderBarChart <- function(div_id,
                   sep="")
 
   part_2 <- paste("option_", div_id,
-                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{saveAsImage:{}}}, legend:{data:",
+                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, legend:{data:",
                   legend_name, "}, grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
                   direction_vector[1],
                   ":[{type:'value'}], ",
