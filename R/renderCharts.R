@@ -7,6 +7,7 @@ renderPieChart <- function(div_id,
                            data, theme = "default",
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
+                           show.legend = TRUE,
                            running_in_shiny = TRUE){
 
   # Check the value for theme
@@ -40,8 +41,11 @@ renderPieChart <- function(div_id,
                   sep="")
 
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, toolbox:{feature:{saveAsImage:{}}}, ",
-                  "legend:{orient: 'vertical', left: 'left', data:",
-                  legend_data,  "},",
+                  ifelse(show.legend,
+                         paste("legend:{orient: 'vertical', left: 'left', data:",
+                               legend_data,  "},",
+                               sep=""),
+                         ""),
                   "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
                   sep="")
 
@@ -80,6 +84,7 @@ renderBarChart <- function(div_id,
                            stack_plot = FALSE,
                            direction = "horizontal",
                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
+                           show.legend = TRUE,
                            running_in_shiny = TRUE){
 
   # Check the value for theme
@@ -138,8 +143,13 @@ renderBarChart <- function(div_id,
                   sep="")
 
   part_2 <- paste("option_", div_id,
-                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, legend:{data:",
-                  legend_name, "}, grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
+                  " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
+                  ifelse(show.legend,
+                         paste("legend:{data:",
+                               legend_name, "},",
+                               sep=""),
+                         ""),
+                  "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
                   direction_vector[1],
                   ":[{type:'value'}], ",
                   direction_vector[2],
@@ -178,6 +188,7 @@ renderBarChart <- function(div_id,
 renderLineChart <- function(div_id,
                             data, theme = "default",
                             stack_plot = FALSE,
+                            show.legend = TRUE,
                             running_in_shiny = TRUE){
 
 
@@ -222,9 +233,13 @@ renderLineChart <- function(div_id,
   series_data <- paste(series_data, collapse = ", ")
 
   part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'axis'}, toolbox:{feature:{saveAsImage:{}}}, ",
-                  "legend:{data:",
-                  legend_name,
-                  "}, yAxis: { type: 'value'}, xAxis:{type:'category', boundaryGap: false, data:",
+                  ifelse(show.legend,
+                         paste("legend:{data:",
+                               legend_name,
+                               "},",
+                               sep=""),
+                         ""),
+                  "yAxis: { type: 'value'}, xAxis:{type:'category', boundaryGap: false, data:",
                   xaxis_name,
                   "}, series:[",
                   series_data,

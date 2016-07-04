@@ -10,7 +10,7 @@ renderBarChart() function helps render the bar chart into Shiny application.
 \usage{
 renderBarChart(div_id, data, theme, stack_plot, direction,
                grid_left,grid_right, grid_top, grid_bottom,
-               running_in_shiny)
+               show.legend, running_in_shiny)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,6 +40,9 @@ Whether do stack bar chart. The default value is FALSE.
 }
   \item{grid_bottom}{
   The grid left for the bottom side. Default value is "3\%".
+}
+  \item{show.legend}{
+If display the legends. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
