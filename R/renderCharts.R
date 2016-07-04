@@ -77,6 +77,7 @@ renderPieChart <- function(div_id,
 
 renderBarChart <- function(div_id,
                            data, theme = "default",
+                           stack_plot = FALSE,
                            direction = "horizontal",
                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                            running_in_shiny = TRUE){
@@ -111,7 +112,11 @@ renderBarChart <- function(div_id,
   # Prepare the data in "series" part
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
-    temp <- paste("{name:'", names(data)[i], "', type:'bar', data:[",
+    temp <- paste("{name:'", names(data)[i], "', type:'bar', ",
+                  ifelse(stack_plot,
+                         " stack:' ', ",
+                         " "),
+                  "data:[",
                   paste(data[, i], collapse = ", "),
                   "]}",
                   sep=""
@@ -172,7 +177,7 @@ renderBarChart <- function(div_id,
 
 renderLineChart <- function(div_id,
                             data, theme = "default",
-                            stack_plot = FALSE, 
+                            stack_plot = FALSE,
                             running_in_shiny = TRUE){
 
 
@@ -204,7 +209,7 @@ renderLineChart <- function(div_id,
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
-                  ifelse(stack_plot, 
+                  ifelse(stack_plot,
                          "stack: ' ', areaStyle: {normal: {}},",
                          " "),
                   "data:[",
