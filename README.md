@@ -8,7 +8,6 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 - [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
-- [How It Works](#how-it-works)
 
 
 ## How to Install
@@ -119,24 +118,6 @@ shinyServer(function(input, output) {
 
 
 
-# How It Works
-
-*ECharts2Shiny* will create the `www/` folder in the Shiny application directory (if there is not one) and copy the Javascript library file of ECharts into the `www/` folder. Then it will work as a wrapper of the `tags$script()` function of *shiny* to load the JS file and plot the charts in Shiny application.
-
-The JS file of ECharts library is embeded in this package. We have a specific function to help us prepare it for using it in Shiny application so users don't need to worry about the Javascript file at all. The only "extra" work we need to do is to add one line in the beginnign part of UI component of ui.R file.
-```
-loadEChartsLibrary()
-```
-(You may need to add one comma at the end of this line. You should know why if you have the basic knowledge of the ui.R file in Shiny).
-
-Actually, the .js library file can also be downloaded directly from internet.
-```{r}
-tags$script(src="http://echarts.baidu.com/dist/echarts.min.js")
-```
-But I didn't choose this options due to (1) this may make the application slow if we have weak internet connection; (2) sometimes the application may be deployed in environment without internet connection.
-
-
-
 
 
 # ECharts2Shiny包
@@ -149,7 +130,6 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 - [安装](#安装)
 - [特点](#特点)
 - [例子](#例子)
-- [原理](#原理)
 
 
 ##安装
@@ -254,8 +234,3 @@ shinyServer(function(input, output) {
   })
 ```
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
-
-
-##原理
-ECharts2Shiny会在用户的Shiny应用所辖的www/文件夹中插入ECharts的Javascript library文件，之后使用*shiny*的`tags$script()`函数来读取javascript文件并在最终的shiny应用中运行。
-
