@@ -12,7 +12,6 @@ renderScatter(div_id, data, theme = "default",
               running_in_shiny = TRUE)
 }
 \arguments{
-\arguments{
   \item{div_id}{
 The division id users specified for this chart. The division will be specified in ui.R.
 }
