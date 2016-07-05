@@ -1,5 +1,6 @@
-loadEChartsTheme <- function(theme,
-                               running_in_shiny = TRUE){
+loadEChartsTheme <- function(theme){
+
+  # Check if the value entered for "theme" is valid
 
   valid_values <- c("roma", "infographic", "macarons", "vintage", "shine")
 
@@ -7,20 +8,13 @@ loadEChartsTheme <- function(theme,
     stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
   }
 
-  # Copy the JS theme file to the Shiny App "www" folder
-  if(dir.exists("www/") == FALSE){
-    dir.create("www/")
-  }
 
-  lib_path <- system.file(paste(theme, ".js", sep=""), package = "ECharts2Shiny")
-  file.copy(lib_path, paste("www/", theme, ".js", sep=""))
+  to_eval=paste('includeScript(system.file("',
+                theme,
+                '.js", package = "ECharts2Shiny"))',
+                sep="")
 
-  to_eval <- paste('tags$script(src="', theme, '.js")', sep="")
+  eval(parse(text = to_eval), envir = parent.frame())
 
-  if(running_in_shiny == TRUE){
-    eval(parse(text = to_eval), envir = parent.frame())
-  } else {
-    cat(to_eval)
-  }
 }
 

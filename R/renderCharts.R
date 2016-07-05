@@ -344,3 +344,117 @@ renderGauge <- function(div_id, theme = "default",
 
 }
 
+
+
+
+# Scatter -----------------------------------------------------------------
+
+
+
+renderScatter <- function(div_id, data,
+                          theme = "default",
+                          show.legend = TRUE, show.tools = TRUE,
+                          running_in_shiny = TRUE){
+  
+  # DATA PREPARATION:
+  # For scatter plots, the data must be prepared as a data.frame of 3 columns.
+  # "x", "y", and "group" 
+  if(dim(data)[2] !=3 )
+    stop("The data must be made up of three columns, 'x', 'y', and 'group'")
+  
+  if(sum(sapply(c("x", "y", "group"), function(x){x %in% names(data)})) != 3)
+    stop("The data must be made up of three columns, 'x', 'y', and 'group'")
+  
+  
+  # Check the value for theme
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+  
+  if((theme %in% valid_themes) == FALSE){
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+  }
+  
+  theme_placeholder <- ifelse(theme == "default",
+                              "",
+                              paste(", '",theme,  "'", sep=""))
+  
+  # get the unique values of "group" column
+  group_names <- sort(unique(data$group))
+  
+  legend_name <- paste(sapply(group_names, function(x){paste("'", x, "'", sep="")}), collapse=", ")
+  legend_name <- paste("[", legend_name, "]", sep="")
+  
+  
+  
+  
+  # Prepare the data in "series" part
+  series_data <- rep("", length(group_names))
+  for(i in 1:length(group_names)){
+    
+    temp_data <- data[data$group == group_names[i],]
+    
+    temp <- paste("{name:'", group_names[i], "', type:'scatter', ",
+                  "data:[",
+                  paste(sapply(1:dim(temp_data)[1],
+                               function(j){
+                                 paste("[", temp_data[j, "x"], 
+                                       ",", 
+                                       temp_data[j, "y"],"]", 
+                                       sep="")
+                               }), 
+                        collapse = ","),
+                  "]}",
+                  sep="")
+    series_data[i] <- temp
+  }
+  series_data <- paste(series_data, collapse = ", ")
+  series_data <- paste("[", series_data, "]", sep="")
+  
+  
+  
+  part_1 <- paste("var " ,
+                  div_id,
+                  " = echarts.init(document.getElementById('",
+                  div_id,
+                  "')",
+                  theme_placeholder,
+                  ");",
+                  sep="")
+  
+  
+  part_2 <- paste("option_", div_id,
+                  " = {tooltip : {trigger:'axis', axisPointer:{show: true, type:'cross'}}, ",
+                  ifelse(show.tools,
+                         "toolbox:{feature:{dataZoom:{show: true},restore:{show: true},saveAsImage:{show: true}}}, ",
+                         ""),
+                  
+                  ifelse(show.legend,
+                         paste("legend:{data:",
+                               legend_name, "},",
+                               sep=""),
+                         ""),
+                  
+                  "xAxis:[{type : 'value',scale:true}],yAxis:[{type : 'value',scale:true}],",
+                  "series :",
+                  series_data,
+                  "};",
+                  sep="")
+  
+  part_3 <- paste(div_id,
+                  ".setOption(option_",
+                  div_id,
+                  ");",
+                  sep="")
+  
+  to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
+                   part_1, part_2, part_3,
+                   "\"))})",
+                   sep="")
+  
+  if(running_in_shiny == TRUE){
+    eval(parse(text = to_eval), envir = parent.frame())
+  } else {
+    cat(to_eval)
+  }
+  
+  
+}
