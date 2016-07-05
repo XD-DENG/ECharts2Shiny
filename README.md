@@ -12,8 +12,15 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 
 ## How to Install
 
+From CRAN,
 ```{r}
 install.packages("ECharts2Shiny")
+```
+
+For the latest development version, please install from GitHub
+```{r}
+library(devtools)
+install_github("XD-DENG/ECharts2Shiny")
 ```
 
 ## Features
@@ -134,8 +141,15 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 
 ##安装
 
+CRAN版本
 ```{r}
 install.packages("ECharts2Shiny")
+```
+
+安装最新开发版本
+```{r}
+library(devtools)
+install_github("XD-DENG/ECharts2Shiny")
 ```
 
 ## 特点
