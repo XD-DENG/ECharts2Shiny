@@ -8,6 +8,7 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 - [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
+- [Notes](#notes)
 
 
 ## How to Install
@@ -123,6 +124,9 @@ shinyServer(function(input, output) {
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
+## Notes
+
+[1] If you would like to use reactive data for plotting, like the data from reactive() function, please note that you need to use isolate() function to create a non-reactive scope for the data. Please refer to the example 5 [https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-5%20Use%20Reactive%20Values].
 
 
 
@@ -137,6 +141,7 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 - [安装](#安装)
 - [特点](#特点)
 - [例子](#例子)
+- [注意](#注意)
 
 
 ##安装
@@ -248,3 +253,7 @@ shinyServer(function(input, output) {
   })
 ```
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
+
+
+##注意
+[1] If you would like to use reactive data for plotting, like the data from reactive() function, please note that you need to use isolate() function to create a non-reactive scope for the data. Please refer to the example 5 [https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-5%20Use%20Reactive%20Values].
