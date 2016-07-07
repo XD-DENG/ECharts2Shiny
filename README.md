@@ -126,7 +126,6 @@ shinyServer(function(input, output) {
 
 ## Notes
 
-[1] If you would like to use reactive data for plotting, like the data from reactive() function, please note that you need to use isolate() function to create a non-reactive scope for the data. Please refer to the [example 5](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-5%20Use%20Reactive%20Values).
 
 
 
@@ -256,4 +255,3 @@ shinyServer(function(input, output) {
 
 
 ##注意
-[1] If you would like to use reactive data for plotting, like the data from reactive() function, please note that you need to use isolate() function to create a non-reactive scope for the data. Please refer to the [example 5](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-5%20Use%20Reactive%20Values).

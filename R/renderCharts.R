@@ -10,6 +10,8 @@ renderPieChart <- function(div_id,
                            show.legend = TRUE, show.tools = TRUE,
                            running_in_shiny = TRUE){
 
+  data <- isolate(data)
+  
   # Check the value for theme
   valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
 
@@ -91,6 +93,8 @@ renderBarChart <- function(div_id,
                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                            show.legend = TRUE, show.tools = TRUE,
                            running_in_shiny = TRUE){
+  
+  data <- isolate(data)
 
   # Check the value for theme
   valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
@@ -201,6 +205,7 @@ renderLineChart <- function(div_id,
                             show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
 
+  data <- isolate(data)
 
   # Check the value for theme
   valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
@@ -289,7 +294,8 @@ renderGauge <- function(div_id, theme = "default",
                         show.tools = TRUE,
                         running_in_shiny = TRUE){
 
-
+  data <- isolate(data)
+  
   # Check the value for theme
   valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
 
@@ -355,6 +361,8 @@ renderScatter <- function(div_id, data,
                           theme = "default",
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){
+  
+  data <- isolate(data)
   
   # DATA PREPARATION:
   # For scatter plots, the data must be prepared as a data.frame of 3 columns.
