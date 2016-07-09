@@ -45,6 +45,8 @@ install_github("XD-DENG/ECharts2Shiny")
 
 ## Examples
 
+**(For more examples, please refer to the `/examples` folder)**
+
 ui.R
 
 ```{r}
@@ -180,6 +182,8 @@ install_github("XD-DENG/ECharts2Shiny")
 
 
 ##例子
+**(请参考`/examples` 文件夹以获得更多实例信息)**
+
 ui.R
 
 ```{r}
