@@ -3,8 +3,16 @@
 
 - [中文版](#echarts2shiny包)
 
-As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by *ECharts* library into our *Shiny* application. Currently, we can support pie charts, line charts, bar charts, scatter plots, and gauge.
+As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by *ECharts* library into our *Shiny* application. Currently, we can support 
 
+- Pie charts
+- Line charts
+- Bar charts
+- Scatter plots
+- Radar chart
+- Gauge
+
+### Contents
 - [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
@@ -12,6 +20,8 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 
 
 ## How to Install
+
+**(As this package is under active development, it's recommended to install the latest development version from GitHub, instead of the CRAN version.)**
 
 From CRAN,
 ```{r}
@@ -133,10 +143,17 @@ shinyServer(function(input, output) {
 # ECharts2Shiny包
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
-ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。当前支持的图形包括饼图（pie chart），折线图（line chart），柱形图（bar chart），以及仪表盘（gauge）。
+ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。当前支持的图形包括
 
-该包仍处于开发模式，但基本功能已可用。
+- 饼图（pie chart）
+- 折线图（line chart）
+- 柱形图（bar chart）
+- 散点图 (scatter chart)
+- 雷达图(radar chart)
+- 仪表盘（gauge）
 
+
+###目录
 - [安装](#安装)
 - [特点](#特点)
 - [例子](#例子)
@@ -145,12 +162,14 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 
 ##安装
 
+**(鉴于我们仍在努力添加更多新的功能到ECharts2Shiny当中，我们更推荐由GitHub安装最新的开发版本。)**
+
 CRAN版本
 ```{r}
 install.packages("ECharts2Shiny")
 ```
 
-安装最新开发版本
+由GitHub安装最新开发版本
 ```{r}
 library(devtools)
 install_github("XD-DENG/ECharts2Shiny")
