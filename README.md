@@ -16,7 +16,6 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 - [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
-- [Notes](#notes)
 
 
 ## How to Install
@@ -134,9 +133,6 @@ shinyServer(function(input, output) {
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
-## Notes
-
-
 
 
 
@@ -157,7 +153,6 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 - [安装](#安装)
 - [特点](#特点)
 - [例子](#例子)
-- [注意](#注意)
 
 
 ##安装
@@ -273,4 +268,3 @@ shinyServer(function(input, output) {
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
-##注意
