@@ -6,7 +6,11 @@ shinyServer(function(input, output) {
 
   # A reactive data
   dat_0 <- reactive({
-    read.csv("data_for_pie_chart.csv")
+    dat <- read.csv("data_for_pie_chart.csv")
+
+    columns_to_show<- sort(sample(names(dat), size = input$num))
+
+    dat[, columns_to_show]
   })
 
   # Call functions from ECharts2Shiny to render charts
