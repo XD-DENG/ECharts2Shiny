@@ -17,7 +17,10 @@ shinyServer(function(input, output) {
 
   # Scatter plot
 
-  renderScatter("test_scatter", data = dat,
+  renderScatter("test_scatter_1", data = dat,
+                theme = "shine")
+
+  renderScatter("test_scatter_2", data = dat, auto.scale = FALSE,
                 theme = "shine")
 
   })

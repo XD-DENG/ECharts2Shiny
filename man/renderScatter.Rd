@@ -7,7 +7,7 @@ Render the Scatter Plots Plotted by ECharts into Shiny Application
 renderScatter() function helps render the scatter plots into Shiny application.
 }
 \usage{
-renderScatter(div_id, data, theme = "default",
+renderScatter(div_id, data, theme = "default", auto.scale = TRUE,
               show.legend = TRUE, show.tools = TRUE,
               running_in_shiny = TRUE)
 }
@@ -20,6 +20,9 @@ The division id users specified for this chart. The division will be specified i
 }
   \item{theme}{
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+}
+  \item{auto.scale}{
+A logical argument to determine if the scatter plot should be scaled again automatically after the users exclude any group of observations. The default value is TRUE.
 }
   \item{show.legend}{
 If display the legends. The default value is TRUE.

@@ -358,7 +358,7 @@ renderGauge <- function(div_id, theme = "default",
 
 
 renderScatter <- function(div_id, data,
-                          theme = "default",
+                          theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){
 
@@ -441,7 +441,19 @@ renderScatter <- function(div_id, data,
                                sep=""),
                          ""),
 
-                  "xAxis:[{type : 'value',scale:true}],yAxis:[{type : 'value',scale:true}],",
+                  ifelse(auto.scale,
+                         "xAxis:[{type : 'value',scale:true}],yAxis:[{type : 'value',scale:true}],",
+                         paste("xAxis:[{gridIndex: 0, min: ",
+                               min(data$x) - 0.03 * diff(range(data$x)),
+                               ", max: ",
+                               max(data$x) + 0.03 * diff(range(data$x)),
+                               "}],yAxis:[{gridIndex: 0, min: ",
+                               min(data$y) - 0.03 * diff(range(data$y)),
+                               ", max: ",
+                               max(data$y) + 0.03 * diff(range(data$y)),
+                               "}],",
+                               sep="")),
+
                   "series :",
                   series_data,
                   "};",
