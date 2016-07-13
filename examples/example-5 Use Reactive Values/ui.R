@@ -1,18 +1,38 @@
+
+#####################################################
+# To Use Reactive Data & Respond to the Change in Reactive Data
+#####################################################
+
+
 library(shiny)
 library(ECharts2Shiny)
 
 
 shinyUI(fluidPage(
+  
   # We HAVE TO to load the ECharts javascript library in advance
   loadEChartsLibrary(),
 
-  numericInput("num", label = h3("How many group to include"), value = 3,
-               min = 2, max = 3),
+  h2("To Use Reactive Data & Respond to the Change in Reactive Data"),
 
-  tags$div(id="test", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
-  deliverChart(div_id = "test"),  # Deliver the plotting
-
-  p("Dimension of the raw data:", textOutput("test_1"))
-
+  selectInput("select", label = h3("Select box"), 
+              choices = list("Include A, B, and C" = 3, "Include A and B" = 2), 
+              selected = 3),
+  
+  fluidRow(
+    column(6,
+           wellPanel("Use reactive data, but can't respond to the change in reactive data"),
+           
+           tags$div(id="test_1", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_1")  # Deliver the plotting
+           ),
+    
+    column(6,
+           wellPanel("Use reactive data, and CAN respond to the change in reactive data"),
+           
+           tags$div(id="test_2", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_2")  # Deliver the plotting
+           )
+)
 )
 )

@@ -1,37 +1,47 @@
+
+#####################################################
+# To Use Reactive Data & Respond to the Change in Reactive Data
+#####################################################
+
+# In this example,
+# we use the data from reactive() function
+# This is very essential as sometimes we can only use reactive() function to prepare data within Shiny application.
+
+# In this example you will find two totally the same charts. They're generated with the same data source.
+
+# the only different is that the 2nd one can respond to the change in the reactive data, while the 1st chart can NOT.
+# This is implemented together with observeEvent() function.
+
+
 library(shiny)
 library(ECharts2Shiny)
 
 
 shinyServer(function(input, output) {
 
-  # A reactive data
-  dat_0 <- reactive({
+  # A reactive data.
+  # it will change according to the change in "input$select"
+  
+  dat <- reactive({
     dat <- read.csv("data_for_pie_chart.csv")
-
-    columns_to_show<- sort(sample(names(dat), size = input$num))
-
-    dat <- dat[, columns_to_show]
+    dat <- dat[, 1:input$select]
   })
 
+  
   # Call functions from ECharts2Shiny to render charts
-  # NOTE: we MUST use isolate() to create a non-reactive scope of our target data,
-  # Otherwise we will encounter error regarding "Operation not allowed without an active reactive context."
-  renderPieChart(div_id = "test",
-                 data = dat_0(), 
+
+  # 1nd Chart: use reactive data, BUt can NOT respond to the change in reactive data
+  renderPieChart(div_id = "test_1",
+                 data = dat(), 
                  radius = "70%",center_x = "50%", center_y = "50%")
 
-  output$test_1 <- renderText({
-    print(dim(dat_0()))
-    dim(dat_0())[2]
-  })
-
-
-  observeEvent(dat_0(), {
-    print("data_changed")
-    renderPieChart(div_id = "test",
-                   data = dat_0(), # Please note that we need to use isolate() here
-                   radius = "70%",center_x = "50%", center_y = "50%")
-  })
+  # 2nd Chart: use reactive data, AND CAN respond to the change in reactive data
+  observeEvent(dat(), 
+               {
+                 renderPieChart(div_id = "test_2",
+                                data = dat(),
+                                radius = "70%",center_x = "50%", center_y = "50%")
+               })
 
 
 })
