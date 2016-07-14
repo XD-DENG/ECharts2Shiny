@@ -33,16 +33,15 @@ renderPieChart <- function(div_id,
   data <- as.character(jsonlite::toJSON(data))
   data <- gsub("\"", "\'", data)
 
-  part_1 <- paste("var " ,
+  js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
                   "')",
                   theme_placeholder,
                   ");",
-                  sep="")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, ",
+                  "option_", div_id, " = {tooltip : {trigger: 'item',formatter: '{b} : {c} ({d}%)'}, ",
 
                   ifelse(show.tools,
                          "toolbox:{feature:{saveAsImage:{}}}, ",
@@ -54,21 +53,19 @@ renderPieChart <- function(div_id,
                                sep=""),
                          ""),
                   "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
-                  sep="")
 
-  part_3 <- paste("data:",
+                  "data:",
                   data,
                   ", itemStyle: { emphasis: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]};",
-                  sep="")
 
-  part_4 <- paste(div_id,
+                  div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3, part_4,
+                   js_statement,
                    "\"))})",
                    sep="")
 
@@ -142,16 +139,15 @@ renderBarChart <- function(div_id,
 
 
 
-  part_1 <- paste("var " ,
+  js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
                   "')",
                   theme_placeholder,
                   ");",
-                  sep="")
 
-  part_2 <- paste("option_", div_id,
+                  "option_", div_id,
                   " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, ",
 
                   ifelse(show.tools,
@@ -172,16 +168,15 @@ renderBarChart <- function(div_id,
                   "}],series :",
                   series_data,
                   "};",
-                  sep="")
 
-  part_3 <- paste(div_id,
+                  div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3,
+                   js_statement,
                    "\"))})",
                  sep="")
 
@@ -223,15 +218,6 @@ renderLineChart <- function(div_id,
   legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_name <- paste("[", legend_name, "]", sep="")
 
-  part_1 <- paste("var " ,
-                  div_id,
-                  " = echarts.init(document.getElementById('",
-                  div_id,
-                  "')",
-                  theme_placeholder,
-                  ");",
-                  sep="")
-
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
@@ -247,7 +233,15 @@ renderLineChart <- function(div_id,
   }
   series_data <- paste(series_data, collapse = ", ")
 
-  part_2 <- paste("option_", div_id, " = {tooltip : {trigger: 'axis'}, ",
+  js_statement <- paste("var " ,
+                  div_id,
+                  " = echarts.init(document.getElementById('",
+                  div_id,
+                  "')",
+                  theme_placeholder,
+                  ");",
+
+                  "option_", div_id, " = {tooltip : {trigger: 'axis'}, ",
 
                   ifelse(show.tools,
                          "toolbox:{feature:{saveAsImage:{}}}, ",
@@ -264,16 +258,15 @@ renderLineChart <- function(div_id,
                   "}, series:[",
                   series_data,
                   "]};",
-                  sep="")
 
-  part_3 <- paste(div_id,
+                  div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3,
+                   js_statement,
                    "\"))})",
                    sep="")
 
@@ -310,16 +303,15 @@ renderGauge <- function(div_id, theme = "default",
   series_data <- paste("[{name:'",gauge_name, "',value:", rate, "}]", sep="")
 
 
-  part_1 <- paste("var " ,
+  js_statement <- paste("var ",
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
                   "')",
                   theme_placeholder,
                   ");",
-                  sep="")
 
-  part_2 <- paste("option_", div_id, "={tooltip : {formatter: '{b} : {c}%'}, ",
+                  "option_", div_id, "={tooltip : {formatter: '{b} : {c}%'}, ",
 
                   ifelse(show.tools,
                          "toolbox: {feature: {saveAsImage: {}}},",
@@ -328,16 +320,15 @@ renderGauge <- function(div_id, theme = "default",
                   "series:[{name:'", gauge_name, "', type:'gauge', detail: {formatter:'{value}%'},data:",
                   series_data,
                   "}]};",
-                  sep="")
 
-  part_3 <- paste(div_id,
+                  div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3,
+                   js_statement,
                    "\"))})",
                    sep="")
 
@@ -419,17 +410,15 @@ renderScatter <- function(div_id, data,
 
 
 
-  part_1 <- paste("var " ,
+  js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
                   "')",
                   theme_placeholder,
                   ");",
-                  sep="")
 
-
-  part_2 <- paste("option_", div_id,
+                  "option_", div_id,
                   " = {tooltip : {trigger:'axis', axisPointer:{show: true, type:'cross'}}, ",
                   ifelse(show.tools,
                          "toolbox:{feature:{dataZoom:{show: true},restore:{show: true},saveAsImage:{show: true}}}, ",
@@ -461,16 +450,15 @@ renderScatter <- function(div_id, data,
                   "series :",
                   series_data,
                   "};",
-                  sep="")
 
-  part_3 <- paste(div_id,
+                  div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3,
+                   js_statement,
                    "\"))})",
                    sep="")
 
@@ -545,16 +533,15 @@ renderRadarChart <- function(div_id,
 
 
 
-  part_1 <- paste("var " ,
+  js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
                   div_id,
                   "')",
                   theme_placeholder,
                   ");",
-                  sep="")
 
-  part_2 <- paste("option_", div_id, " = {tooltip:{}, ",
+                  "option_", div_id, " = {tooltip:{}, ",
 
                   ifelse(show.tools,
                          "toolbox:{feature:{saveAsImage:{}}}, ",
@@ -572,21 +559,19 @@ renderRadarChart <- function(div_id,
                   indicator,
                   "},",
                   "series : [{type: 'radar',",
-                  sep="")
 
-  part_3 <- paste("data:[",
+                  "data:[",
                   data,
                   "], itemStyle: {normal:{lineStyle: {width:", line.width, "}},emphasis : {areaStyle: {color:'rgba(0,250,0,0.3)'}}}}]};",
-                  sep="")
 
-  part_4 <- paste(div_id,
+                  div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
-                   part_1, part_2, part_3, part_4,
+                   js_statement,
                    "\"))})",
                    sep="")
 
