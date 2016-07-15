@@ -618,9 +618,9 @@ renderWordcloud <- function(div_id,
                         shadowBlur: 30,
                         shadowColor: '#333'
                         }},
-                        data: [",
+                        data: ",
                         js_data,
-                        "]}];",
+                        "}]};",
 
                         div_id,
                         ".setOption(option_",
@@ -629,5 +629,15 @@ renderWordcloud <- function(div_id,
 
                         sep="")
 
+  to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
+                   js_statement,
+                   "\"))})",
+                   sep="")
+
+  if(running_in_shiny == TRUE){
+    eval(parse(text = to_eval), envir = parent.frame())
+  } else {
+    cat(to_eval)
+  }
 
 }
