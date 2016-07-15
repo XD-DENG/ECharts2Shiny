@@ -596,8 +596,12 @@ renderRadarChart <- function(div_id,
 
 
 renderWordcloud <- function(div_id,
-                             data,
-                             running_in_shiny = TRUE){
+                            data,
+                            shape = "pentagon",
+                            grid_size = 5,
+                            sizeRange = c(15, 50),
+                            rotationRange = c(-45, 45),
+                            running_in_shiny = TRUE){
 
   data <- isolate(data)
 
@@ -612,14 +616,16 @@ renderWordcloud <- function(div_id,
 
                         "option_", div_id,
                         "= {tooltip:{},",
-                        "series:[{type: 'wordCloud',gridSize: 5,",
-                        "sizeRange: [15, 50],rotationRange: [-45, 45],shape: 'pentagon',width: 600,height: 500,
+                        "series:[{type: 'wordCloud',gridSize: ", grid_size, ",",
+                        "sizeRange:", paste("[", sizeRange[1], ",", sizeRange[2], "]", sep=""), ",",
+                        "rotationRange:", paste("[", rotationRange[1], ",", rotationRange[2], "]", sep=""), ",",
+                        "shape: '", shape, "',width: 600,height: 500,
                         textStyle: {normal: {color:function (){return 'rgb(' + [Math.round(Math.random() * 200),Math.round(Math.random() * 200),Math.round(Math.random() * 200)].join(',') + ')';}},
                         emphasis: {
                         shadowBlur: 30,
                         shadowColor: '#333'
                         }},
-                        data: ",
+                        data:",
                         js_data,
                         "}]};",
 

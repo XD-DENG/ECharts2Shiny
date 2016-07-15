@@ -10,8 +10,18 @@ shinyUI(fluidPage(
 
   h2("Population Ranking Top 10"),
   "Data Source: http://www.infoplease.com/world/statistics/most-populous-countries.html",
-  tags$div(id="test", style="width:30%;height:250px;"),  # Specify the div for the chart. Can also be considered as a space holder
-  deliverChart(div_id = "test")  # Deliver the plotting
+  fluidRow(
+    column(6,
+           tags$div(id="test_1", style="width:80%;height:250px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_1")  # Deliver the plotting
+           ),
+
+    column(6,
+           tags$div(id="test_2", style="width:80%;height:250px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_2")  # Deliver the plotting
+    )
+  )
+
 
 
 )
