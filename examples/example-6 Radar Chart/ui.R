@@ -13,12 +13,12 @@ shinyUI(fluidPage(
   fluidRow(
 
     column(6,
-           tags$div(id="test_radar_1", style="width:'80%';height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_radar_1", style="height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_radar_1")  # Deliver the plotting
            ),
 
     column(6,
-           tags$div(id="test_radar_2", style="width:'80%';height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_radar_2", style="height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_radar_2")  # Deliver the plotting
     )
 
