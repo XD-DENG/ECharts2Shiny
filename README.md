@@ -11,6 +11,7 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 - Scatter plots
 - Radar chart
 - Gauge
+- Word Cloud
 
 ### Contents
 - [How to Install](#how-to-install)
@@ -149,6 +150,7 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 - 散点图 (scatter chart)
 - 雷达图(radar chart)
 - 仪表盘（gauge）
+- 词云（word cloud）
 
 
 ###目录
