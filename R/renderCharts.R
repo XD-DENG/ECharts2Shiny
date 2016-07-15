@@ -594,8 +594,6 @@ renderRadarChart <- function(div_id,
 # Wordcloud
 ###########################################################################
 
-sample_data_for_wordcloud <- data.frame(name = c("AAA", "BBB", "CCC", "DDD", "EEE"),
-                                        value = c(1000, 2000, 1203, 4321, 32))
 
 renderWordcloud <- function(div_id,
                              data,
@@ -604,6 +602,7 @@ renderWordcloud <- function(div_id,
   data <- isolate(data)
 
   js_data <- as.character(jsonlite::toJSON(data))
+  js_data <- gsub("\"", "\'", js_data)
 
   js_statement <- paste("var " ,
                         div_id,
@@ -612,7 +611,9 @@ renderWordcloud <- function(div_id,
                         "'));",
 
                         "option_", div_id,
-                        "= {tooltip:{},series:[{type: 'wordCloud',gridSize: 5,sizeRange: [15, 50],rotationRange: [-45, 45],shape: 'pentagon',width: 600,height: 500,
+                        "= {tooltip:{},",
+                        "series:[{type: 'wordCloud',gridSize: 5,",
+                        "sizeRange: [15, 50],rotationRange: [-45, 45],shape: 'pentagon',width: 600,height: 500,
                         textStyle: {normal: {color:function (){return 'rgb(' + [Math.round(Math.random() * 200),Math.round(Math.random() * 200),Math.round(Math.random() * 200)].join(',') + ')';}},
                         emphasis: {
                         shadowBlur: 30,
