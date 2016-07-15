@@ -1,0 +1,116 @@
+<html>
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+    <script src="./wordCloud_files/echarts.wordcloud_in_one.js"></script>
+    <!-- <script src="./wordCloud_files/echarts-wordcloud.js"></script> -->
+</head>
+    
+<body>
+    <style>
+         #main {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+
+    <div id='main'</div>
+
+    <script>
+        var chart = echarts.init(document.getElementById('main'));
+
+        var option = {
+            tooltip: {},
+            series: [ {
+                type: 'wordCloud',
+                gridSize: 5,
+                sizeRange: [15, 50],
+                rotationRange: [-45, 45],
+                shape: 'pentagon',
+                width: 600,
+                height: 500,
+                textStyle: {
+                    normal: {
+                        color: function () {
+                            return 'rgb(' + [
+                                Math.round(Math.random() * 200),
+                                Math.round(Math.random() * 200),
+                                Math.round(Math.random() * 200)
+                            ].join(',') + ')';
+                        }
+                    },
+                    emphasis: {
+                        shadowBlur: 30,
+                        shadowColor: '#333'
+                    }
+                },
+                data: [
+                    {
+                        name: 'Sam S Club',
+                        value: 10000,
+                    },
+                    {
+                        name: 'Macys',
+                        value: 6181
+                    },
+                    {
+                        name: 'Amy Schumer',
+                        value: 4386
+                    },
+                    {
+                        name: 'Jurassic World',
+                        value: 4055
+                    },
+                    {
+                        name: 'Charter Communications',
+                        value: 2467
+                    },
+                    {
+                        name: 'Chick Fil A',
+                        value: 2244
+                    },
+                    {
+                        name: 'Planet Fitness',
+                        value: 1898
+                    },
+                    {
+                        name: 'Pitch Perfect',
+                        value: 1484
+                    },
+                    {
+                        name: 'Express',
+                        value: 1112
+                    },
+                    {
+                        name: 'Home',
+                        value: 965
+                    },
+                    {
+                        name: 'Johnny Depp',
+                        value: 847
+                    },
+                    {
+                        name: 'Lena Dunham',
+                        value: 582
+                    },
+                    {
+                        name: 'Lewis Hamilton',
+                        value: 555
+                    },
+                    {
+                        name: 'KXAN',
+                        value: 550
+                    }
+                ]
+            } ]
+        };
+
+        chart.setOption(option);
+    </script>
+    
+</body>
+
+</html>
