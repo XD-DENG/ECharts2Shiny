@@ -1,7 +1,7 @@
 
-
+###########################################################################
 # Pie Chart ---------------------------------------------------------------
-
+###########################################################################
 
 renderPieChart <- function(div_id,
                            data, theme = "default",
@@ -79,8 +79,9 @@ renderPieChart <- function(div_id,
 
 
 
-
+###########################################################################
 # Bar Chart ---------------------------------------------------------------
+###########################################################################
 
 
 renderBarChart <- function(div_id,
@@ -190,9 +191,9 @@ renderBarChart <- function(div_id,
 
 
 
-
+###########################################################################
 # Line Chart --------------------------------------------------------------
-
+###########################################################################
 
 renderLineChart <- function(div_id,
                             data, theme = "default",
@@ -279,8 +280,10 @@ renderLineChart <- function(div_id,
 
 
 
-
+###########################################################################
 # Gauge -------------------------------------------------------------------
+###########################################################################
+
 
 renderGauge <- function(div_id, theme = "default",
                         gauge_name, rate,
@@ -343,9 +346,9 @@ renderGauge <- function(div_id, theme = "default",
 
 
 
-
+###########################################################################
 # Scatter -----------------------------------------------------------------
-
+###########################################################################
 
 
 renderScatter <- function(div_id, data,
@@ -473,8 +476,10 @@ renderScatter <- function(div_id, data,
 
 
 
-
+###########################################################################
 # Radar Charts ------------------------------------------------------------
+###########################################################################
+
 
 renderRadarChart <- function(div_id,
                            data, theme = "default",
@@ -580,4 +585,49 @@ renderRadarChart <- function(div_id,
   } else {
     cat(to_eval)
   }
+}
+
+
+
+
+###########################################################################
+# Wordcloud
+###########################################################################
+
+sample_data_for_wordcloud <- data.frame(name = c("AAA", "BBB", "CCC", "DDD", "EEE"),
+                                        value = c(1000, 2000, 1203, 4321, 32))
+
+renderWordcloud <- function(div_id,
+                             data,
+                             running_in_shiny = TRUE){
+
+  data <- isolate(data)
+
+  js_data <- as.character(jsonlite::toJSON(data))
+
+  js_statement <- paste("var " ,
+                        div_id,
+                        " = echarts.init(document.getElementById('",
+                        div_id,
+                        "'));",
+
+                        "option_", div_id,
+                        "= {tooltip:{},series:[{type: 'wordCloud',gridSize: 5,sizeRange: [15, 50],rotationRange: [-45, 45],shape: 'pentagon',width: 600,height: 500,
+                        textStyle: {normal: {color:function (){return 'rgb(' + [Math.round(Math.random() * 200),Math.round(Math.random() * 200),Math.round(Math.random() * 200)].join(',') + ')';}},
+                        emphasis: {
+                        shadowBlur: 30,
+                        shadowColor: '#333'
+                        }},
+                        data: [",
+                        js_data,
+                        "]}];",
+
+                        div_id,
+                        ".setOption(option_",
+                        div_id,
+                        ");",
+
+                        sep="")
+
+
 }
