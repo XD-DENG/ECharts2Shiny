@@ -144,6 +144,8 @@ shinyServer(function(input, output) {
 # ECharts2Shiny包
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
+- [English Version](#echarts2shiny)
+
 ![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
 
 ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。当前支持的图形包括
