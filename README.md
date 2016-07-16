@@ -3,6 +3,8 @@
 
 - [中文版](#echarts2shiny包)
 
+![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
+
 As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by *ECharts* library into our *Shiny* application. Currently, we can support 
 
 - Pie charts
@@ -11,6 +13,7 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 - Scatter plots
 - Radar chart
 - Gauge
+- Word Cloud
 
 ### Contents
 - [How to Install](#how-to-install)
@@ -141,6 +144,10 @@ shinyServer(function(input, output) {
 # ECharts2Shiny包
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
+- [English Version](#echarts2shiny)
+
+![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
+
 ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECharts库绘出的交互图形。当前支持的图形包括
 
 - 饼图（pie chart）
@@ -149,6 +156,7 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由ECha
 - 散点图 (scatter chart)
 - 雷达图(radar chart)
 - 仪表盘（gauge）
+- 词云（word cloud）
 
 
 ###目录

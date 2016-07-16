@@ -14,12 +14,12 @@ shinyUI(fluidPage(
   fluidRow(
     column(6,
            h3("auto.scale == TRUE (default setting)"),
-           tags$div(id="test_scatter_1", style="width:'80%';height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_scatter_1", style="width:90%;height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_scatter_1")  # Deliver the plotting
            ),
     column(6,
            h3("auto.scale == FALSE"),
-           tags$div(id="test_scatter_2", style="width:'80%';height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_scatter_2", style="width:90%;height:600px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_scatter_2")  # Deliver the plotting
            )
   )
