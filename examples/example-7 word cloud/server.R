@@ -5,10 +5,10 @@ library(ECharts2Shiny)
 
 # Prepare sample data for plotting ---------------------------------------
 
-sample_data_for_wordcloud <- data.frame(name = c("China", "India", "United States", "Indonesia", "Brazil",
-                                                 "Pakistan", "Nigeria", "Bangladesh", "Russia", "Japan"),
-                                        value = c(1367485388, 1251695584, 321368864, 255993674, 204259812,
-                                                  199085847, 181562056, 168957745, 142423773, 126919659))
+sample_data_for_wordcloud <- data.frame(name = c("Asia", "Africa", "North America", "South America",
+                                                 "Antarctica", "Europe", "Australia"),
+                                        value = c(44391162, 30244049, 24247039, 17821029, 14245000,
+                                                  10354636, 7686884))
 
 shinyServer(function(input, output) {
 

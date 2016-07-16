@@ -8,8 +8,9 @@ shinyUI(fluidPage(
   loadEChartsLibrary(),
   loadWordcloudExtension(),
 
-  h2("Population Ranking Top 10"),
-  "Data Source: http://www.infoplease.com/world/statistics/most-populous-countries.html",
+  h2("Largest Continents in Area (km^2)"),
+  "Data Source: http://geography.about.com/od/lists/a/largecontinent.htm",
+  
   fluidRow(
     column(6,
            tags$div(id="test_1", style="width:80%;height:250px;"),  # Specify the div for the chart. Can also be considered as a space holder
