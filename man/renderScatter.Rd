@@ -4,7 +4,7 @@
 Render the Scatter Plots Plotted by ECharts into Shiny Application
 }
 \description{
-renderScatter() function helps render the scatter plots into Shiny application.
+renderScatter() function helps render the scatter plots into Shiny applications.
 }
 \usage{
 renderScatter(div_id, data, theme = "default", auto.scale = TRUE,
