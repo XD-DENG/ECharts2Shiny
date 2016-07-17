@@ -19,6 +19,7 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 - [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
+- [License](#license)
 
 
 ## How to Install
@@ -138,7 +139,11 @@ shinyServer(function(input, output) {
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
+## License
 
+***ECharts2Shiny*** package itself is under GPL-2. 
+
+The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/ecomfe/echarts)).
 
 
 # ECharts2Shiny包
@@ -163,6 +168,7 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*EC
 - [安装](#安装)
 - [特点](#特点)
 - [例子](#例子)
+- [许可证](#许可证)
 
 
 ##安装
@@ -280,3 +286,8 @@ shinyServer(function(input, output) {
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
+## 许可证
+
+***ECharts2Shiny*** 包使用GLP－2许可证。
+
+The ***ECharts*** JS库使用BSD许可证([ECharts](https://github.com/ecomfe/echarts))。
