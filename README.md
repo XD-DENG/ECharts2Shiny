@@ -65,7 +65,7 @@ shinyUI(fluidPage(
 
   fluidRow(
     column(6,
-           tags$div(id="test_1", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_1", style="width: 80%;height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_1")  # Deliver the plotting
            ),
     column(6,
@@ -212,7 +212,7 @@ shinyUI(fluidPage(
 
   fluidRow(
     column(6,
-           tags$div(id="test_1", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_1", style="width: 80%;height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_1")  # Deliver the plotting
            ),
     column(6,
