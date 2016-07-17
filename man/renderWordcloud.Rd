@@ -7,7 +7,7 @@ Render the Word Cloud Plotted by ECharts into Shiny Application
 renderWordcloud() function helps render the word cloud charts into Shiny applications.
 }
 \usage{
-renderWordcloud(div_id, data, shape = "circle",
+renderWordcloud(div_id, data,
                 grid_size = 5, sizeRange = c(15, 50),
                 rotationRange = c(-45, 45),
                 running_in_shiny = TRUE)
@@ -18,9 +18,6 @@ The division id users specified for this chart. The division will be specified i
 }
   \item{data}{
   The data used for the plotting. It should be a data.frame. For word clooud, the data must be made up of two columns, "name" and "value".
-}
-  \item{shape}{
-  The shape of the word cloud. The valid values include "circle" (default value), "cardioid", "diamond", "triangle-forward", "triangle", "pentagon" and "star".
 }
   \item{grid_size}{
  The size of the grid in word cloud.
