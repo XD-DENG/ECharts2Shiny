@@ -17,7 +17,7 @@ renderWordcloud(div_id, data,
 The division id users specified for this chart. The division will be specified in ui.R.
 }
   \item{data}{
-  The data used for the plotting. It should be a data.frame. For word clooud, the data must be made up of two columns, "name" and "value".
+  The data used for the plotting. It should be a data.frame. For word clooud, the data must be made up of only two columns, "name" and "value". The "value" column must be numeric or integer.
 }
   \item{grid_size}{
  The size of the grid in word cloud.
