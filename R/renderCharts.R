@@ -596,7 +596,7 @@ renderRadarChart <- function(div_id,
 
 
 renderWordcloud <- function(div_id,
-                            data,
+                            data, shape = "circle",
                             grid_size = 5,
                             sizeRange = c(15, 50),
                             rotationRange = c(-45, 45),
@@ -628,7 +628,7 @@ renderWordcloud <- function(div_id,
                         "series:[{type: 'wordCloud',gridSize: ", grid_size, ",",
                         "sizeRange:", paste("[", sizeRange[1], ",", sizeRange[2], "]", sep=""), ",",
                         "rotationRange:", paste("[", rotationRange[1], ",", rotationRange[2], "]", sep=""), ",",
-                        "shape: 'circle',width: 600,height: 500,
+                        "shape: '", shape, "',width: 600,height: 500,
                         textStyle: {normal: {color:function (){return 'rgb(' + [Math.round(Math.random() * 200),Math.round(Math.random() * 200),Math.round(Math.random() * 200)].join(',') + ')';}},
                         emphasis: {
                         shadowBlur: 30,
