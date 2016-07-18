@@ -25,6 +25,15 @@ shinyServer(function(input, output) {
   renderWordcloud("test_3", data =sample_data_for_wordcloud, shape = "triangle",
                   grid_size = 1, sizeRange = c(5, 15), rotationRange = c(-90, 90))
 
+  renderWordcloud("test_4", data =sample_data_for_wordcloud, shape = "pentagon",
+                  grid_size = 1, sizeRange = c(5, 15), rotationRange = c(-90, 90))
+
+  renderWordcloud("test_5", data =sample_data_for_wordcloud, shape = "triangle-forward",
+                  grid_size = 1, sizeRange = c(5, 15), rotationRange = c(-90, 90))
+
+  renderWordcloud("test_6", data =sample_data_for_wordcloud, shape = "star",
+                  grid_size = 1, sizeRange = c(5, 15), rotationRange = c(-90, 90))
+
 
 
   })
