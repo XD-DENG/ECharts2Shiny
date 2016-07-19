@@ -23,13 +23,26 @@ renderPieChart <- function(div_id,
                               "",
                               paste(", '",theme,  "'", sep=""))
 
-  legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
+
+  # the data input should be either a vector or a data.frame meeting specific requirement.
+  if(is.vector(data)){
+    data <- data.frame(table(data))
+    names(data) <- c("name", "value")
+  } else {
+    # Check if the data is valid
+    if((dim(data)[2] != 2) | ("name" %in% names(data) == FALSE) | ("value" %in% names(data) == FALSE)){
+      stop("The data must be made up of two columns, 'name' and 'value'")
+    }
+
+    # check if the "value" column is numeric
+    if(class(data$value) != 'numeric' & class(data$value) != 'integer'){
+      stop("The 'value' column must be numeric or integer.")
+    }
+  }
+
+  legend_data <- paste(sapply(sort(unique(data$name)), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_data <- paste("[", legend_data, "]", sep="")
 
-  data <- data.frame(t(data))
-  names(data) <- "value"
-  data$name <- row.names(data)
-  row.names(data) <- NULL
   data <- as.character(jsonlite::toJSON(data))
   data <- gsub("\"", "\'", data)
 

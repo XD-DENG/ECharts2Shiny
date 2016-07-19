@@ -21,22 +21,23 @@ shinyServer(function(input, output) {
 
   # A reactive data.
   # it will change according to the change in "input$select"
-  
+
   dat <- reactive({
-    dat <- read.csv("data_for_pie_chart.csv")
-    dat <- dat[, 1:input$select]
+    dat <- read.csv("data_for_pie_chart.csv", stringsAsFactors = FALSE)
+    dat <- dat[, 1]
+    dat[dat %in% unique(dat)[1:input$select]] # select two or three categories to display
   })
 
-  
+
   # Call functions from ECharts2Shiny to render charts
 
   # 1nd Chart: use reactive data, BUt can NOT respond to the change in reactive data
   renderPieChart(div_id = "test_1",
-                 data = dat(), 
+                 data = dat(),
                  radius = "70%",center_x = "50%", center_y = "50%")
 
   # 2nd Chart: use reactive data, AND CAN respond to the change in reactive data
-  observeEvent(dat(), 
+  observeEvent(dat(),
                {
                  renderPieChart(div_id = "test_2",
                                 data = dat(),
