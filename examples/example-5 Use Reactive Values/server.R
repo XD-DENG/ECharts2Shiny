@@ -23,7 +23,7 @@ shinyServer(function(input, output) {
   # it will change according to the change in "input$select"
 
   dat <- reactive({
-    dat <- read.csv("data_for_pie_chart.csv", stringsAsFactors = FALSE)
+    dat <- read.csv("data_for_pie_chart.csv", stringsAsFactors = FALSE, header = FALSE)
     dat <- dat[, 1]
     dat[dat %in% unique(dat)[1:input$select]] # select two or three categories to display
   })
