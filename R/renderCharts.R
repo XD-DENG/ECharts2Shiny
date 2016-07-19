@@ -604,15 +604,22 @@ renderWordcloud <- function(div_id,
 
   data <- isolate(data)
 
-  # Check if the data is valid
-  if((dim(data)[2] != 2) | ("name" %in% names(data) == FALSE) | ("value" %in% names(data) == FALSE)){
-    stop("The data must be made up of two columns, 'name' and 'value'")
+  # the data input should be either a vector or a data.frame meeting specific requirement.
+  if(is.vector(data)){
+    data <- data.frame(table(data))
+    names(data) <- c("name", "value")
+  } else {
+    # Check if the data is valid
+    if((dim(data)[2] != 2) | ("name" %in% names(data) == FALSE) | ("value" %in% names(data) == FALSE)){
+      stop("The data must be made up of two columns, 'name' and 'value'")
+    }
+
+    # check if the "value" column is numeric
+    if(class(data$value) != 'numeric' & class(data$value) != 'integer'){
+      stop("The 'value' column must be numeric or integer.")
+    }
   }
 
-  # check if the "value" column is numeric
-  if(class(data$value) != 'numeric' & class(data$value) != 'integer'){
-    stop("The 'value' column must be numeric or integer.")
-  }
 
   js_data <- as.character(jsonlite::toJSON(data))
   js_data <- gsub("\"", "\'", js_data)

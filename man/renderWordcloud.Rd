@@ -17,7 +17,11 @@ renderWordcloud(div_id, data, shape,
 The division id users specified for this chart. The division will be specified in ui.R.
 }
   \item{data}{
-  The data used for the plotting. It should be a data.frame. For word clooud, the data must be made up of only two columns, "name" and "value". The "value" column must be numeric or integer.
+  The data used for the plotting. It should be either a vector or a data.frame.
+
+  If it's a vector, it should be made up of all the elements you want to count and plot, like c("a", "a", "b", "a", "b", "c").
+
+  If it's a data.frame, the data must be made up of only two columns, "name" and "value". The "value" column must be numeric or integer.
 }
    \item{shape}{
    The shape of the word cloud. The valid values include "circle" (default value), "cardioid", "diamond", "triangle-forward", "triangle", "pentagon" and "star".
