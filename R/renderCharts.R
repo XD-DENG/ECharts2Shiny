@@ -1,5 +1,28 @@
 
 ###########################################################################
+# Internal Functions ------------------------------------------------------
+###########################################################################
+
+# This is a function defined to be used within user-level functions.
+# It will help check if the theme argument is valid.
+# If it's invalid, give error msg.
+# if valid, return the theme place holder statement
+.theme_placeholder <- function(theme){
+
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+  if((theme %in% valid_themes) == FALSE){
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+  }
+
+  return(ifelse(theme == "default",
+                              "",
+                              paste(", '",theme,  "'", sep=""))
+         )
+
+}
+
+
+###########################################################################
 # Pie Chart ---------------------------------------------------------------
 ###########################################################################
 
@@ -13,15 +36,7 @@ renderPieChart <- function(div_id,
   data <- isolate(data)
 
   # Check the value for theme
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-
-  if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
-  }
-
-  theme_placeholder <- ifelse(theme == "default",
-                              "",
-                              paste(", '",theme,  "'", sep=""))
+  theme_placeholder <- .theme_placeholder(theme)
 
   # Check if the data input is valid
   # the data input should be either a vector or a data.frame meeting specific requirement.
@@ -112,15 +127,7 @@ renderBarChart <- function(div_id,
   data <- isolate(data)
 
   # Check the value for theme
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-
-  if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
-  }
-
-  theme_placeholder <- ifelse(theme == "default",
-                              "",
-                              paste(", '",theme,  "'", sep=""))
+  theme_placeholder <- .theme_placeholder(theme)
 
   # Check if the "direction" value is valid
   if(direction == "horizontal"){
@@ -221,15 +228,7 @@ renderLineChart <- function(div_id,
   data <- isolate(data)
 
   # Check the value for theme
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-
-  if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
-  }
-
-  theme_placeholder <- ifelse(theme == "default",
-                              "",
-                              paste(", '",theme,  "'", sep=""))
+  theme_placeholder <- .theme_placeholder(theme)
 
   xaxis_name <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   xaxis_name <- paste("[", xaxis_name, "]", sep="")
@@ -312,13 +311,7 @@ renderGauge <- function(div_id, theme = "default",
   data <- isolate(data)
 
   # Check the value for theme
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-  if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
-  }
-  theme_placeholder <- ifelse(theme == "default",
-                              "",
-                              paste(", '",theme,  "'", sep=""))
+  theme_placeholder <- .theme_placeholder(theme)
 
   # Convert raw data into JSON format
   series_data <- paste("[{name:'",gauge_name, "',value:", rate, "}]", sep="")
@@ -387,13 +380,7 @@ renderScatter <- function(div_id, data,
 
 
   # Check the value for theme
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-  if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
-  }
-  theme_placeholder <- ifelse(theme == "default",
-                              "",
-                              paste(", '",theme,  "'", sep=""))
+  theme_placeholder <- .theme_placeholder(theme)
 
   # get the unique values of "group" column
   group_names <- sort(unique(data$group))
@@ -425,7 +412,7 @@ renderScatter <- function(div_id, data,
   series_data <- paste(series_data, collapse = ", ")
   series_data <- paste("[", series_data, "]", sep="")
 
-  
+
   js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
@@ -505,20 +492,14 @@ renderRadarChart <- function(div_id,
   data <- isolate(data)
 
   # Check the value for theme
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-  if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
-  }
+  theme_placeholder <- .theme_placeholder(theme)
 
-  # check the value for "sahpe"
-
+  # check the value for "shape"
   valid_shapes <- c("default", "circle")
   if((shape %in% valid_shapes) == FALSE){
     stop("The shape is invalid. You can choose 'default' or 'circle'.")
   }
-  theme_placeholder <- ifelse(theme == "default",
-                              "",
-                              paste(", '",theme,  "'", sep=""))
+
 
   legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_data <- paste("[", legend_data, "]", sep="")
@@ -548,7 +529,7 @@ renderRadarChart <- function(div_id,
                        }),
                 collapse = ",")
 
-  
+
   js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
@@ -635,7 +616,7 @@ renderWordcloud <- function(div_id,
   js_data <- as.character(jsonlite::toJSON(data))
   js_data <- gsub("\"", "\'", js_data)
 
-  
+
   js_statement <- paste("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
