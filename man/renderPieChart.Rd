@@ -18,7 +18,11 @@ renderPieChart(div_id, data, theme, radius,center_x,center_y,
 The division id users specified for this chart. The division will be specified in ui.R.
 }
   \item{data}{
-  The data used for the plotting. It should be a data.frame. Each column of the data.frame is one category, and each row is one observation (like one timepoint).
+  The data used for the plotting. It should be either a vector or a data.frame.
+
+  If it's a vector, it should be made up of all the elements you want to count and plot, like c("a", "a", "b", "a", "b", "c").
+
+  If it's a data.frame, the data must be made up of only two columns, "name" and "value". The "value" column must be numeric or integer.
 }
   \item{theme}{
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
