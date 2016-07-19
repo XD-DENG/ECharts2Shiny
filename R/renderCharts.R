@@ -23,7 +23,7 @@ renderPieChart <- function(div_id,
                               "",
                               paste(", '",theme,  "'", sep=""))
 
-
+  # Check if the data input is valid
   # the data input should be either a vector or a data.frame meeting specific requirement.
   if(is.vector(data)){
     data <- data.frame(table(data))
@@ -40,9 +40,11 @@ renderPieChart <- function(div_id,
     }
   }
 
+  # Generate legend
   legend_data <- paste(sapply(sort(unique(data$name)), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_data <- paste("[", legend_data, "]", sep="")
 
+  # Convert raw data into JSON format
   data <- as.character(jsonlite::toJSON(data))
   data <- gsub("\"", "\'", data)
 
@@ -92,6 +94,8 @@ renderPieChart <- function(div_id,
 
 
 
+
+
 ###########################################################################
 # Bar Chart ---------------------------------------------------------------
 ###########################################################################
@@ -134,7 +138,7 @@ renderBarChart <- function(div_id,
   legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_name <- paste("[", legend_name, "]", sep="")
 
-  # Prepare the data in "series" part
+  # Convert raw data into JSON format (Prepare the data in "series" part)
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'bar', ",
@@ -150,8 +154,6 @@ renderBarChart <- function(div_id,
   }
   series_data <- paste(series_data, collapse = ", ")
   series_data <- paste("[", series_data, "]", sep="")
-
-
 
   js_statement <- paste("var " ,
                   div_id,
@@ -204,6 +206,8 @@ renderBarChart <- function(div_id,
 
 
 
+
+
 ###########################################################################
 # Line Chart --------------------------------------------------------------
 ###########################################################################
@@ -232,6 +236,7 @@ renderLineChart <- function(div_id,
   legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_name <- paste("[", legend_name, "]", sep="")
 
+  # Convert raw data into JSON format
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
@@ -254,7 +259,6 @@ renderLineChart <- function(div_id,
                   "')",
                   theme_placeholder,
                   ");",
-
                   "option_", div_id, " = {tooltip : {trigger: 'axis'}, ",
 
                   ifelse(show.tools,
@@ -293,6 +297,8 @@ renderLineChart <- function(div_id,
 
 
 
+
+
 ###########################################################################
 # Gauge -------------------------------------------------------------------
 ###########################################################################
@@ -307,17 +313,15 @@ renderGauge <- function(div_id, theme = "default",
 
   # Check the value for theme
   valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-
   if((theme %in% valid_themes) == FALSE){
     stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
   }
-
   theme_placeholder <- ifelse(theme == "default",
                               "",
                               paste(", '",theme,  "'", sep=""))
 
+  # Convert raw data into JSON format
   series_data <- paste("[{name:'",gauge_name, "',value:", rate, "}]", sep="")
-
 
   js_statement <- paste("var ",
                   div_id,
@@ -348,7 +352,6 @@ renderGauge <- function(div_id, theme = "default",
                    "\"))})",
                    sep="")
 
-
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())
   } else {
@@ -356,6 +359,8 @@ renderGauge <- function(div_id, theme = "default",
   }
 
 }
+
+
 
 
 
@@ -383,11 +388,9 @@ renderScatter <- function(div_id, data,
 
   # Check the value for theme
   valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
-
   if((theme %in% valid_themes) == FALSE){
     stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
   }
-
   theme_placeholder <- ifelse(theme == "default",
                               "",
                               paste(", '",theme,  "'", sep=""))
@@ -399,9 +402,7 @@ renderScatter <- function(div_id, data,
   legend_name <- paste("[", legend_name, "]", sep="")
 
 
-
-
-  # Prepare the data in "series" part
+  # Convert raw data into JSON format (Prepare the data in "series" part)
   series_data <- rep("", length(group_names))
   for(i in 1:length(group_names)){
 
@@ -424,8 +425,7 @@ renderScatter <- function(div_id, data,
   series_data <- paste(series_data, collapse = ", ")
   series_data <- paste("[", series_data, "]", sep="")
 
-
-
+  
   js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
@@ -489,6 +489,8 @@ renderScatter <- function(div_id, data,
 
 
 
+
+
 ###########################################################################
 # Radar Charts ------------------------------------------------------------
 ###########################################################################
@@ -514,14 +516,12 @@ renderRadarChart <- function(div_id,
   if((shape %in% valid_shapes) == FALSE){
     stop("The shape is invalid. You can choose 'default' or 'circle'.")
   }
-
   theme_placeholder <- ifelse(theme == "default",
                               "",
                               paste(", '",theme,  "'", sep=""))
 
   legend_data <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_data <- paste("[", legend_data, "]", sep="")
-
 
   indicator <- paste(sapply(1:dim(data)[1],
                             function(i){
@@ -536,6 +536,7 @@ renderRadarChart <- function(div_id,
                      indicator,
                      "]")
 
+  # Convert raw data into JSON format
   data <- paste(sapply(1:dim(data)[2],
                        function(i){
                          paste("{value:[",
@@ -547,10 +548,7 @@ renderRadarChart <- function(div_id,
                        }),
                 collapse = ",")
 
-
-
-
-
+  
   js_statement <- paste("var " ,
                   div_id,
                   " = echarts.init(document.getElementById('",
@@ -558,7 +556,6 @@ renderRadarChart <- function(div_id,
                   "')",
                   theme_placeholder,
                   ");",
-
                   "option_", div_id, " = {tooltip:{}, ",
 
                   ifelse(show.tools,
@@ -577,7 +574,6 @@ renderRadarChart <- function(div_id,
                   indicator,
                   "},",
                   "series : [{type: 'radar',",
-
                   "data:[",
                   data,
                   "], itemStyle: {normal:{lineStyle: {width:", line.width, "}},emphasis : {areaStyle: {color:'rgba(0,250,0,0.3)'}}}}]};",
@@ -603,8 +599,10 @@ renderRadarChart <- function(div_id,
 
 
 
+
+
 ###########################################################################
-# Wordcloud
+# Word Cloud ------------------------------------------------------------
 ###########################################################################
 
 
@@ -633,10 +631,11 @@ renderWordcloud <- function(div_id,
     }
   }
 
-
+  # Convert raw data into JSON format
   js_data <- as.character(jsonlite::toJSON(data))
   js_data <- gsub("\"", "\'", js_data)
 
+  
   js_statement <- paste("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
@@ -657,12 +656,10 @@ renderWordcloud <- function(div_id,
                         data:",
                         js_data,
                         "}]};",
-
                         div_id,
                         ".setOption(option_",
                         div_id,
                         ");",
-
                         sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -675,5 +672,4 @@ renderWordcloud <- function(div_id,
   } else {
     cat(to_eval)
   }
-
 }

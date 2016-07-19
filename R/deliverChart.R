@@ -1,5 +1,6 @@
 deliverChart <- function(div_id,
                         running_in_shiny = TRUE){
+  
   to_eval <- paste("uiOutput(\"",
                    div_id,
                    "\")",
