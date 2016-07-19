@@ -62,11 +62,9 @@ If display the tool bar. The default value is TRUE.
 # please refer to vignettes for the practical examples
 
 # Prepare sample data for plotting
-dat <- data.frame(c(1, 2, 3, 1),
-                  c(2, 4, 6, 6),
-                  c(3, 2, 7, 5))
-names(dat) <- c("Type-A", "Type-B", "Type-C")
-row.names(dat) <- c("Time-1", "Time-2", "Time-3", "Time-4")
+dat <- c(rep("Type-A", 5),
+         rep("Type-B", 10),
+         rep("Type-C", 2))
 
 renderPieChart(div_id = "test", data = dat, running_in_shiny = FALSE)
 
