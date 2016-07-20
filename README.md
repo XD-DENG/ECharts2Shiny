@@ -5,7 +5,7 @@
 
 ![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
 
-As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
+As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
 
 - Pie charts
 - Line charts
