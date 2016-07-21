@@ -221,7 +221,7 @@ renderBarChart <- function(div_id,
 
 renderLineChart <- function(div_id,
                             data, theme = "default",
-                            line.width = 2,
+                            line.width = 2, line.type = "solid",
                             stack_plot = FALSE,
                             show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
@@ -233,14 +233,29 @@ renderLineChart <- function(div_id,
     stop("The line.width should either be numeric or integer.")
   }
 
-  # Check the length of line.width
+  # check the value of line.type
+  unique_line.types <- unique(line.type)
+  if(sum(sapply(unique_line.types, function(x){x %in% c("solid", "dashed", "dotted")})) != length(unique_line.types)){
+    stop("The line.type can only be 'solid', 'dashed', or 'dotted'.")
+  }
+
   n_of_category <- dim(data)[2]
+  # Check the length of line.width
   if(length(line.width) != 1){
     if(length(line.width) != n_of_category){
       stop("The length of line.width should either be one or the same as the number of categories.")
     }
   } else {
     line.width <- rep(line.width, n_of_category)
+  }
+
+  # check the length of line.type
+  if(length(line.type) != 1){
+    if(length(line.type) != n_of_category){
+      stop("The length of line.width should either be one or the same as the number of categories.")
+    }
+  } else {
+    line.type <- rep(line.type, n_of_category)
   }
 
   # Check the value for theme
@@ -256,7 +271,7 @@ renderLineChart <- function(div_id,
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
 
-                  "itemStyle:{normal:{lineStyle: {width:", line.width[i],"}}},",
+                  "itemStyle:{normal:{lineStyle: {width:", line.width[i],", type:'", line.type[i], "'}}},",
 
                   ifelse(stack_plot,
                          "stack: ' ', areaStyle: {normal: {}},",
