@@ -3,7 +3,7 @@ Type: Package
 Title: Embedding Charts Generated with ECharts Library into Shiny
         Applications
 Depends: shiny,jsonlite
-Version: 0.1.3
+Version: 0.1.4
 Date: 2016-07-05
 Author: Xiaodong Deng
 Maintainer: Xiaodong Deng <xd_deng@hotmail.com>

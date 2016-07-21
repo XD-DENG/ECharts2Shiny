@@ -221,11 +221,27 @@ renderBarChart <- function(div_id,
 
 renderLineChart <- function(div_id,
                             data, theme = "default",
+                            line.width = 2,
                             stack_plot = FALSE,
                             show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
+
+  # check the type of line.width
+  if((class(line.width) %in% c("numeric", "integer")) == FALSE){
+    stop("The line.width should either be numeric or integer.")
+  }
+
+  # Check the length of line.width
+  n_of_category <- dim(data)[2]
+  if(length(line.width) != 1){
+    if(length(line.width) != n_of_category){
+      stop("The length of line.width should either be one or the same as the number of categories.")
+    }
+  } else {
+    line.width <- rep(line.width, n_of_category)
+  }
 
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
@@ -239,6 +255,9 @@ renderLineChart <- function(div_id,
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
+
+                  "itemStyle:{normal:{lineStyle: {width:", line.width[i],"}}},",
+
                   ifelse(stack_plot,
                          "stack: ' ', areaStyle: {normal: {}},",
                          " "),
