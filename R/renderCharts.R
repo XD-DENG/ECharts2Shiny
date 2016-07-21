@@ -396,7 +396,8 @@ renderGauge <- function(div_id, theme = "default",
 ###########################################################################
 
 
-renderScatter <- function(div_id, data, point.size = 10,
+renderScatter <- function(div_id, data,
+                          point.size = 10, point.type = "circle",
                           theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){
@@ -420,6 +421,23 @@ renderScatter <- function(div_id, data, point.size = 10,
   # Check the value of theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # check the value of point.type
+  unique_point.types <- unique(point.type)
+  if(sum(sapply(unique_point.types, function(x){x %in% c('circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
+    stop("The point.type can only be 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
+  }
+
+  n_of_category <- dim(data)[2]
+  # Check the length of point.type
+  if(length(point.type) != 1){
+    if(length(point.type) != n_of_category){
+      stop("The length of point.type should either be one or the same as the number of categories.")
+    }
+  } else {
+    point.type <- rep(point.type, n_of_category)
+  }
+
+
   # get the unique values of "group" column
   group_names <- sort(unique(data$group))
 
@@ -436,6 +454,7 @@ renderScatter <- function(div_id, data, point.size = 10,
     temp <- paste("{name:'", group_names[i], "', type:'scatter', ",
 
                   paste("symbolSize:", point.size, ",", sep=""),
+                  paste("symbol:'", point.type[i], "',", sep=""),
 
                   "data:[",
                   paste(sapply(1:dim(temp_data)[1],

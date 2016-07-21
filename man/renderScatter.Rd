@@ -7,7 +7,8 @@ Render the Scatter Plots Plotted by ECharts into Shiny Application
 renderScatter() function helps render the scatter plots into Shiny applications.
 }
 \usage{
-renderScatter(div_id, data, point.size = 10,
+renderScatter(div_id, data,
+              point.size = 10, point.type = "circle",
               theme = "default", auto.scale = TRUE,
               show.legend = TRUE, show.tools = TRUE,
               running_in_shiny = TRUE)
@@ -21,6 +22,13 @@ The division id users specified for this chart. The division will be specified i
 }
   \item{point.size}{
 This argument helps set the size of points in the scatter plots. It should be a single numeric or integer value. The dafault value is 10.
+}
+  \item{point.type}{
+The shape of the points in scatter plots.
+
+Valid values include 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'. The default value is 'circle'.
+
+The length of this argument should either be one or be the same as the number of UNIQUE groups (the 'group' column in the data input).
 }
   \item{theme}{
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
