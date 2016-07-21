@@ -381,7 +381,7 @@ renderGauge <- function(div_id, theme = "default",
 ###########################################################################
 
 
-renderScatter <- function(div_id, data,
+renderScatter <- function(div_id, data, point.size = 10,
                           theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){
@@ -397,8 +397,12 @@ renderScatter <- function(div_id, data,
   if(sum(sapply(c("x", "y", "group"), function(x){x %in% names(data)})) != 3)
     stop("The data must be made up of three columns, 'x', 'y', and 'group'")
 
+  # check the value of point.size
+  if((class(point.size) %in% c("numeric", "integer")) == FALSE){
+    stop("The point.size should either be numeric or integer.")
+  }
 
-  # Check the value for theme
+  # Check the value of theme
   theme_placeholder <- .theme_placeholder(theme)
 
   # get the unique values of "group" column
@@ -415,6 +419,9 @@ renderScatter <- function(div_id, data,
     temp_data <- data[data$group == group_names[i],]
 
     temp <- paste("{name:'", group_names[i], "', type:'scatter', ",
+
+                  paste("symbolSize:", point.size, ",", sep=""),
+
                   "data:[",
                   paste(sapply(1:dim(temp_data)[1],
                                function(j){
