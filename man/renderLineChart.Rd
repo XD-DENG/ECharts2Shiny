@@ -9,7 +9,7 @@ renderLineChart() function helps render the line chart into Shiny application.
 }
 \usage{
 renderLineChart(div_id, data, theme = "default",
-                line.width = 2,
+                line.width = 2, line.type = "solid",
                 stack_plot = FALSE,
                 show.legend = TRUE, show.tools = TRUE,
                 running_in_shiny = TRUE)
@@ -26,7 +26,18 @@ The division id users specified for this chart. The division will be specified i
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
 }
   \item{line.width}{
-This is to help set the width of the lines. The value should be either numeric or integer. Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
+This is to help set the width of the lines.
+
+The value should be either numeric or integer. The default value is 2.
+
+Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
+}
+  \item{line.type}{
+The type of the lines.
+
+The value can be "solid", "dashed", or "dotted". The default value is "solid".
+
+Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
 }
   \item{stack_plot}{
 Whether do stack line chart. The default value is FALSE.
