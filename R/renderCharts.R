@@ -221,11 +221,27 @@ renderBarChart <- function(div_id,
 
 renderLineChart <- function(div_id,
                             data, theme = "default",
+                            line.width = 2,
                             stack_plot = FALSE,
                             show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
+
+  # check the type of line.width
+  if((class(line.width) %in% c("numeric", "integer")) == FALSE){
+    stop("The line.width should either be numeric or integer.")
+  }
+
+  # Check the length of line.width
+  n_of_category <- dim(data)[2]
+  if(length(line.width) != 1){
+    if(length(line.width) != n_of_category){
+      stop("The length of line.width should either be one or the same as the number of categories.")
+    }
+  } else {
+    line.width <- rep(line.width, n_of_category)
+  }
 
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
@@ -239,6 +255,9 @@ renderLineChart <- function(div_id,
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
+
+                  "itemStyle:{normal:{lineStyle: {width:", line.width[i],"}}},",
+
                   ifelse(stack_plot,
                          "stack: ' ', areaStyle: {normal: {}},",
                          " "),
@@ -362,7 +381,7 @@ renderGauge <- function(div_id, theme = "default",
 ###########################################################################
 
 
-renderScatter <- function(div_id, data,
+renderScatter <- function(div_id, data, point.size = 10,
                           theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){
@@ -378,8 +397,12 @@ renderScatter <- function(div_id, data,
   if(sum(sapply(c("x", "y", "group"), function(x){x %in% names(data)})) != 3)
     stop("The data must be made up of three columns, 'x', 'y', and 'group'")
 
+  # check the value of point.size
+  if((class(point.size) %in% c("numeric", "integer")) == FALSE){
+    stop("The point.size should either be numeric or integer.")
+  }
 
-  # Check the value for theme
+  # Check the value of theme
   theme_placeholder <- .theme_placeholder(theme)
 
   # get the unique values of "group" column
@@ -396,6 +419,9 @@ renderScatter <- function(div_id, data,
     temp_data <- data[data$group == group_names[i],]
 
     temp <- paste("{name:'", group_names[i], "', type:'scatter', ",
+
+                  paste("symbolSize:", point.size, ",", sep=""),
+
                   "data:[",
                   paste(sapply(1:dim(temp_data)[1],
                                function(j){

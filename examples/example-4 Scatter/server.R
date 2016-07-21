@@ -20,7 +20,7 @@ shinyServer(function(input, output) {
   renderScatter("test_scatter_1", data = dat,
                 theme = "shine")
 
-  renderScatter("test_scatter_2", data = dat, auto.scale = FALSE,
+  renderScatter("test_scatter_2", data = dat, auto.scale = FALSE, point.size = 20,
                 theme = "shine")
 
   })
