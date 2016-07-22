@@ -397,7 +397,7 @@ renderGauge <- function(div_id, theme = "default",
 
 
 renderScatter <- function(div_id, data,
-                          point.size = 10, point.type = "circle",
+                          point.size = 10, point.type = "emptyCircle",
                           theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){
@@ -423,7 +423,7 @@ renderScatter <- function(div_id, data,
 
   # check the value of point.type
   unique_point.types <- unique(point.type)
-  if(sum(sapply(unique_point.types, function(x){x %in% c('circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
+  if(sum(sapply(unique_point.types, function(x){x %in% c('emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
     stop("The point.type can only be 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
   }
 
