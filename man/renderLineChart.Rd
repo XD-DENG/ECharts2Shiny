@@ -10,6 +10,7 @@ renderLineChart() function helps render the line chart into Shiny application.
 \usage{
 renderLineChart(div_id, data, theme = "default",
                 line.width = 2, line.type = "solid",
+                point.size = 5, point.type = "emptyCircle",
                 stack_plot = FALSE,
                 show.legend = TRUE, show.tools = TRUE,
                 running_in_shiny = TRUE)
@@ -38,6 +39,16 @@ The type of the lines.
 The value can be "solid", "dashed", or "dotted". The default value is "solid".
 
 Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
+}
+  \item{point.size}{
+This argument helps set the size of points in the scatter plots. It should be a single numeric or integer value. The dafault value is 5.
+}
+  \item{point.type}{
+The shape of the points in scatter plots.
+
+Valid values include 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'. The default value is 'emptyCircle'.
+
+The length of this argument should either be one or be the same as the number of UNIQUE groups (the 'group' column in the data input).
 }
   \item{stack_plot}{
 Whether do stack line chart. The default value is FALSE.

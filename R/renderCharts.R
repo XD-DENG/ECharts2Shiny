@@ -222,6 +222,7 @@ renderBarChart <- function(div_id,
 renderLineChart <- function(div_id,
                             data, theme = "default",
                             line.width = 2, line.type = "solid",
+                            point.size = 5, point.type = "emptyCircle",
                             stack_plot = FALSE,
                             show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
@@ -258,6 +259,21 @@ renderLineChart <- function(div_id,
     line.type <- rep(line.type, n_of_category)
   }
 
+  # check the value of point.type
+  unique_point.types <- unique(point.type)
+  if(sum(sapply(unique_point.types, function(x){x %in% c('emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
+    stop("The point.type can only be 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
+  }
+
+  # Check the length of point.type
+  if(length(point.type) != 1){
+    if(length(point.type) != n_of_category){
+      stop("The length of point.type should either be one or the same as the number of categories.")
+    }
+  } else {
+    point.type <- rep(point.type, n_of_category)
+  }
+
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
@@ -270,6 +286,9 @@ renderLineChart <- function(div_id,
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
+
+                  paste("symbolSize:", point.size, ",", sep=""),
+                  paste("symbol:'", point.type[i], "',", sep=""),
 
                   "itemStyle:{normal:{lineStyle: {width:", line.width[i],", type:'", line.type[i], "'}}},",
 
@@ -424,7 +443,7 @@ renderScatter <- function(div_id, data,
   # check the value of point.type
   unique_point.types <- unique(point.type)
   if(sum(sapply(unique_point.types, function(x){x %in% c('emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
-    stop("The point.type can only be 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
+    stop("The point.type can only be 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
   }
 
   n_of_category <- dim(data)[2]
