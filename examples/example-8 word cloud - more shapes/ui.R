@@ -5,6 +5,7 @@ library(ECharts2Shiny)
 shinyUI(fluidPage(
 
   # We HAVE TO to load the ECharts Word Cloud extension javascript library in advance
+  loadEChartsLibrary(),
   loadWordcloudExtension(),
 
   h2("Diverse 'Shape' Options in Word Cloud"),
