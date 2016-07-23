@@ -33,3 +33,3539 @@ r.setHoverStyle(d,o.extend(e.getModel("itemStyle.emphasis"),{text:u.get("show")?
 stroke:u[y%u.length],lineDash:r.getLineDash(),lineWidth:o},silent:!0}))}});t.exports=c},function(t,e,i){var n=i(2),r={type:"axisAreaSelect",event:"axisAreaSelected",update:"updateVisual"};n.registerAction(r,function(t,e){e.eachComponent({mainType:"parallelAxis",query:t},function(e){e.axis.model.setActiveIntervals(t.intervals)})}),n.registerAction("parallelAxisExpand",function(t,e){e.eachComponent({mainType:"parallel",query:t},function(e){e.setAxisExpand(t)})})},function(t,e,i){i(2).registerPreprocessor(i(326)),i(328),i(323),i(324),i(325),i(346)},function(t,e,i){var n=i(2),r=i(1),o=i(171),a=i(8),s=["#ddd"],l=n.extendComponentModel({type:"brush",dependencies:["geo","grid","xAxis","yAxis","parallel","series"],defaultOption:{toolbox:null,brushLink:null,seriesIndex:"all",geoIndex:null,xAxisIndex:null,yAxisIndex:null,brushType:"rect",brushMode:"single",transformable:!0,brushStyle:{borderWidth:1,color:"rgba(120,140,180,0.3)",borderColor:"rgba(120,140,180,0.8)",width:null},throttleType:"fixRate",throttleDelay:0,removeOnClick:!0},areas:[],brushType:null,brushOption:{},coordInfoList:[],optionUpdated:function(t,e){var i=this.option;!e&&o.replaceVisualOption(i,t,["inBrush","outOfBrush"]),i.inBrush=i.inBrush||{},i.outOfBrush=i.outOfBrush||{color:s}},setAreas:function(t){t&&(this.areas=r.map(t,function(t){return this._mergeBrushOption(t)},this))},setBrushOption:function(t){this.brushOption=this._mergeBrushOption(t),this.brushType=this.brushOption.brushType},_mergeBrushOption:function(t){var e=this.option;return r.merge({brushType:e.brushType,brushMode:e.brushMode,transformable:e.transformable,brushStyle:new a(e.brushStyle).getItemStyle(),removeOnClick:e.removeOnClick},t,!0)}});t.exports=l},function(t,e,i){function n(t,e,i,n){(!n||n.$from!==t.id)&&this._brushController.setPanels(s.makePanelOpts(t.coordInfoList)).enableBrush(t.brushOption).updateCovers(t.areas.slice())}var r=i(1),o=i(110),a=i(2),s=i(111);t.exports=a.extendComponentView({type:"brush",init:function(t,e){this.ecModel=t,this.api=e,this.model,(this._brushController=new o(e.getZr())).on("brush",r.bind(this._onBrush,this)).mount()},render:function(t){return this.model=t,n.apply(this,arguments)},updateView:n,updateLayout:n,updateVisual:n,dispose:function(){this._brushController.dispose()},_onBrush:function(t,e){var i=this.model.id;s.parseOutputRanges(t,this.model.coordInfoList,this.ecModel),(!e.isEnd||e.removeOnClick)&&this.api.dispatchAction({type:"brush",brushId:i,areas:r.clone(t),$from:i})}})},function(t,e,i){var n=i(2);n.registerAction({type:"brush",event:"brush",update:"updateView"},function(t,e){e.eachComponent({mainType:"brush",query:t},function(e){e.setAreas(t.areas)})}),n.registerAction({type:"brushSelect",event:"brushSelected",update:"none"},function(){})},function(t,e,i){function n(t){var e={};r.each(t,function(t){e[t]=1}),t.length=0,r.each(e,function(e,i){t.push(i)})}var r=i(1),o=["rect","polygon","keep","clear"];t.exports=function(t,e){var i=t&&t.brush;if(r.isArray(i)||(i=i?[i]:[]),i.length){var a=[];r.each(i,function(t){var e=t.hasOwnProperty("toolbox")?t.toolbox:[];e instanceof Array&&(a=a.concat(e))});var s=t&&t.toolbox;r.isArray(s)&&(s=s[0]),s||(s={feature:{}},t.toolbox=[s]);var l=s.feature||(s.feature={}),u=l.brush||(l.brush={}),h=u.type||(u.type=[]);h.push.apply(h,a),n(h),e&&!h.length&&h.push.apply(h,o)}}},function(t,e,i){function n(t){var e=["x","y"],i=["width","height"];return{point:function(e,i,n){var o=n.range,a=e[t];return r(a,o)},rect:function(n,o,a){var s=a.range;return r(n[e[t]],s)||r(n[e[t]]+n[i[t]],s)}}}function r(t,e){return e[0]<=t&&t<=e[1]}function o(t,e,i,n,r){for(var o=0,s=r[r.length-1];o<r.length;o++){var l=r[o];if(a(t,e,i,n,l[0],l[1],s[0],s[1]))return!0;s=l}}function a(t,e,i,n,r,o,a,u){var h=l(i-t,r-a,n-e,o-u);if(s(h))return!1;var c=l(r-t,r-a,o-e,o-u)/h;if(0>c||c>1)return!1;var d=l(i-t,r-t,n-e,o-e)/h;return!(0>d||d>1)}function s(t){return 1e-6>=t&&t>=-1e-6}function l(t,e,i,n){return t*n-e*i}function u(t){var e=t.x,i=t.y,n=t.width,r=t.height;return 0>n&&(e+=n,n=-n),0>r&&(i+=r,r=-r),new c(e,i,n,r)}var h=i(240).contain,c=i(7),d={lineX:n(0),lineY:n(1),rect:{point:function(t,e,i){return i.boundingRect.contain(t[0],t[1])},rect:function(t,e,i){return i.boundingRect.intersect(u(t))}},polygon:{point:function(t,e,i){return i.boundingRect.contain(t[0],t[1])&&h(i.range,t[0],t[1])},rect:function(t,e,i){var n=i.range;if(n.length<=1)return!1;var r=t.x,a=t.y,s=t.width,l=t.height,c=n[0];return h(n,r,a)||h(n,r+s,a)||h(n,r,a+l)||h(n,r+s,a+l)||u(t).contain(c[0],c[1])||o(r,a,r+s,a,n)||o(r,a,r,a+l,n)||o(r+s,a,r+s,a+l,n)||o(r,a+l,r+s,a+l,n)?!0:void 0}}};t.exports=d},function(t,e,i){function n(t,e,i,n,o){if(o){var a=t.getZr();if(!a[x]){a[y]||(a[y]=r);var s=g.createOrUpdate(a,y,i,e);s(t,n)}}}function r(t,e){if(!t.isDisposed()){var i=t.getZr();i[x]=!0,t.dispatchAction({type:"brushSelect",batch:e}),i[x]=!1}}function o(t,e,i,n){for(var r=i.getItemLayout(n),o=0,a=e.length;a>o;o++){var s=e[o];if(t[s.brushType](r,s.selectors,s))return!0}}function a(t){var e=t.brushSelector;if(d.isString(e)){var i=[];return d.each(p,function(t,n){i[n]=t[e]}),i}if(d.isFunction(e)){var n={};return d.each(p,function(t,i){n[i]=e}),n}return e}function s(t,e){var i=t.option.seriesIndex;return null!=i&&"all"!==i&&(d.isArray(i)?d.indexOf(i,e)<0:e!==i)}function l(t){var e=t.selectors={};return d.each(p[t.brushType],function(i,n){e[n]=function(n){return i(n,e,t)}}),t}function u(t){return new f(t[0][0],t[1][0],t[0][1]-t[0][0],t[1][1]-t[1][0])}var h=i(2),c=i(171),d=i(1),f=i(7),p=i(327),g=i(81),v=i(111),m=["inBrush","outOfBrush"],y="__ecBrushSelect",x="__ecInBrushSelectEvent",_=h.PRIORITY.VISUAL.BRUSH;h.registerLayout(_,function(t,e,i){t.eachComponent({mainType:"brush"},function(e){i&&"takeGlobalCursor"===i.type&&e.setBrushOption("brush"===i.key?i.brushOption:{brushType:!1}),e.coordInfoList=v.makeCoordInfoList(e.option,t),v.parseInputRanges(e,t)})}),h.registerVisual(_,function(t,e,i){var r,u,h=[];t.eachComponent({mainType:"brush"},function(e,i){function n(t){return"all"===_||w[t]}function f(t){return!!t.length}function p(t,e){var i=t.coordinateSystem;A|=i.hasAxisbrushed(),n(e)&&i.eachActiveState(t.getData(),function(t,e){"active"===t&&(S[e]=1)})}function g(t,i,r){var l=a(t);if(l&&!s(e,i)&&(d.each(I,function(i){l[i.brushType]&&v.controlSeries(i,e,t)&&r.push(i),A|=f(r)}),n(i)&&f(r))){var u=t.getData();u.each(function(t){o(l,r,u,t)&&(S[t]=1)})}}var y={brushId:e.id,brushIndex:i,brushName:e.name,areas:d.clone(e.areas),selected:[]};h.push(y);var x=e.option,_=x.brushLink,w=[],S=[],M=[],A=0;i||(r=x.throttleType,u=x.throttleDelay);var I=d.map(e.areas,function(t){return l(d.defaults({boundingRect:b[t.brushType](t)},t))}),T=c.createVisualMappings(e.option,m,function(t){t.mappingMethod="fixed"});d.isArray(_)&&d.each(_,function(t){w[t]=1}),t.eachSeries(function(t,e){var i=M[e]=[];"parallel"===t.subType?p(t,e,i):g(t,e,i)}),t.eachSeries(function(t,e){var i={seriesId:t.id,seriesIndex:e,seriesName:t.name,dataIndex:[]};y.selected.push(i);var r=a(t),s=M[e],l=t.getData(),u=n(e)?function(t){return S[t]?(i.dataIndex.push(l.getRawIndex(t)),"inBrush"):"outOfBrush"}:function(t){return o(r,s,l,t)?(i.dataIndex.push(l.getRawIndex(t)),"inBrush"):"outOfBrush"};(n(e)?A:f(s))&&c.applyVisual(m,T,l,u)})}),n(e,r,u,h,i)});var b={lineX:d.noop,lineY:d.noop,rect:function(t){return u(t.range)},polygon:function(t){for(var e,i=t.range,n=0,r=i.length;r>n;n++){e=e||[[1/0,-(1/0)],[1/0,-(1/0)]];var o=i[n];o[0]<e[0][0]&&(e[0][0]=o[0]),o[0]>e[0][1]&&(e[0][1]=o[0]),o[1]<e[1][0]&&(e[1][0]=o[1]),o[1]>e[1][1]&&(e[1][1]=o[1])}return e&&u(e)}}},function(t,e,i){function n(t,e){e.update="updateView",r.registerAction(e,function(e,i){var n={};return i.eachComponent({mainType:"geo",query:e},function(i){i[t](e.name);var r=i.coordinateSystem;o.each(r.regions,function(t){n[t.name]=i.isSelected(t.name)||!1})}),{selected:n,name:e.name}})}i(355),i(170),i(330),i(219);var r=i(2),o=i(1);n("toggleSelected",{type:"geoToggleSelect",event:"geoselectchanged"}),n("select",{type:"geoSelect",event:"geoselected"}),n("unSelect",{type:"geoUnSelect",event:"geounselected"})},function(t,e,i){"use strict";var n=i(227);t.exports=i(2).extendComponentView({type:"geo",init:function(t,e){var i=new n(e,!0);this._mapDraw=i,this.group.add(i.group)},render:function(t,e,i,n){if(!n||"geoToggleSelect"!==n.type||n.from!==this.uid){var r=this._mapDraw;t.get("show")?r.draw(t,e,i,this,n):this._mapDraw.group.removeAll(),this.group.silent=t.get("silent")}}})},function(t,e,i){i(238),i(321),i(318)},function(t,e,i){"use strict";i(214),i(316),i(335),i(2).extendComponentView({type:"polar"})},function(t,e,i){i(371),i(372),i(334)},function(t,e,i){var n=i(50),r=i(1),o=i(3),a=["axisLine","axisLabel","axisTick","axisName"];t.exports=i(2).extendComponentView({type:"radar",render:function(t,e,i){var n=this.group;n.removeAll(),this._buildAxes(t),this._buildSplitLineAndArea(t)},_buildAxes:function(t){var e=t.coordinateSystem,i=e.getIndicatorAxes(),o=r.map(i,function(t){var i=new n(t.model,{position:[e.cx,e.cy],rotation:t.angle,labelDirection:-1,tickDirection:-1,nameDirection:1});return i});r.each(o,function(t){r.each(a,t.add,t),this.group.add(t.getGroup())},this)},_buildSplitLineAndArea:function(t){function e(t,e,i){var n=i%e.length;return t[n]=t[n]||[],n}var i=t.coordinateSystem,n=t.get("splitNumber"),a=i.getIndicatorAxes();if(a.length){var s=t.get("shape"),l=t.getModel("splitLine"),u=t.getModel("splitArea"),h=l.getModel("lineStyle"),c=u.getModel("areaStyle"),d=l.get("show"),f=u.get("show"),p=h.get("color"),g=c.get("color");p=r.isArray(p)?p:[p],g=r.isArray(g)?g:[g];var v=[],m=[];if("circle"===s)for(var y=a[0].getTicksCoords(),x=i.cx,_=i.cy,b=0;b<y.length;b++){if(d){var w=e(v,p,b);v[w].push(new o.Circle({shape:{cx:x,cy:_,r:y[b]}}))}if(f&&b<y.length-1){var w=e(m,g,b);m[w].push(new o.Ring({shape:{cx:x,cy:_,r0:y[b],r:y[b+1]}}))}}else for(var S=r.map(a,function(t,e){var n=t.getTicksCoords();return r.map(n,function(t){return i.coordToPoint(t,e)})}),M=[],b=0;n>=b;b++){for(var A=[],I=0;I<a.length;I++)A.push(S[I][b]);if(A.push(A[0].slice()),d){var w=e(v,p,b);v[w].push(new o.Polyline({shape:{points:A}}))}if(f&&M){var w=e(m,g,b-1);m[w].push(new o.Polygon({shape:{points:A.concat(M)}}))}M=A.slice().reverse()}var T=h.getLineStyle(),L=c.getAreaStyle();r.each(m,function(t,e){this.group.add(o.mergePath(t,{style:r.defaults({stroke:"none",fill:g[e%g.length]},L),silent:!0}))},this),r.each(v,function(t,e){this.group.add(o.mergePath(t,{style:r.defaults({fill:"none",stroke:p[e%p.length]},T),silent:!0}))},this)}}})},function(t,e,i){i(214),i(319)},function(t,e,i){i(376),i(320),i(373);var n=i(2);n.extendComponentView({type:"single"})},function(t,e,i){var n=i(2);n.registerPreprocessor(i(343)),i(345),i(344),i(338),i(339)},function(t,e,i){var n=i(341),r=i(1),o=i(10),a=n.extend({type:"timeline.slider",defaultOption:{backgroundColor:"rgba(0,0,0,0)",borderColor:"#ccc",borderWidth:0,orient:"horizontal",inverse:!1,tooltip:{trigger:"item"},symbol:"emptyCircle",symbolSize:10,lineStyle:{show:!0,width:2,color:"#304654"},label:{position:"auto",normal:{show:!0,interval:"auto",rotate:0,textStyle:{color:"#304654"}},emphasis:{show:!0,textStyle:{color:"#c23531"}}},itemStyle:{normal:{color:"#304654",borderWidth:1},emphasis:{color:"#c23531"}},checkpointStyle:{symbol:"circle",symbolSize:13,color:"#c23531",borderWidth:5,borderColor:"rgba(194,53,49, 0.5)",animation:!0,animationDuration:300,animationEasing:"quinticInOut"},controlStyle:{show:!0,showPlayBtn:!0,showPrevBtn:!0,showNextBtn:!0,itemSize:22,itemGap:12,position:"left",playIcon:"path://M31.6,53C17.5,53,6,41.5,6,27.4S17.5,1.8,31.6,1.8C45.7,1.8,57.2,13.3,57.2,27.4S45.7,53,31.6,53z M31.6,3.3 C18.4,3.3,7.5,14.1,7.5,27.4c0,13.3,10.8,24.1,24.1,24.1C44.9,51.5,55.7,40.7,55.7,27.4C55.7,14.1,44.9,3.3,31.6,3.3z M24.9,21.3 c0-2.2,1.6-3.1,3.5-2l10.5,6.1c1.899,1.1,1.899,2.9,0,4l-10.5,6.1c-1.9,1.1-3.5,0.2-3.5-2V21.3z",stopIcon:"path://M30.9,53.2C16.8,53.2,5.3,41.7,5.3,27.6S16.8,2,30.9,2C45,2,56.4,13.5,56.4,27.6S45,53.2,30.9,53.2z M30.9,3.5C17.6,3.5,6.8,14.4,6.8,27.6c0,13.3,10.8,24.1,24.101,24.1C44.2,51.7,55,40.9,55,27.6C54.9,14.4,44.1,3.5,30.9,3.5z M36.9,35.8c0,0.601-0.4,1-0.9,1h-1.3c-0.5,0-0.9-0.399-0.9-1V19.5c0-0.6,0.4-1,0.9-1H36c0.5,0,0.9,0.4,0.9,1V35.8z M27.8,35.8 c0,0.601-0.4,1-0.9,1h-1.3c-0.5,0-0.9-0.399-0.9-1V19.5c0-0.6,0.4-1,0.9-1H27c0.5,0,0.9,0.4,0.9,1L27.8,35.8L27.8,35.8z",nextIcon:"path://M18.6,50.8l22.5-22.5c0.2-0.2,0.3-0.4,0.3-0.7c0-0.3-0.1-0.5-0.3-0.7L18.7,4.4c-0.1-0.1-0.2-0.3-0.2-0.5 c0-0.4,0.3-0.8,0.8-0.8c0.2,0,0.5,0.1,0.6,0.3l23.5,23.5l0,0c0.2,0.2,0.3,0.4,0.3,0.7c0,0.3-0.1,0.5-0.3,0.7l-0.1,0.1L19.7,52 c-0.1,0.1-0.3,0.2-0.5,0.2c-0.4,0-0.8-0.3-0.8-0.8C18.4,51.2,18.5,51,18.6,50.8z",prevIcon:"path://M43,52.8L20.4,30.3c-0.2-0.2-0.3-0.4-0.3-0.7c0-0.3,0.1-0.5,0.3-0.7L42.9,6.4c0.1-0.1,0.2-0.3,0.2-0.5 c0-0.4-0.3-0.8-0.8-0.8c-0.2,0-0.5,0.1-0.6,0.3L18.3,28.8l0,0c-0.2,0.2-0.3,0.4-0.3,0.7c0,0.3,0.1,0.5,0.3,0.7l0.1,0.1L41.9,54 c0.1,0.1,0.3,0.2,0.5,0.2c0.4,0,0.8-0.3,0.8-0.8C43.2,53.2,43.1,53,43,52.8z",normal:{color:"#304654",borderColor:"#304654",borderWidth:1},emphasis:{color:"#c23531",borderColor:"#c23531",borderWidth:2}},data:[]}});r.mixin(a,o.dataFormatMixin),t.exports=a},function(t,e,i){function n(t,e){return u.getLayoutRect(t.getBoxLayoutParams(),{width:e.getWidth(),height:e.getHeight()},t.get("padding"))}function r(t,e,i,n){var r=l.makePath(t.get(e).replace(/^path:\/\//,""),s.clone(n||{}),new p(i[0],i[1],i[2],i[3]),"center");return r}function o(t,e,i,n,r,o){var a=t.get("symbol"),l=e.get("color"),u=t.get("symbolSize"),h=u/2,c=e.getItemStyle(["color","symbol","symbolSize"]);return r?(r.setStyle(c),r.setColor(l),i.add(r),o&&o.onUpdate(r)):(r=d.createSymbol(a,-h,-h,u,u,l),i.add(r),o&&o.onCreate(r)),n=s.merge({rectHover:!0,style:c,z2:100},n,!0),r.attr(n),r}function a(t,e,i,n,r){if(!t.dragging){var o=n.getModel("checkpointStyle"),a=i.dataToCoord(n.getData().get(["value"],e));r||!o.get("animation",!0)?t.attr({position:[a,0]}):(t.stopAnimation(!0),t.animateTo({position:[a,0]},o.get("animationDuration",!0),o.get("animationEasing",!0)))}}var s=i(1),l=i(3),u=i(13),h=i(342),c=i(340),d=i(26),f=i(22),p=i(7),g=i(19),v=i(4),m=i(9),y=m.encodeHTML,x=s.bind,_=s.each,b=Math.PI;t.exports=h.extend({type:"timeline.slider",init:function(t,e){this.api=e,this._axis,this._viewRect,this._timer,this._currentPointer,this._mainGroup,this._labelGroup},render:function(t,e,i,n){if(this.model=t,this.api=i,this.ecModel=e,this.group.removeAll(),t.get("show",!0)){var r=this._layout(t,i),o=this._createGroup("mainGroup"),a=this._createGroup("labelGroup"),s=this._axis=this._createAxis(r,t);t.formatTooltip=function(t){return y(s.scale.getLabel(t))},_(["AxisLine","AxisTick","Control","CurrentPointer"],function(e){this["_render"+e](r,o,s,t)},this),this._renderAxisLabel(r,a,s,t),this._position(r,t)}this._doPlayStop()},remove:function(){this._clearTimer(),this.group.removeAll()},dispose:function(){this._clearTimer()},_layout:function(t,e){var i=t.get("label.normal.position"),r=t.get("orient"),o=n(t,e);null==i||"auto"===i?i="horizontal"===r?o.y+o.height/2<e.getHeight()/2?"-":"+":o.x+o.width/2<e.getWidth()/2?"+":"-":isNaN(i)&&(i={horizontal:{top:"-",bottom:"+"},vertical:{left:"-",right:"+"}}[r][i]);var a={horizontal:"center",vertical:i>=0||"+"===i?"left":"right"},s={horizontal:i>=0||"+"===i?"top":"bottom",vertical:"middle"},l={horizontal:0,vertical:b/2},u="vertical"===r?o.height:o.width,h=t.getModel("controlStyle"),c=h.get("show"),d=c?h.get("itemSize"):0,f=c?h.get("itemGap"):0,p=d+f,g=t.get("label.normal.rotate")||0;g=g*b/180;var v,m,y,x,_=h.get("position",!0),c=h.get("show",!0),w=c&&h.get("showPlayBtn",!0),S=c&&h.get("showPrevBtn",!0),M=c&&h.get("showNextBtn",!0),A=0,I=u;return"left"===_||"bottom"===_?(w&&(v=[0,0],A+=p),S&&(m=[A,0],A+=p),M&&(y=[I-d,0],I-=p)):(w&&(v=[I-d,0],I-=p),S&&(m=[0,0],A+=p),M&&(y=[I-d,0],I-=p)),x=[A,I],t.get("inverse")&&x.reverse(),{viewRect:o,mainLength:u,orient:r,rotation:l[r],labelRotation:g,labelPosOpt:i,labelAlign:a[r],labelBaseline:s[r],playPosition:v,prevBtnPosition:m,nextBtnPosition:y,axisExtent:x,controlSize:d,controlGap:f}},_position:function(t,e){function i(t){var e=t.position;t.origin=[c[0][0]-e[0],c[1][0]-e[1]]}function n(t){return[[t.x,t.x+t.width],[t.y,t.y+t.height]]}function r(t,e,i,n,r){t[n]+=i[n][r]-e[n][r]}var o=this._mainGroup,a=this._labelGroup,s=t.viewRect;if("vertical"===t.orient){var l=g.create(),u=s.x,h=s.y+s.height;g.translate(l,l,[-u,-h]),g.rotate(l,l,-b/2),g.translate(l,l,[u,h]),s=s.clone(),s.applyTransform(l)}var c=n(s),d=n(o.getBoundingRect()),f=n(a.getBoundingRect()),p=o.position,v=a.position;v[0]=p[0]=c[0][0];var m=t.labelPosOpt;if(isNaN(m)){var y="+"===m?0:1;r(p,d,c,1,y),r(v,f,c,1,1-y)}else{var y=m>=0?0:1;r(p,d,c,1,y),v[1]=p[1]+m}o.attr("position",p),a.attr("position",v),o.rotation=a.rotation=t.rotation,i(o),i(a)},_createAxis:function(t,e){var i=e.getData(),n=e.get("axisType"),r=f.createScaleByModel(e,n),o=i.getDataExtent("value");r.setExtent(o[0],o[1]),this._customizeScale(r,i),r.niceTicks();var a=new c("value",r,t.axisExtent,n);return a.model=e,a},_customizeScale:function(t,e){t.getTicks=function(){return e.mapArray(["value"],function(t){return t})},t.getTicksLabels=function(){return s.map(this.getTicks(),t.getLabel,t)}},_createGroup:function(t){var e=this["_"+t]=new l.Group;return this.group.add(e),e},_renderAxisLine:function(t,e,i,n){var r=i.getExtent();n.get("lineStyle.show")&&e.add(new l.Line({shape:{x1:r[0],y1:0,x2:r[1],y2:0},style:s.extend({lineCap:"round"},n.getModel("lineStyle").getLineStyle()),silent:!0,z2:1}))},_renderAxisTick:function(t,e,i,n){var r=n.getData(),a=i.scale.getTicks();_(a,function(t,a){var s=i.dataToCoord(t),u=r.getItemModel(a),h=u.getModel("itemStyle.normal"),c=u.getModel("itemStyle.emphasis"),d={position:[s,0],onclick:x(this._changeTimeline,this,a)},f=o(u,h,e,d);l.setHoverStyle(f,c.getItemStyle()),u.get("tooltip")?(f.dataIndex=a,f.dataModel=n):f.dataIndex=f.dataModel=null},this)},_renderAxisLabel:function(t,e,i,n){var r=n.getModel("label.normal");if(r.get("show")){var o=n.getData(),a=i.scale.getTicks(),s=f.getFormattedLabels(i,r.get("formatter")),u=i.getLabelInterval();_(a,function(n,r){if(!i.isLabelIgnored(r,u)){var a=o.getItemModel(r),h=a.getModel("label.normal.textStyle"),c=a.getModel("label.emphasis.textStyle"),d=i.dataToCoord(n),f=new l.Text({style:{text:s[r],textAlign:t.labelAlign,textVerticalAlign:t.labelBaseline,textFont:h.getFont(),fill:h.getTextColor()},position:[d,0],rotation:t.labelRotation-t.rotation,onclick:x(this._changeTimeline,this,r),silent:!1});e.add(f),l.setHoverStyle(f,c.getItemStyle())}},this)}},_renderControl:function(t,e,i,n){function o(t,i,o,d){if(t){var f={position:t,origin:[a/2,0],rotation:d?-s:0,rectHover:!0,style:u,onclick:o},p=r(n,i,c,f);e.add(p),l.setHoverStyle(p,h)}}var a=t.controlSize,s=t.rotation,u=n.getModel("controlStyle.normal").getItemStyle(),h=n.getModel("controlStyle.emphasis").getItemStyle(),c=[0,-a/2,a,a],d=n.getPlayState(),f=n.get("inverse",!0);o(t.nextBtnPosition,"controlStyle.nextIcon",x(this._changeTimeline,this,f?"-":"+")),o(t.prevBtnPosition,"controlStyle.prevIcon",x(this._changeTimeline,this,f?"+":"-")),o(t.playPosition,"controlStyle."+(d?"stopIcon":"playIcon"),x(this._handlePlayClick,this,!d),!0)},_renderCurrentPointer:function(t,e,i,n){var r=n.getData(),s=n.getCurrentIndex(),l=r.getItemModel(s).getModel("checkpointStyle"),u=this,h={onCreate:function(t){t.draggable=!0,t.drift=x(u._handlePointerDrag,u),t.ondragend=x(u._handlePointerDragend,u),a(t,s,i,n,!0)},onUpdate:function(t){a(t,s,i,n)}};this._currentPointer=o(l,l,this._mainGroup,{},this._currentPointer,h)},_handlePlayClick:function(t){this._clearTimer(),this.api.dispatchAction({type:"timelinePlayChange",playState:t,from:this.uid})},_handlePointerDrag:function(t,e,i){this._clearTimer(),this._pointerChangeTimeline([i.offsetX,i.offsetY])},_handlePointerDragend:function(t){this._pointerChangeTimeline([t.offsetX,t.offsetY],!0)},_pointerChangeTimeline:function(t,e){var i=this._toAxisCoord(t)[0],n=this._axis,r=v.asc(n.getExtent().slice());i>r[1]&&(i=r[1]),i<r[0]&&(i=r[0]),this._currentPointer.position[0]=i,this._currentPointer.dirty();var o=this._findNearestTick(i),a=this.model;(e||o!==a.getCurrentIndex()&&a.get("realtime"))&&this._changeTimeline(o)},_doPlayStop:function(){function t(){var t=this.model;this._changeTimeline(t.getCurrentIndex()+(t.get("rewind",!0)?-1:1))}this._clearTimer(),this.model.getPlayState()&&(this._timer=setTimeout(x(t,this),this.model.get("playInterval")))},_toAxisCoord:function(t){var e=this._mainGroup.getLocalTransform();return l.applyTransform(t,e,!0)},_findNearestTick:function(t){var e,i=this.model.getData(),n=1/0,r=this._axis;return i.each(["value"],function(i,o){var a=r.dataToCoord(i),s=Math.abs(a-t);n>s&&(n=s,e=o)}),e},_clearTimer:function(){this._timer&&(clearTimeout(this._timer),this._timer=null)},_changeTimeline:function(t){var e=this.model.getCurrentIndex();"+"===t?t=e+1:"-"===t&&(t=e-1),this.api.dispatchAction({type:"timelineChange",currentIndex:t,from:this.uid})}})},function(t,e,i){var n=i(1),r=i(42),o=i(22),a=function(t,e,i,n){r.call(this,t,e,i),this.type=n||"value",this._autoLabelInterval,this.model=null};a.prototype={constructor:a,getLabelInterval:function(){var t=this.model,e=t.getModel("label.normal"),i=e.get("interval");if(null!=i&&"auto"!=i)return i;var i=this._autoLabelInterval;return i||(i=this._autoLabelInterval=o.getAxisLabelInterval(n.map(this.scale.getTicks(),this.dataToCoord,this),o.getFormattedLabels(this,e.get("formatter")),e.getModel("textStyle").getFont(),"horizontal"===t.get("orient"))),i},isLabelIgnored:function(t){if("category"===this.type){var e=this.getLabelInterval();return"function"==typeof e&&!e(t,this.scale.getLabel(t))||t%(e+1)}}},n.inherits(a,r),t.exports=a},function(t,e,i){var n=i(11),r=i(14),o=i(1),a=i(10),s=n.extend({type:"timeline",layoutMode:"box",defaultOption:{zlevel:0,z:4,show:!0,axisType:"time",realtime:!0,left:"20%",top:null,right:"20%",bottom:0,width:null,height:40,padding:5,controlPosition:"left",autoPlay:!1,rewind:!1,loop:!0,playInterval:2e3,currentIndex:0,itemStyle:{normal:{},emphasis:{}},label:{normal:{textStyle:{color:"#000"}},emphasis:{}},data:[]},init:function(t,e,i){this._data,this._names,this.mergeDefaultAndTheme(t,i),this._initData()},mergeOption:function(t){s.superApply(this,"mergeOption",arguments),this._initData()},setCurrentIndex:function(t){null==t&&(t=this.option.currentIndex);var e=this._data.count();this.option.loop?t=(t%e+e)%e:(t>=e&&(t=e-1),0>t&&(t=0)),this.option.currentIndex=t},getCurrentIndex:function(){return this.option.currentIndex},isIndexMax:function(){return this.getCurrentIndex()>=this._data.count()-1},setPlayState:function(t){this.option.autoPlay=!!t},getPlayState:function(){return!!this.option.autoPlay},_initData:function(){var t=this.option,e=t.data||[],i=t.axisType,n=this._names=[];if("category"===i){var s=[];o.each(e,function(t,e){var i,r=a.getDataItemValue(t);o.isObject(t)?(i=o.clone(t),i.value=e):i=e,s.push(i),o.isString(r)||null!=r&&!isNaN(r)||(r=""),n.push(r+"")}),e=s}var l={category:"ordinal",time:"time"}[i]||"number",u=this._data=new r([{name:"value",type:l}],this);u.initData(e,n)},getData:function(){return this._data},getCategories:function(){return"category"===this.get("axisType")?this._names.slice():void 0}});t.exports=s},function(t,e,i){var n=i(57);t.exports=n.extend({type:"timeline"})},function(t,e,i){function n(t){var e=t.type,i={number:"value",time:"time"};if(i[e]&&(t.axisType=i[e],delete t.type),r(t),o(t,"controlPosition")){var n=t.controlStyle||(t.controlStyle={});o(n,"position")||(n.position=t.controlPosition),"none"!==n.position||o(n,"show")||(n.show=!1,delete n.position),delete t.controlPosition}a.each(t.data||[],function(t){a.isObject(t)&&!a.isArray(t)&&(!o(t,"value")&&o(t,"name")&&(t.value=t.name),r(t))})}function r(t){var e=t.itemStyle||(t.itemStyle={}),i=e.emphasis||(e.emphasis={}),n=t.label||t.label||{},r=n.normal||(n.normal={}),s={normal:1,emphasis:1};a.each(n,function(t,e){s[e]||o(r,e)||(r[e]=t)}),i.label&&!o(n,"emphasis")&&(n.emphasis=i.label,delete i.label)}function o(t,e){return t.hasOwnProperty(e)}var a=i(1);t.exports=function(t){var e=t&&t.timeline;a.isArray(e)||(e=e?[e]:[]),a.each(e,function(t){t&&n(t)})}},function(t,e,i){var n=i(2);n.registerAction({type:"timelineChange",event:"timelineChanged",update:"prepareAndUpdate"},function(t,e){var i=e.getComponent("timeline");i&&null!=t.currentIndex&&(i.setCurrentIndex(t.currentIndex),!i.get("loop",!0)&&i.isIndexMax()&&i.setPlayState(!1)),e.resetOption("timeline")}),n.registerAction({type:"timelinePlayChange",event:"timelinePlayChanged",update:"update"},function(t,e){var i=e.getComponent("timeline");i&&null!=t.playState&&i.setPlayState(t.playState)})},function(t,e,i){i(11).registerSubTypeDefaulter("timeline",function(){return"slider"})},function(t,e,i){"use strict";function n(t,e,i){this.model=t,this.ecModel=e,this.api=i,this._brushType,this._brushMode}var r=i(25),o=i(1);n.defaultOption={show:!0,type:["rect","polygon","lineX","lineY","keep","clear"],icon:{rect:"M7.3,34.7 M0.4,10V-0.2h9.8 M89.6,10V-0.2h-9.8 M0.4,60v10.2h9.8 M89.6,60v10.2h-9.8 M12.3,22.4V10.5h13.1 M33.6,10.5h7.8 M49.1,10.5h7.8 M77.5,22.4V10.5h-13 M12.3,31.1v8.2 M77.7,31.1v8.2 M12.3,47.6v11.9h13.1 M33.6,59.5h7.6 M49.1,59.5 h7.7 M77.5,47.6v11.9h-13",polygon:"M55.2,34.9c1.7,0,3.1,1.4,3.1,3.1s-1.4,3.1-3.1,3.1 s-3.1-1.4-3.1-3.1S53.5,34.9,55.2,34.9z M50.4,51c1.7,0,3.1,1.4,3.1,3.1c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1 C47.3,52.4,48.7,51,50.4,51z M55.6,37.1l1.5-7.8 M60.1,13.5l1.6-8.7l-7.8,4 M59,19l-1,5.3 M24,16.1l6.4,4.9l6.4-3.3 M48.5,11.6 l-5.9,3.1 M19.1,12.8L9.7,5.1l1.1,7.7 M13.4,29.8l1,7.3l6.6,1.6 M11.6,18.4l1,6.1 M32.8,41.9 M26.6,40.4 M27.3,40.2l6.1,1.6 M49.9,52.1l-5.6-7.6l-4.9-1.2",lineX:"M15.2,30 M19.7,15.6V1.9H29 M34.8,1.9H40.4 M55.3,15.6V1.9H45.9 M19.7,44.4V58.1H29 M34.8,58.1H40.4 M55.3,44.4 V58.1H45.9 M12.5,20.3l-9.4,9.6l9.6,9.8 M3.1,29.9h16.5 M62.5,20.3l9.4,9.6L62.3,39.7 M71.9,29.9H55.4",lineY:"M38.8,7.7 M52.7,12h13.2v9 M65.9,26.6V32 M52.7,46.3h13.2v-9 M24.9,12H11.8v9 M11.8,26.6V32 M24.9,46.3H11.8v-9 M48.2,5.1l-9.3-9l-9.4,9.2 M38.9-3.9V12 M48.2,53.3l-9.3,9l-9.4-9.2 M38.9,62.3V46.4",keep:"M4,10.5V1h10.3 M20.7,1h6.1 M33,1h6.1 M55.4,10.5V1H45.2 M4,17.3v6.6 M55.6,17.3v6.6 M4,30.5V40h10.3 M20.7,40 h6.1 M33,40h6.1 M55.4,30.5V40H45.2 M21,18.9h62.9v48.6H21V18.9z",clear:"M22,14.7l30.9,31 M52.9,14.7L22,45.7 M4.7,16.8V4.2h13.1 M26,4.2h7.8 M41.6,4.2h7.8 M70.3,16.8V4.2H57.2 M4.7,25.9v8.6 M70.3,25.9v8.6 M4.7,43.2v12.6h13.1 M26,55.8h7.8 M41.6,55.8h7.8 M70.3,43.2v12.6H57.2"},title:{rect:"矩形选择",polygon:"圈选",lineX:"横向选择",lineY:"纵向选择",keep:"保持选择",clear:"清除选择"}};var a=n.prototype;a.render=a.updateView=a.updateLayout=function(t,e,i){var n,r,a;e.eachComponent({mainType:"brush"},function(t){n=t.brushType,r=t.brushOption.brushMode||"single",a|=t.areas.length}),this._brushType=n,this._brushMode=r,o.each(t.get("type",!0),function(e){t.setIconStatus(e,("keep"===e?"multiple"===r:"clear"===e?a:e===n)?"emphasis":"normal")})},a.getIcons=function(){var t=this.model,e=t.get("icon",!0),i={};return o.each(t.get("type",!0),function(t){e[t]&&(i[t]=e[t])}),i},a.onclick=function(t,e,i){var e=this.api,n=this._brushType,r=this._brushMode;"clear"===i?e.dispatchAction({type:"brush",areas:[]}):e.dispatchAction({type:"takeGlobalCursor",key:"brush",brushOption:{brushType:"keep"===i?n:n===i?!1:i,brushMode:"keep"===i?"multiple"===r?"single":"multiple":r}})},r.register("brush",n),t.exports=n},function(t,e,i){i(352),i(353)},function(t,e,i){function n(t,e,i){var n=t.targetVisuals[e].color;if(!n)return i.slice();var r=n.option.visual.length;if(1>=r||i[0]===i[1])return i.slice();for(var o=(i[1]-i[0])/(r-1),a=i[0],s=[],l=0;r>l&&a<i[1];l++)s.push(a),a+=o;return s.push(i[1]),s}function r(t,e,i,r){var o=n(t,e,i);a.each(o,function(t){for(var i={value:t,valueState:e},n=0,o=0;o<r.length;o++){if(n|="inRange"===r[o].valueState,t<r[o].value)return void r.splice(o,0,i);n&&(r[o].valueState="inRange")}r.push(i)})}var o=i(229),a=i(1),s=i(4),l=[20,140],u=o.extend({type:"visualMap.continuous",defaultOption:{align:"auto",calculable:!1,range:null,realtime:!0,itemHeight:null,itemWidth:null,hoverLink:!0,hoverLinkDataSize:null,hoverLinkOnHandle:!0},optionUpdated:function(t,e){u.superApply(this,"optionUpdated",arguments),this.resetTargetSeries(),this.resetExtent(),this.resetVisual(function(t){t.mappingMethod="linear",t.dataExtent=this.getExtent()}),this._resetRange()},resetItemSize:function(){u.superApply(this,"resetItemSize",arguments);var t=this.itemSize;"horizontal"===this._orient&&t.reverse(),(null==t[0]||isNaN(t[0]))&&(t[0]=l[0]),(null==t[1]||isNaN(t[1]))&&(t[1]=l[1])},_resetRange:function(){var t=this.getExtent(),e=this.option.range;!e||e.auto?(t.auto=1,this.option.range=t):a.isArray(e)&&(e[0]>e[1]&&e.reverse(),e[0]=Math.max(e[0],t[0]),e[1]=Math.min(e[1],t[1]))},completeVisualOption:function(){o.prototype.completeVisualOption.apply(this,arguments),a.each(this.stateList,function(t){var e=this.option.controller[t].symbolSize;e&&e[0]!==e[1]&&(e[0]=0)},this)},setSelected:function(t){this.option.range=t.slice(),this._resetRange()},getSelected:function(){var t=this.getExtent(),e=s.asc((this.get("range")||[]).slice());return e[0]>t[1]&&(e[0]=t[1]),e[1]>t[1]&&(e[1]=t[1]),e[0]<t[0]&&(e[0]=t[0]),e[1]<t[0]&&(e[1]=t[0]),e},getValueState:function(t){var e=this.option.range,i=this.getExtent();return(e[0]<=i[0]||e[0]<=t)&&(e[1]>=i[1]||t<=e[1])?"inRange":"outOfRange"},findTargetDataIndices:function(t){var e=[];return this.eachTargetSeries(function(i){var n=[],r=i.getData();r.each(this.getDataDimension(r),function(e,i){t[0]<=e&&e<=t[1]&&n.push(i)},!0,this),e.push({seriesId:i.id,dataIndex:n})},this),e},getStops:function(t,e){var i=[];return r(this,"outOfRange",this.getExtent(),i),r(this,"inRange",this.option.range.slice(),i),a.each(i,function(t){t.color=e(this,t.value,t.valueState)},this),i}});t.exports=u},function(t,e,i){function n(t,e,i,n){return new u.Polygon({shape:{points:t},draggable:!!i,cursor:e,drift:i,ondragend:n})}function r(t,e){return 0===t?[[0,0],[e,0],[e,-e]]:[[0,0],[e,0],[e,e]]}function o(t,e,i,n){return t?[[0,-y(e,x(i,0))],[b,0],[0,y(e,x(n-i,0))]]:[[0,0],[5,-5],[5,5]]}function a(t,e,i){var n=_/2,r=t.get("hoverLinkDataSize");return r&&(n=v(r,e,i,!0)/2),n}function s(t){return!t.get("realtime")&&t.get("hoverLinkOnHandle")}var l=i(230),u=i(3),h=i(1),c=i(4),d=i(79),f=i(85),p=i(231),g=i(10),v=c.linearMap,m=h.each,y=Math.min,x=Math.max,_=12,b=6,w=l.extend({type:"visualMap.continuous",init:function(){w.superApply(this,"init",arguments),this._shapes={},this._dataInterval=[],this._handleEnds=[],this._orient,this._useHandle,this._hoverLinkDataIndices=[],this._dragging,this._hovering},doRender:function(t,e,i,n){n&&"selectDataRange"===n.type&&n.from===this.uid||this._buildView()},_buildView:function(){this.group.removeAll();var t=this.visualMapModel,e=this.group;this._orient=t.get("orient"),this._useHandle=t.get("calculable"),this._resetInterval(),this._renderBar(e);var i=t.get("text");this._renderEndsText(e,i,0),this._renderEndsText(e,i,1),this._updateView(!0),this.renderBackground(e),this._updateView(),this._enableHoverLinkToSeries(),this._enableHoverLinkFromSeries(),this.positionGroup(e)},_renderEndsText:function(t,e,i){if(e){var n=e[1-i];n=null!=n?n+"":"";var r=this.visualMapModel,o=r.get("textGap"),a=r.itemSize,s=this._shapes.barGroup,l=this._applyTransform([a[0]/2,0===i?-o:a[1]+o],s),h=this._applyTransform(0===i?"bottom":"top",s),c=this._orient,d=this.visualMapModel.textStyleModel;this.group.add(new u.Text({style:{x:l[0],y:l[1],textVerticalAlign:"horizontal"===c?"middle":h,textAlign:"horizontal"===c?h:"center",text:n,textFont:d.getFont(),fill:d.getTextColor()}}))}},_renderBar:function(t){var e=this.visualMapModel,i=this._shapes,r=e.itemSize,o=this._orient,a=this._useHandle,s=p.getItemAlign(e,this.api,r),l=i.barGroup=this._createBarGroup(s);l.add(i.outOfRange=n()),l.add(i.inRange=n(null,a?"move":null,h.bind(this._dragHandle,this,"all",!1),h.bind(this._dragHandle,this,"all",!0)));var u=e.textStyleModel.getTextRect("国"),c=x(u.width,u.height);a&&(i.handleThumbs=[],
 i.handleLabels=[],i.handleLabelPoints=[],this._createHandle(l,0,r,c,o,s),this._createHandle(l,1,r,c,o,s)),this._createIndicator(l,r,c,o),t.add(l)},_createHandle:function(t,e,i,o,a){var s=h.bind(this._dragHandle,this,e,!1),l=h.bind(this._dragHandle,this,e,!0),c=n(r(e,o),"move",s,l);c.position[0]=i[0],t.add(c);var d=this.visualMapModel.textStyleModel,f=new u.Text({draggable:!0,drift:s,ondragend:l,style:{x:0,y:0,text:"",textFont:d.getFont(),fill:d.getTextColor()}});this.group.add(f);var p=["horizontal"===a?o/2:1.5*o,"horizontal"===a?0===e?-(1.5*o):1.5*o:0===e?-o/2:o/2],g=this._shapes;g.handleThumbs[e]=c,g.handleLabelPoints[e]=p,g.handleLabels[e]=f},_createIndicator:function(t,e,i,r){var o=n([[0,0]],"move");o.position[0]=e[0],o.attr({invisible:!0,silent:!0}),t.add(o);var a=this.visualMapModel.textStyleModel,s=new u.Text({silent:!0,invisible:!0,style:{x:0,y:0,text:"",textFont:a.getFont(),fill:a.getTextColor()}});this.group.add(s);var l=["horizontal"===r?i/2:b+3,0],h=this._shapes;h.indicator=o,h.indicatorLabel=s,h.indicatorLabelPoint=l},_dragHandle:function(t,e,i,n){if(this._useHandle){if(this._dragging=!e,!e){var r=this._applyTransform([i,n],this._shapes.barGroup,!0);this._updateInterval(t,r[1]),this._updateView()}e===!this.visualMapModel.get("realtime")&&this.api.dispatchAction({type:"selectDataRange",from:this.uid,visualMapId:this.visualMapModel.id,selected:this._dataInterval.slice()}),e?!this._hovering&&this._clearHoverLinkToSeries():s(this.visualMapModel)&&this._doHoverLinkToSeries(this._handleEnds[t],!1)}},_resetInterval:function(){var t=this.visualMapModel,e=this._dataInterval=t.getSelected(),i=t.getExtent(),n=[0,t.itemSize[1]];this._handleEnds=[v(e[0],i,n,!0),v(e[1],i,n,!0)]},_updateInterval:function(t,e){e=e||0;var i=this.visualMapModel,n=this._handleEnds;d(e,n,[0,i.itemSize[1]],"all"===t?"rigid":"push",t);var r=i.getExtent(),o=[0,i.itemSize[1]];this._dataInterval=[v(n[0],o,r,!0),v(n[1],o,r,!0)]},_updateView:function(t){var e=this.visualMapModel,i=e.getExtent(),n=this._shapes,r=[0,e.itemSize[1]],o=t?r:this._handleEnds,a=this._createBarVisual(this._dataInterval,i,o,"inRange"),s=this._createBarVisual(i,i,r,"outOfRange");n.inRange.setStyle({fill:a.barColor,opacity:a.opacity}).setShape("points",a.barPoints),n.outOfRange.setStyle({fill:s.barColor,opacity:s.opacity}).setShape("points",s.barPoints),this._updateHandle(o,a)},_createBarVisual:function(t,e,i,n){var r={forceState:n,convertOpacityToAlpha:!0},o=this._makeColorGradient(t,r),a=[this.getControllerVisual(t[0],"symbolSize",r),this.getControllerVisual(t[1],"symbolSize",r)],s=this._createBarPoints(i,a);return{barColor:new f(0,0,1,1,o),barPoints:s,handlesColor:[o[0].color,o[o.length-1].color]}},_makeColorGradient:function(t,e){var i=100,n=[],r=(t[1]-t[0])/i;n.push({color:this.getControllerVisual(t[0],"color",e),offset:0});for(var o=1;i>o;o++){var a=t[0]+r*o;if(a>t[1])break;n.push({color:this.getControllerVisual(a,"color",e),offset:o/i})}return n.push({color:this.getControllerVisual(t[1],"color",e),offset:1}),n},_createBarPoints:function(t,e){var i=this.visualMapModel.itemSize;return[[i[0]-e[0],t[0]],[i[0],t[0]],[i[0],t[1]],[i[0]-e[1],t[1]]]},_createBarGroup:function(t){var e=this._orient,i=this.visualMapModel.get("inverse");return new u.Group("horizontal"!==e||i?"horizontal"===e&&i?{scale:"bottom"===t?[-1,1]:[1,1],rotation:-Math.PI/2}:"vertical"!==e||i?{scale:"left"===t?[1,1]:[-1,1]}:{scale:"left"===t?[1,-1]:[-1,-1]}:{scale:"bottom"===t?[1,1]:[-1,1],rotation:Math.PI/2})},_updateHandle:function(t,e){if(this._useHandle){var i=this._shapes,n=this.visualMapModel,r=i.handleThumbs,o=i.handleLabels;m([0,1],function(a){var s=r[a];s.setStyle("fill",e.handlesColor[a]),s.position[1]=t[a];var l=u.applyTransform(i.handleLabelPoints[a],u.getTransform(s,this.group));o[a].setStyle({x:l[0],y:l[1],text:n.formatValueText(this._dataInterval[a]),textVerticalAlign:"middle",textAlign:this._applyTransform("horizontal"===this._orient?0===a?"bottom":"top":"left",i.barGroup)})},this)}},_showIndicator:function(t,e,i,n){var r=this.visualMapModel,a=r.getExtent(),s=r.itemSize,l=[0,s[1]],h=v(t,a,l,!0),c=this._shapes,d=c.indicator;if(d){d.position[1]=h,d.attr("invisible",!1),d.setShape("points",o(!!i,n,h,s[1]));var f={convertOpacityToAlpha:!0},p=this.getControllerVisual(t,"color",f);d.setStyle("fill",p);var g=u.applyTransform(c.indicatorLabelPoint,u.getTransform(d,this.group)),m=c.indicatorLabel;m.attr("invisible",!1);var y=this._applyTransform("left",c.barGroup),x=this._orient;m.setStyle({text:(i?i:"")+r.formatValueText(e),textVerticalAlign:"horizontal"===x?y:"middle",textAlign:"horizontal"===x?"center":y,x:g[0],y:g[1]})}},_enableHoverLinkToSeries:function(){var t=this;this._shapes.barGroup.on("mousemove",function(e){if(t._hovering=!0,!t._dragging){var i=t.visualMapModel.itemSize,n=t._applyTransform([e.offsetX,e.offsetY],t._shapes.barGroup,!0,!0);n[1]=y(x(0,n[1]),i[1]),t._doHoverLinkToSeries(n[1],0<=n[0]&&n[0]<=i[0])}}).on("mouseout",function(){t._hovering=!1,!t._dragging&&t._clearHoverLinkToSeries()})},_enableHoverLinkFromSeries:function(){var t=this.api.getZr();this.visualMapModel.option.hoverLink?(t.on("mouseover",this._hoverLinkFromSeriesMouseOver,this),t.on("mouseout",this._hideIndicator,this)):this._clearHoverLinkFromSeries()},_doHoverLinkToSeries:function(t,e){var i=this.visualMapModel,n=i.itemSize;if(i.option.hoverLink){var r=[0,n[1]],o=i.getExtent();t=y(x(r[0],t),r[1]);var l=a(i,o,r),u=[t-l,t+l],h=v(t,r,o,!0),c=[v(u[0],r,o,!0),v(u[1],r,o,!0)];u[0]<r[0]&&(c[0]=-(1/0)),u[1]>r[1]&&(c[1]=1/0),e&&(c[0]===-(1/0)?this._showIndicator(h,c[1],"< ",l):c[1]===1/0?this._showIndicator(h,c[0],"> ",l):this._showIndicator(h,h,"≈ ",l));var d=this._hoverLinkDataIndices,f=[];(e||s(i))&&(f=this._hoverLinkDataIndices=i.findTargetDataIndices(c));var p=g.compressBatches(d,f);this._dispatchHighDown("downplay",p[0]),this._dispatchHighDown("highlight",p[1])}},_hoverLinkFromSeriesMouseOver:function(t){var e=t.target;if(e&&null!=e.dataIndex){var i=e.dataModel||this.ecModel.getSeriesByIndex(e.seriesIndex),n=i.getData(e.dataType),r=n.getDimension(this.visualMapModel.getDataDimension(n)),o=n.get(r,e.dataIndex,!0);isNaN(o)||this._showIndicator(o,o)}},_hideIndicator:function(){var t=this._shapes;t.indicator&&t.indicator.attr("invisible",!0),t.indicatorLabel&&t.indicatorLabel.attr("invisible",!0)},_clearHoverLinkToSeries:function(){this._hideIndicator();var t=this._hoverLinkDataIndices;this._dispatchHighDown("downplay",t),t.length=0},_clearHoverLinkFromSeries:function(){this._hideIndicator();var t=this.api.getZr();t.off("mouseover",this._hoverLinkFromSeriesMouseOver),t.off("mouseout",this._hideIndicator)},_applyTransform:function(t,e,i,n){var r=u.getTransform(e,n?null:this.group);return u[h.isArray(t)?"applyTransform":"transformDirection"](t,r,i)},_dispatchHighDown:function(t,e){e&&e.length&&this.api.dispatchAction({type:t,batch:e})},dispose:function(){this._clearHoverLinkFromSeries(),this._clearHoverLinkToSeries()},remove:function(){this._clearHoverLinkFromSeries(),this._clearHoverLinkToSeries()}});t.exports=w},function(t,e,i){function n(t,e){var i=t.inverse;("vertical"===t.orient?!i:i)&&e.reverse()}function r(t){function e(t,i,n){return n=n||0,t.interval[n]<i.interval[n]||t.interval[n]===i.interval[n]&&(+t.close[n]>i.close[n]||e(t,i,1))}t.sort(function(t,i){return e(t,i)?-1:1});for(var i=-(1/0),n=0;n<t.length;n++)for(var r=t[n].interval,o=t[n].close,a=0;2>a;a++)r[a]<i&&(r[a]=i,o[a]=1-a),i=r[a]}var o=i(229),a=i(1),s=i(71),l=o.extend({type:"visualMap.piecewise",defaultOption:{selected:null,align:"auto",itemWidth:20,itemHeight:14,itemSymbol:"roundRect",pieceList:null,categories:null,splitNumber:5,selectedMode:"multiple",itemGap:10,hoverLink:!0},optionUpdated:function(t,e){l.superApply(this,"optionUpdated",arguments),this._pieceList=[],this.resetTargetSeries(),this.resetExtent();var i=this._mode=this._determineMode();u[this._mode].call(this),this._resetSelected(t,e);var n=this.option.categories;this.resetVisual(function(t,e){"categories"===i?(t.mappingMethod="category",t.categories=a.clone(n)):(t.dataExtent=this.getExtent(),t.mappingMethod="piecewise",t.pieceList=a.map(this._pieceList,function(t){var t=a.clone(t);return"inRange"!==e&&(t.visual=null),t}))})},_resetSelected:function(t,e){var i=this.option,n=this._pieceList,r=(e?i:t).selected||{};if(i.selected=r,a.each(n,function(t,e){var i=this.getSelectedMapKey(t);i in r||(r[i]=!0)},this),"single"===i.selectedMode){var o=!1;a.each(n,function(t,e){var i=this.getSelectedMapKey(t);r[i]&&(o?r[i]=!1:o=!0)},this)}},getSelectedMapKey:function(t){return"categories"===this._mode?t.value+"":t.index+""},getPieceList:function(){return this._pieceList},_determineMode:function(){var t=this.option;return t.pieces&&t.pieces.length>0?"pieces":this.option.categories?"categories":"splitNumber"},setSelected:function(t){this.option.selected=a.clone(t)},getValueState:function(t){var e=s.findPieceIndex(t,this._pieceList);return null!=e&&this.option.selected[this.getSelectedMapKey(this._pieceList[e])]?"inRange":"outOfRange"},findTargetDataIndices:function(t){var e=[];return this.eachTargetSeries(function(i){var n=[],r=i.getData();r.each(this.getDataDimension(r),function(e,i){var r=s.findPieceIndex(e,this._pieceList);r===t&&n.push(i)},!0,this),e.push({seriesId:i.id,dataIndex:n})},this),e},getRepresentValue:function(t){var e;if(this.isCategory())e=t.value;else if(null!=t.value)e=t.value;else{var i=t.interval||[];e=(i[0]+i[1])/2}return e},getStops:function(t,e){function i(t){n.push(t),t.color=e(r,r.getRepresentValue(t),t.valueState)}var n=[],r=this,o=-(1/0);return a.each(this._pieceList,function(t){var e=t.interval;e&&(e[0]>o&&i({interval:[o,e[0]],valueState:"outOfRange"}),i({interval:e.slice(),valueState:this.getValueState((e[0]+e[1])/2)}),o=e[1])},this),n}}),u={splitNumber:function(){var t=this.option,e=this._pieceList,i=t.precision,n=this.getExtent(),o=t.splitNumber;o=Math.max(parseInt(o,10),1),t.splitNumber=o;for(var s=(n[1]-n[0])/o;+s.toFixed(i)!==s&&5>i;)i++;t.precision=i,s=+s.toFixed(i);for(var l=0,u=n[0];o>l;l++,u+=s){var h=l===o-1?n[1]:u+s;e.push({index:l,interval:[u,h],close:[1,1]})}r(e),a.each(e,function(t){t.text=this.formatValueText(t.interval)},this)},categories:function(){var t=this.option;a.each(t.categories,function(t){this._pieceList.push({text:this.formatValueText(t,!0),value:t})},this),n(t,this._pieceList)},pieces:function(){var t=this.option,e=this._pieceList;a.each(t.pieces,function(t,i){a.isObject(t)||(t={value:t});var n={text:"",index:i};if(null!=t.label&&(n.text=t.label),t.hasOwnProperty("value")){var r=n.value=t.value;n.interval=[r,r],n.close=[1,1]}else{for(var o=n.interval=[],l=n.close=[0,0],u=[1,0,1],h=[-(1/0),1/0],c=[],d=0;2>d;d++){for(var f=[["gte","gt","min"],["lte","lt","max"]][d],p=0;3>p&&null==o[d];p++)o[d]=t[f[p]],l[d]=u[p],c[d]=2===p;null==o[d]&&(o[d]=h[d])}c[0]&&o[1]===1/0&&(l[0]=0),c[1]&&o[0]===-(1/0)&&(l[1]=0),o[0]===o[1]&&l[0]&&l[1]&&(n.value=o[0])}n.visual=s.retrieveVisuals(t),e.push(n)},this),n(t,e),r(e),a.each(e,function(t){var e=t.close,i=[["<","≤"][e[1]],[">","≥"][e[0]]];t.text=t.text||this.formatValueText(null!=t.value?t.value:t.interval,!1,i)},this)}};t.exports=l},function(t,e,i){var n=i(230),r=i(1),o=i(3),a=i(26),s=i(13),l=i(231),u=n.extend({type:"visualMap.piecewise",doRender:function(){function t(t){var a=t.piece,s=new o.Group;s.onclick=r.bind(this._onItemClick,this,a),this._enableHoverLink(s,t.indexInModelPieceList);var d=i.getRepresentValue(a);if(this._createItemSymbol(s,d,[0,0,c[0],c[1]]),f){var p=this.visualMapModel.getValueState(d);s.add(new o.Text({style:{x:"right"===h?-n:c[0]+n,y:c[1]/2,text:a.text,textVerticalAlign:"middle",textAlign:h,textFont:l,fill:u,opacity:"outOfRange"===p?.5:1}}))}e.add(s)}var e=this.group;e.removeAll();var i=this.visualMapModel,n=i.get("textGap"),a=i.textStyleModel,l=a.getFont(),u=a.getTextColor(),h=this._getItemAlign(),c=i.itemSize,d=this._getViewData(),f=!d.endsText,p=!f;p&&this._renderEndsText(e,d.endsText[0],c),r.each(d.viewPieceList,t,this),p&&this._renderEndsText(e,d.endsText[1],c),s.box(i.get("orient"),e,i.get("itemGap")),this.renderBackground(e),this.positionGroup(e)},_enableHoverLink:function(t,e){function i(t){var i=this.visualMapModel;i.option.hoverLink&&this.api.dispatchAction({type:t,batch:i.findTargetDataIndices(e)})}t.on("mouseover",r.bind(i,this,"highlight")).on("mouseout",r.bind(i,this,"downplay"))},_getItemAlign:function(){var t=this.visualMapModel,e=t.option;if("vertical"===e.orient)return l.getItemAlign(t,this.api,t.itemSize);var i=e.align;return i&&"auto"!==i||(i="left"),i},_renderEndsText:function(t,e,i){if(e){var n=new o.Group,r=this.visualMapModel.textStyleModel;n.add(new o.Text({style:{x:i[0]/2,y:i[1]/2,textVerticalAlign:"middle",textAlign:"center",text:e,textFont:r.getFont(),fill:r.getTextColor()}})),t.add(n)}},_getViewData:function(){var t=this.visualMapModel,e=r.map(t.getPieceList(),function(t,e){return{piece:t,indexInModelPieceList:e}}),i=t.get("text"),n=t.get("orient"),o=t.get("inverse");return("horizontal"===n?o:!o)?e.reverse():i&&(i=i.slice().reverse()),{viewPieceList:e,endsText:i}},_createItemSymbol:function(t,e,i){t.add(a.createSymbol(this.getControllerVisual(e,"symbol"),i[0],i[1],i[2],i[3],this.getControllerVisual(e,"color")))},_onItemClick:function(t){var e=this.visualMapModel,i=e.option,n=r.clone(i.selected),o=e.getSelectedMapKey(t);"single"===i.selectedMode?(n[o]=!0,r.each(n,function(t,e){n[e]=e===o})):n[o]=!n[o],this.api.dispatchAction({type:"selectDataRange",from:this.uid,visualMapId:this.visualMapModel.id,selected:n})}});t.exports=u},function(t,e,i){i(2).registerPreprocessor(i(232)),i(233),i(234),i(348),i(349),i(235)},function(t,e,i){i(2).registerPreprocessor(i(232)),i(233),i(234),i(350),i(351),i(235)},function(t,e,i){function n(t,e,i,n,r){s.call(this,t),this.map=e,this._nameCoordMap={},this.loadGeoJson(i,n,r)}var r=i(359),o=i(1),a=i(7),s=i(236),l=[i(357),i(358),i(356)];n.prototype={constructor:n,type:"geo",dimensions:["lng","lat"],containCoord:function(t){for(var e=this.regions,i=0;i<e.length;i++)if(e[i].contain(t))return!0;return!1},loadGeoJson:function(t,e,i){try{this.regions=t?r(t):[]}catch(n){throw"Invalid geoJson format\n"+n}e=e||{},i=i||{};for(var a=this.regions,s={},u=0;u<a.length;u++){var h=a[u].name;h=i[h]||h,a[u].name=h,s[h]=a[u],this.addGeoCoord(h,a[u].center);var c=e[h];c&&a[u].transformTo(c.left,c.top,c.width,c.height)}this._regionsMap=s,this._rect=null,o.each(l,function(t){t(this)},this)},transformTo:function(t,e,i,n){var r=this.getBoundingRect();r=r.clone(),r.y=-r.y-r.height;var o=this._viewTransform;o.transform=r.calculateTransform(new a(t,e,i,n)),o.decomposeTransform();var s=o.scale;s[1]=-s[1],o.updateTransform(),this._updateTransform()},getRegion:function(t){return this._regionsMap[t]},getRegionByCoord:function(t){for(var e=this.regions,i=0;i<e.length;i++)if(e[i].contain(t))return e[i]},addGeoCoord:function(t,e){this._nameCoordMap[t]=e},getGeoCoord:function(t){return this._nameCoordMap[t]},getBoundingRect:function(){if(this._rect)return this._rect;for(var t,e=this.regions,i=0;i<e.length;i++){var n=e[i].getBoundingRect();t=t||n.clone(),t.union(n)}return this._rect=t||new a(0,0,0,0)},dataToPoints:function(t){var e=[];return t.mapArray(["lng","lat"],function(t,i){return e[0]=t,e[1]=i,this.dataToPoint(e)},this)},dataToPoint:function(t){return"string"==typeof t&&(t=this.getGeoCoord(t)),t?s.prototype.dataToPoint.call(this,t):void 0}},o.mixin(n,s),t.exports=n},function(t,e,i){"use strict";var n=i(10),r=i(11),o=i(8),a=i(1),s=i(66),l=i(170),u=r.extend({type:"geo",coordinateSystem:null,layoutMode:"box",init:function(t){r.prototype.init.apply(this,arguments),n.defaultEmphasis(t.label,["position","show","textStyle","distance","formatter"])},optionUpdated:function(){var t=this.option,e=this;t.regions=l.getFilledRegions(t.regions,t.map),this._optionModelMap=a.reduce(t.regions||[],function(t,i){return i.name&&(t[i.name]=new o(i,e)),t},{}),this.updateSelectedMap(t.regions)},defaultOption:{zlevel:0,z:0,show:!0,left:"center",top:"center",aspectScale:.75,silent:!1,map:"",center:null,zoom:1,scaleLimit:null,label:{normal:{show:!1,textStyle:{color:"#000"}},emphasis:{show:!0,textStyle:{color:"rgb(100,0,0)"}}},itemStyle:{normal:{borderWidth:.5,borderColor:"#444",color:"#eee"},emphasis:{color:"rgba(255,215,0,0.8)"}},regions:[]},getRegionModel:function(t){return this._optionModelMap[t]},getFormattedLabel:function(t,e){var i=this.get("label."+e+".formatter"),n={name:t};return"function"==typeof i?(n.status=e,i(n)):"string"==typeof i?i.replace("{a}",n.seriesName):void 0},setZoom:function(t){this.option.zoom=t},setCenter:function(t){this.option.center=t}});a.mixin(u,s),t.exports=u},function(t,e,i){var n=i(1),r={Russia:[100,60],"United States of America":[-99,38]};t.exports=function(t){n.each(t.regions,function(t){var e=r[t.name];if(e){var i=t.center;i[0]=e[0],i[1]=e[1]}})}},function(t,e,i){for(var n=i(237),r=[126,25],o=[[[0,3.5],[7,11.2],[15,11.9],[30,7],[42,.7],[52,.7],[56,7.7],[59,.7],[64,.7],[64,0],[5,0],[0,3.5]],[[13,16.1],[19,14.7],[16,21.7],[11,23.1],[13,16.1]],[[12,32.2],[14,38.5],[15,38.5],[13,32.2],[12,32.2]],[[16,47.6],[12,53.2],[13,53.2],[18,47.6],[16,47.6]],[[6,64.4],[8,70],[9,70],[8,64.4],[6,64.4]],[[23,82.6],[29,79.8],[30,79.8],[25,82.6],[23,82.6]],[[37,70.7],[43,62.3],[44,62.3],[39,70.7],[37,70.7]],[[48,51.1],[51,45.5],[53,45.5],[50,51.1],[48,51.1]],[[51,35],[51,28.7],[53,28.7],[53,35],[51,35]],[[52,22.4],[55,17.5],[56,17.5],[53,22.4],[52,22.4]],[[58,12.6],[62,7],[63,7],[60,12.6],[58,12.6]],[[0,3.5],[0,93.1],[64,93.1],[64,0],[63,0],[63,92.4],[1,92.4],[1,3.5],[0,3.5]]],a=0;a<o.length;a++)for(var s=0;s<o[a].length;s++)o[a][s][0]/=10.5,o[a][s][1]/=-14,o[a][s][0]+=r[0],o[a][s][1]+=r[1];t.exports=function(t){"china"===t.map&&t.regions.push(new n("南海诸岛",o,r))}},function(t,e,i){var n=i(1),r={"南海诸岛":[32,80],"广东":[0,-10],"香港":[10,5],"澳门":[-10,10],"天津":[5,5]};t.exports=function(t){n.each(t.regions,function(t){var e=r[t.name];if(e){var i=t.center;i[0]+=e[0]/10.5,i[1]+=-e[1]/14}})}},function(t,e,i){function n(t){if(!t.UTF8Encoding)return t;for(var e=t.features,i=0;i<e.length;i++)for(var n=e[i],o=n.geometry,a=o.coordinates,s=o.encodeOffsets,l=0;l<a.length;l++){var u=a[l];if("Polygon"===o.type)a[l]=r(u,s[l]);else if("MultiPolygon"===o.type)for(var h=0;h<u.length;h++){var c=u[h];u[h]=r(c,s[l][h])}}return t.UTF8Encoding=!1,t}function r(t,e){for(var i=[],n=e[0],r=e[1],o=0;o<t.length;o+=2){var a=t.charCodeAt(o)-64,s=t.charCodeAt(o+1)-64;a=a>>1^-(1&a),s=s>>1^-(1&s),a+=n,s+=r,n=a,r=s,i.push([a/1024,s/1024])}return i}function o(t){for(var e=[],i=0;i<t.length;i++)for(var n=0;n<t[i].length;n++)e.push(t[i][n]);return e}var a=i(1),s=i(237);t.exports=function(t){return n(t),a.map(a.filter(t.features,function(t){return t.geometry&&t.properties}),function(t){var e=t.properties,i=t.geometry,n=i.coordinates;return"MultiPolygon"===i.type&&(n=o(n)),new s(e.name,n,e.cp)})}},function(t,e,i){function n(t,e){return e.type||(e.data?"category":"value")}var r=i(11),o=i(1),a=i(31),s=i(52),l=i(4),u=r.extend({type:"baseParallelAxis",axis:null,activeIntervals:[],getAreaSelectStyle:function(){return a([["fill","color"],["lineWidth","borderWidth"],["stroke","borderColor"],["width","width"],["opacity","opacity"]]).call(this.getModel("areaSelectStyle"))},setActiveIntervals:function(t){var e=this.activeIntervals=o.clone(t);if(e)for(var i=e.length-1;i>=0;i--)l.asc(e[i])},getActiveState:function(t){var e=this.activeIntervals;if(!e.length)return"normal";if(null==t)return"inactive";for(var i=0,n=e.length;n>i;i++)if(e[i][0]<=t&&t<=e[i][1])return"active";return"inactive"}}),h={type:"value",dim:null,parallelIndex:null,areaSelectStyle:{width:20,borderWidth:1,borderColor:"rgba(160,197,232)",color:"rgba(160,197,232)",opacity:.3},realtime:!0,z:10};o.merge(u.prototype,i(51)),s("parallel",u,n,h),t.exports=u},function(t,e,i){function n(t,e,i){this._axesMap={},this._axesLayout={},this.dimensions=t.dimensions,this._rect,this._model=t,this._init(t,e,i)}var r=i(13),o=i(22),a=i(1),s=i(362),l=i(3),u=i(19),h=a.each,c=Math.PI;n.prototype={type:"parallel",constructor:n,_init:function(t,e,i){var n=t.dimensions,r=t.parallelAxisIndex;h(n,function(t,i){var n=r[i],a=e.getComponent("parallelAxis",n),l=this._axesMap[t]=new s(t,o.createScaleByModel(a),[0,0],a.get("type"),n),u="category"===l.type;l.onBand=u&&a.get("boundaryGap"),l.inverse=a.get("inverse"),a.axis=l,l.model=a},this)},update:function(t,e){this._updateAxesFromSeries(this._model,t)},_updateAxesFromSeries:function(t,e){e.eachSeries(function(i){if(t.contains(i,e)){var n=i.getData();h(this.dimensions,function(t){var e=this._axesMap[t];e.scale.unionExtent(n.getDataExtent(t)),o.niceScaleExtent(e,e.model)},this)}},this)},resize:function(t,e){this._rect=r.getLayoutRect(t.getBoxLayoutParams(),{width:e.getWidth(),height:e.getHeight()}),this._layoutAxes(t)},getRect:function(){return this._rect},_layoutAxes:function(t){var e=this._rect,i=t.get("layout"),n=this._axesMap,r=this.dimensions,o=[e.width,e.height],a="horizontal"===i?0:1,s=o[a],l=o[1-a],d=[0,l];h(n,function(t){var e=t.inverse?1:0;t.setExtent(d[e],d[1-e])});var f,p=t.get("axisExpandable"),g=t.get("axisExpandWidth"),v=t.get("axisExpandCenter"),m=t.get("axisExpandCount")||0;if(null!=v){var y=Math.max(0,Math.floor(v-(m-1)/2)),x=y+m-1;x>=r.length&&(x=r.length-1,y=Math.max(0,Math.floor(x-m+1))),f=[y,x]}var _=p&&f&&g?function(t,e,i){var n,r=f[1]-f[0],o=(e-g*r)/(i-1-r);return n=t<f[0]?(t-1)*o:t<=f[1]?f[0]*o+(t-f[0])*g:t===i-1?e:f[0]*o+r*g+(t-f[1])*o,{position:n,axisNameAvailableWidth:f[0]<t&&t<f[1]?g:o}}:function(t,e,i){var n=e/(i-1);return{position:n*t,axisNameAvailableWidth:n}};h(r,function(t,n){var o=_(n,s,r.length),a={horizontal:{x:o.position,y:l},vertical:{x:0,y:o.position}},h={horizontal:c/2,vertical:0},d=[a[i].x+e.x,a[i].y+e.y],p=h[i],g=u.create();u.rotate(g,g,p),u.translate(g,g,d),this._axesLayout[t]={position:d,rotation:p,transform:g,axisNameAvailableWidth:o.axisNameAvailableWidth,tickDirection:1,labelDirection:1,axisExpandWindow:f}},this)},getAxis:function(t){return this._axesMap[t]},dataToPoint:function(t,e){return this.axisCoordToPoint(this._axesMap[e].dataToCoord(t),e)},eachActiveState:function(t,e,i){for(var n=this.dimensions,r=this._axesMap,o=this.hasAxisbrushed(),a=0,s=t.count();s>a;a++){var l,u=t.getValues(n,a);if(o){l="active";for(var h=0,c=n.length;c>h;h++){var d=n[h],f=r[d].model.getActiveState(u[h],h);if("inactive"===f){l="inactive";break}}}else l="normal";e.call(i,l,a)}},hasAxisbrushed:function(){for(var t=this.dimensions,e=this._axesMap,i=!1,n=0,r=t.length;r>n;n++)"normal"!==e[t[n]].model.getActiveState()&&(i=!0);return i},axisCoordToPoint:function(t,e){var i=this._axesLayout[e];return l.applyTransform([t,0],i.transform)},getAxisLayout:function(t){return a.clone(this._axesLayout[t])},findClosestAxisDim:function(t){var e,i=1/0;return a.each(this._axesLayout,function(n,r){var o=l.applyTransform(t,n.transform,!0),a=this._axesMap[r].getExtent();if(!(o[0]<a[0]||o[0]>a[1])){var s=Math.abs(o[1]);i>s&&(i=s,e=r)}},this),e}},t.exports=n},function(t,e,i){var n=i(1),r=i(42),o=function(t,e,i,n,o){r.call(this,t,e,i),this.type=n||"value",this.axisIndex=o};o.prototype={constructor:o,model:null},n.inherits(o,r),t.exports=o},function(t,e,i){var n=i(1),r=i(11);i(360),r.extend({type:"parallel",dependencies:["parallelAxis"],coordinateSystem:null,dimensions:null,parallelAxisIndex:null,layoutMode:"box",defaultOption:{zlevel:0,z:0,left:80,top:60,right:80,bottom:60,layout:"horizontal",axisExpandable:!1,axisExpandCenter:null,axisExpandCount:0,axisExpandWidth:50,parallelAxisDefault:null},init:function(){r.prototype.init.apply(this,arguments),this.mergeOption({})},mergeOption:function(t){var e=this.option;t&&n.merge(e,t,!0),this._initDimensions()},contains:function(t,e){var i=t.get("parallelIndex");return null!=i&&e.getComponent("parallel",i)===this},setAxisExpand:function(t){n.each(["axisExpandable","axisExpandCenter","axisExpandCount","axisExpandWidth"],function(e){t.hasOwnProperty(e)&&(this.option[e]=t[e])},this)},_initDimensions:function(){var t=this.dimensions=[],e=this.parallelAxisIndex=[],i=n.filter(this.dependentModels.parallelAxis,function(t){return t.get("parallelIndex")===this.componentIndex});n.each(i,function(i){t.push("dim"+i.get("dim")),e.push(i.componentIndex)})}})},function(t,e,i){function n(t){if(!t.parallel){var e=!1;o.each(t.series,function(t){t&&"parallel"===t.type&&(e=!0)}),e&&(t.parallel=[{}])}}function r(t){var e=a.normalizeToArray(t.parallelAxis);o.each(e,function(e){if(o.isObject(e)){var i=e.parallelIndex||0,n=a.normalizeToArray(t.parallel)[i];n&&n.parallelAxisDefault&&o.merge(e,n.parallelAxisDefault,!1)}})}var o=i(1),a=i(10);t.exports=function(t){n(t),r(t)}},function(t,e,i){"use strict";function n(t,e){e=e||[0,360],o.call(this,"angle",t,e),this.type="category"}var r=i(1),o=i(42);n.prototype={constructor:n,dataToAngle:o.prototype.dataToCoord,angleToData:o.prototype.coordToData},r.inherits(n,o),t.exports=n},function(t,e,i){"use strict";function n(t,e){return e.type||(e.data?"category":"value")}var r=i(1),o=i(11),a=i(52),s=o.extend({type:"polarAxis",axis:null});r.merge(s.prototype,i(51));var l={angle:{polarIndex:0,startAngle:90,clockwise:!0,splitNumber:12,axisLabel:{rotate:!1}},radius:{polarIndex:0,splitNumber:5}};a("angle",s,n,l.angle),a("radius",s,n,l.radius)},function(t,e,i){"use strict";var n=i(369),r=i(365),o=function(t){this.name=t||"",this.cx=0,this.cy=0,this._radiusAxis=new n,this._angleAxis=new r};o.prototype={constructor:o,type:"polar",dimensions:["radius","angle"],containPoint:function(t){var e=this.pointToCoord(t);return this._radiusAxis.contain(e[0])&&this._angleAxis.contain(e[1])},containData:function(t){return this._radiusAxis.containData(t[0])&&this._angleAxis.containData(t[1])},getAxis:function(t){return this["_"+t+"Axis"]},getAxesByScale:function(t){var e=[],i=this._angleAxis,n=this._radiusAxis;return i.scale.type===t&&e.push(i),n.scale.type===t&&e.push(n),e},getAngleAxis:function(){return this._angleAxis},getRadiusAxis:function(){return this._radiusAxis},getOtherAxis:function(t){var e=this._angleAxis;return t===e?this._radiusAxis:e},getBaseAxis:function(){return this.getAxesByScale("ordinal")[0]||this.getAxesByScale("time")[0]||this.getAngleAxis()},dataToPoints:function(t){return t.mapArray(this.dimensions,function(t,e){return this.dataToPoint([t,e])},this)},dataToPoint:function(t,e){return this.coordToPoint([this._radiusAxis.dataToRadius(t[0],e),this._angleAxis.dataToAngle(t[1],e)])},pointToData:function(t,e){var i=this.pointToCoord(t);return[this._radiusAxis.radiusToData(i[0],e),this._angleAxis.angleToData(i[1],e)]},pointToCoord:function(t){var e=t[0]-this.cx,i=t[1]-this.cy,n=this.getAngleAxis(),r=n.getExtent(),o=Math.min(r[0],r[1]),a=Math.max(r[0],r[1]);n.inverse?o=a-360:a=o+360;var s=Math.sqrt(e*e+i*i);e/=s,i/=s;for(var l=Math.atan2(-i,e)/Math.PI*180,u=o>l?1:-1;o>l||l>a;)l+=360*u;return[s,l]},coordToPoint:function(t){var e=t[0],i=t[1]/180*Math.PI,n=Math.cos(i)*e+this.cx,r=-Math.sin(i)*e+this.cy;return[n,r]}},t.exports=o},function(t,e,i){"use strict";i(366),i(2).extendComponentModel({type:"polar",dependencies:["polarAxis","angleAxis"],coordinateSystem:null,findAxisModel:function(t){var e,i=this.ecModel;return i.eachComponent(t,function(t){i.getComponent("polar",t.getShallow("polarIndex"))===this&&(e=t)},this),e},defaultOption:{zlevel:0,z:0,center:["50%","50%"],radius:"80%"}})},function(t,e,i){"use strict";function n(t,e){o.call(this,"radius",t,e),this.type="category"}var r=i(1),o=i(42);n.prototype={constructor:n,dataToRadius:o.prototype.dataToCoord,radiusToData:o.prototype.coordToData},r.inherits(n,o),t.exports=n},function(t,e,i){function n(t,e,i){o.call(this,t,e,i),this.type="value",this.angle=0,this.name="",this.model}var r=i(1),o=i(42);r.inherits(n,o),t.exports=n},function(t,e,i){function n(t,e,i){this._model=t,this.dimensions=[],this._indicatorAxes=r.map(t.getIndicatorModels(),function(t,e){var i="indicator_"+e,n=new o(i,new a);return n.name=t.get("name"),n.model=t,t.axis=n,this.dimensions.push(i),n},this),this.resize(t,i),this.cx,this.cy,this.r,this.startAngle}var r=i(1),o=i(370),a=i(38),s=i(4),l=i(22);n.prototype.getIndicatorAxes=function(){return this._indicatorAxes},n.prototype.dataToPoint=function(t,e){var i=this._indicatorAxes[e];return this.coordToPoint(i.dataToCoord(t),e)},n.prototype.coordToPoint=function(t,e){var i=this._indicatorAxes[e],n=i.angle,r=this.cx+t*Math.cos(n),o=this.cy-t*Math.sin(n);return[r,o]},n.prototype.pointToData=function(t){var e=t[0]-this.cx,i=t[1]-this.cy,n=Math.sqrt(e*e+i*i);e/=n,i/=n;for(var r,o=Math.atan2(-i,e),a=1/0,s=-1,l=0;l<this._indicatorAxes.length;l++){var u=this._indicatorAxes[l],h=Math.abs(o-u.angle);a>h&&(r=u,s=l,a=h)}return[s,+(r&&r.coodToData(n))]},n.prototype.resize=function(t,e){var i=t.get("center"),n=e.getWidth(),o=e.getHeight(),a=Math.min(n,o)/2;this.cx=s.parsePercent(i[0],n),this.cy=s.parsePercent(i[1],o),this.startAngle=t.get("startAngle")*Math.PI/180,this.r=s.parsePercent(t.get("radius"),a),r.each(this._indicatorAxes,function(t,e){t.setExtent(0,this.r);var i=this.startAngle+e*Math.PI*2/this._indicatorAxes.length;i=Math.atan2(Math.sin(i),Math.cos(i)),t.angle=i},this)},n.prototype.update=function(t,e){function i(t){var e=Math.pow(10,Math.floor(Math.log(t)/Math.LN10)),i=t/e;return 2===i?i=5:i*=2,i*e}var n=this._indicatorAxes,o=this._model;r.each(n,function(t){t.scale.setExtent(1/0,-(1/0))}),t.eachSeriesByType("radar",function(e,i){if("radar"===e.get("coordinateSystem")&&t.getComponent("radar",e.get("radarIndex"))===o){var a=e.getData();r.each(n,function(t){t.scale.unionExtent(a.getDataExtent(t.dim))})}},this);var a=o.get("splitNumber");r.each(n,function(t,e){var n=l.getScaleExtent(t,t.model);l.niceScaleExtent(t,t.model);var r=t.model,o=t.scale,u=r.get("min"),h=r.get("max"),c=o.getInterval();if(null!=u&&null!=h)o.setInterval((h-u)/a);else if(null!=u){var d;do d=u+c*a,o.setExtent(+u,d),o.setInterval(c),c=i(c);while(d<n[1]&&isFinite(d)&&isFinite(n[1]))}else if(null!=h){var f;do f=h-c*a,o.setExtent(f,+h),o.setInterval(c),c=i(c);while(f>n[0]&&isFinite(f)&&isFinite(n[0]))}else{var p=o.getTicks().length-1;p>a&&(c=i(c));var g=Math.round((n[0]+n[1])/2/c)*c,v=Math.round(a/2);o.setExtent(s.round(g-v*c),s.round(g+(a-v)*c)),o.setInterval(c)}})},n.dimensions=[],n.create=function(t,e){var i=[];return t.eachComponent("radar",function(r){var o=new n(r,t,e);i.push(o),r.coordinateSystem=o}),t.eachSeriesByType("radar",function(t){"radar"===t.get("coordinateSystem")&&(t.coordinateSystem=i[t.get("radarIndex")||0])}),i},i(23).register("radar",n),t.exports=n},function(t,e,i){function n(t,e){return s.defaults({show:e},t)}var r=i(80),o=r.valueAxis,a=i(8),s=i(1),l=i(51),u=i(2).extendComponentModel({type:"radar",optionUpdated:function(){var t=this.get("boundaryGap"),e=this.get("splitNumber"),i=this.get("scale"),n=this.get("axisLine"),r=this.get("axisTick"),o=this.get("axisLabel"),u=this.get("name.textStyle"),h=this.get("name.show"),c=this.get("name.formatter"),d=this.get("nameGap"),f=s.map(this.get("indicator")||[],function(f){return null!=f.max&&f.max>0?f.min=0:null!=f.min&&f.min<0&&(f.max=0),f=s.merge(s.clone(f),{boundaryGap:t,splitNumber:e,scale:i,axisLine:n,axisTick:r,axisLabel:o,name:f.text,nameLocation:"end",nameGap:d,nameTextStyle:u},!1),h||(f.name=""),"string"==typeof c?f.name=c.replace("{value}",f.name):"function"==typeof c&&(f.name=c(f.name,f)),s.extend(new a(f,null,this.ecModel),l)},this);this.getIndicatorModels=function(){return f}},defaultOption:{zlevel:0,z:0,center:["50%","50%"],radius:"75%",startAngle:90,name:{show:!0},boundaryGap:[0,0],splitNumber:5,nameGap:15,scale:!1,shape:"polygon",axisLine:s.merge({lineStyle:{color:"#bbb"}},o.axisLine),axisLabel:n(o.axisLabel,!1),axisTick:n(o.axisTick,!1),splitLine:n(o.splitLine,!0),splitArea:n(o.splitArea,!0),indicator:[]}});t.exports=u},function(t,e,i){function n(t,e){return e.type||(e.data?"category":"value")}var r=i(11),o=i(52),a=i(1),s=r.extend({type:"singleAxis",layoutMode:"box",axis:null,coordinateSystem:null}),l={left:"5%",top:"5%",right:"5%",bottom:"5%",type:"value",position:"bottom",orient:"horizontal",
 axisLine:{show:!0,lineStyle:{width:2,type:"solid"}},axisTick:{show:!0,length:6,lineStyle:{width:2}},axisLabel:{show:!0,interval:"auto"},splitLine:{show:!0,lineStyle:{type:"dashed",opacity:.2}}};a.merge(s.prototype,i(51)),o("single",s,n,l),t.exports=s},function(t,e,i){function n(t,e,i){this.dimension="x",this.dimensions=["x"],this._axis=null,this._rect,this._init(t,e,i),this._model=t}var r=i(375),o=i(22),a=i(13);n.prototype={type:"singleAxis",constructor:n,_init:function(t,e,i){var n=this.dimension,a=new r(n,o.createScaleByModel(t),[0,0],t.get("type"),t.get("position")),s="category"===a.type;a.onBand=s&&t.get("boundaryGap"),a.inverse=t.get("inverse"),a.orient=t.get("orient"),t.axis=a,a.model=t,this._axis=a},update:function(t,e){this._updateAxisFromSeries(t)},_updateAxisFromSeries:function(t){t.eachSeries(function(t){var e=t.getData(),i=this.dimension;this._axis.scale.unionExtent(e.getDataExtent(t.coordDimToDataDim(i))),o.niceScaleExtent(this._axis,this._axis.model)},this)},resize:function(t,e){this._rect=a.getLayoutRect({left:t.get("left"),top:t.get("top"),right:t.get("right"),bottom:t.get("bottom"),width:t.get("width"),height:t.get("height")},{width:e.getWidth(),height:e.getHeight()}),this._adjustAxis()},getRect:function(){return this._rect},_adjustAxis:function(){var t=this._rect,e=this._axis,i=e.isHorizontal(),n=i?[0,t.width]:[0,t.height],r=e.reverse?1:0;e.setExtent(n[r],n[1-r]),this._updateAxisTransform(e,i?t.x:t.y)},_updateAxisTransform:function(t,e){var i=t.getExtent(),n=i[0]+i[1],r=t.isHorizontal();t.toGlobalCoord=r?function(t){return t+e}:function(t){return n-t+e},t.toLocalCoord=r?function(t){return t-e}:function(t){return n-t+e}},getAxis:function(){return this._axis},getBaseAxis:function(){return this._axis},containPoint:function(t){var e=this.getRect(),i=this.getAxis(),n=i.orient;return"horizontal"===n?i.contain(i.toLocalCoord(t[0]))&&t[1]>=e.y&&t[1]<=e.y+e.height:i.contain(i.toLocalCoord(t[1]))&&t[0]>=e.y&&t[0]<=e.y+e.height},pointToData:function(t){var e=this.getAxis();return[e.coordToData(e.toLocalCoord(t["horizontal"===e.orient?0:1]))]},dataToPoint:function(t){var e=this.getAxis(),i=this.getRect(),n=[],r="horizontal"===e.orient?0:1;return n[r]=e.toGlobalCoord(e.dataToCoord(+t)),n[1-r]=0===r?i.y+i.height/2:i.x+i.width/2,n}},t.exports=n},function(t,e,i){var n=i(1),r=i(42),o=i(22),a=function(t,e,i,n,o){r.call(this,t,e,i),this.type=n||"value",this.position=o||"bottom",this.orient=null,this._labelInterval=null};a.prototype={constructor:a,model:null,isHorizontal:function(){var t=this.position;return"top"===t||"bottom"===t},getLabelInterval:function(){var t=this._labelInterval;if(!t){var e=this.model,i=e.getModel("axisLabel"),r=i.get("interval");if("category"!==this.type||"auto"!==r)return t=this._labelInterval="auto"===r?0:r;t=this._labelInterval=o.getAxisLabelInterval(n.map(this.scale.getTicks(),this.dataToCoord,this),e.getFormattedLabels(),i.getModel("textStyle").getFont(),this.isHorizontal())}return t},toGlobalCoord:null,toLocalCoord:null},n.inherits(a,r),t.exports=a},function(t,e,i){function n(t,e){var i=[];return t.eachComponent("singleAxis",function(n,o){var a=new r(n,t,e);a.name="single_"+o,a.resize(n,e),n.coordinateSystem=a,i.push(a)}),t.eachSeries(function(e){if("singleAxis"===e.get("coordinateSystem")){var i=e.get("singleAxisIndex")||0,n=t.getComponent("singleAxis",i);e.coordinateSystem=n.coordinateSystem}}),i}var r=i(374);i(23).register("single",{create:n,dimensions:r.prototype.dimensions})},function(t,e,i){"use strict";function n(t,e){this.id=null==t?"":t,this.inEdges=[],this.outEdges=[],this.edges=[],this.hostGraph,this.dataIndex=null==e?-1:e}function r(t,e,i){this.node1=t,this.node2=e,this.dataIndex=null==i?-1:i}var o=i(1),a=function(t){this._directed=t||!1,this.nodes=[],this.edges=[],this._nodesMap={},this._edgesMap={},this.data,this.edgeData},s=a.prototype;s.type="graph",s.isDirected=function(){return this._directed},s.addNode=function(t,e){t=t||""+e;var i=this._nodesMap;if(!i[t]){var r=new n(t,e);return r.hostGraph=this,this.nodes.push(r),i[t]=r,r}},s.getNodeByIndex=function(t){var e=this.data.getRawIndex(t);return this.nodes[e]},s.getNodeById=function(t){return this._nodesMap[t]},s.addEdge=function(t,e,i){var o=this._nodesMap,a=this._edgesMap;if("number"==typeof t&&(t=this.nodes[t]),"number"==typeof e&&(e=this.nodes[e]),t instanceof n||(t=o[t]),e instanceof n||(e=o[e]),t&&e){var s=t.id+"-"+e.id;if(!a[s]){var l=new r(t,e,i);return l.hostGraph=this,this._directed&&(t.outEdges.push(l),e.inEdges.push(l)),t.edges.push(l),t!==e&&e.edges.push(l),this.edges.push(l),a[s]=l,l}}},s.getEdgeByIndex=function(t){var e=this.edgeData.getRawIndex(t);return this.edges[e]},s.getEdge=function(t,e){t instanceof n&&(t=t.id),e instanceof n&&(e=e.id);var i=this._edgesMap;return this._directed?i[t+"-"+e]:i[t+"-"+e]||i[e+"-"+t]},s.eachNode=function(t,e){for(var i=this.nodes,n=i.length,r=0;n>r;r++)i[r].dataIndex>=0&&t.call(e,i[r],r)},s.eachEdge=function(t,e){for(var i=this.edges,n=i.length,r=0;n>r;r++)i[r].dataIndex>=0&&i[r].node1.dataIndex>=0&&i[r].node2.dataIndex>=0&&t.call(e,i[r],r)},s.breadthFirstTraverse=function(t,e,i,r){if(e instanceof n||(e=this._nodesMap[e]),e){for(var o="out"===i?"outEdges":"in"===i?"inEdges":"edges",a=0;a<this.nodes.length;a++)this.nodes[a].__visited=!1;if(!t.call(r,e,null))for(var s=[e];s.length;)for(var l=s.shift(),u=l[o],a=0;a<u.length;a++){var h=u[a],c=h.node1===l?h.node2:h.node1;if(!c.__visited){if(t.call(c,c,l))return;s.push(c),c.__visited=!0}}}},s.update=function(){for(var t=this.data,e=this.edgeData,i=this.nodes,n=this.edges,r=0,o=i.length;o>r;r++)i[r].dataIndex=-1;for(var r=0,o=t.count();o>r;r++)i[t.getRawIndex(r)].dataIndex=r;e.filterSelf(function(t){var i=n[e.getRawIndex(t)];return i.node1.dataIndex>=0&&i.node2.dataIndex>=0});for(var r=0,o=n.length;o>r;r++)n[r].dataIndex=-1;for(var r=0,o=e.count();o>r;r++)n[e.getRawIndex(r)].dataIndex=r},s.clone=function(){for(var t=new a(this._directed),e=this.nodes,i=this.edges,n=0;n<e.length;n++)t.addNode(e[n].id,e[n].dataIndex);for(var n=0;n<i.length;n++){var r=i[n];t.addEdge(r.node1.id,r.node2.id,r.dataIndex)}return t},n.prototype={constructor:n,degree:function(){return this.edges.length},inDegree:function(){return this.inEdges.length},outDegree:function(){return this.outEdges.length},getModel:function(t){if(!(this.dataIndex<0)){var e=this.hostGraph,i=e.data.getItemModel(this.dataIndex);return i.getModel(t)}}},r.prototype.getModel=function(t){if(!(this.dataIndex<0)){var e=this.hostGraph,i=e.edgeData.getItemModel(this.dataIndex);return i.getModel(t)}};var l=function(t,e){return{getValue:function(i){var n=this[t][e];return n.get(n.getDimension(i||"value"),this.dataIndex)},setVisual:function(i,n){this.dataIndex>=0&&this[t][e].setItemVisual(this.dataIndex,i,n)},getVisual:function(i,n){return this[t][e].getItemVisual(this.dataIndex,i,n)},setLayout:function(i,n){this.dataIndex>=0&&this[t][e].setItemLayout(this.dataIndex,i,n)},getLayout:function(){return this[t][e].getItemLayout(this.dataIndex)},getGraphicEl:function(){return this[t][e].getItemGraphicEl(this.dataIndex)},getRawIndex:function(){return this[t][e].getRawIndex(this.dataIndex)}}};o.mixin(n,l("hostGraph","data")),o.mixin(r,l("hostGraph","edgeData")),a.Node=n,a.Edge=r,t.exports=a},function(t,e,i){function n(t,e){this.root,this.data,this._nodes=[],this.hostModel=t,this.levelModels=o.map(e||[],function(e){return new a(e,t,t.ecModel)})}function r(t,e){var i=e.children;t.parentNode!==e&&(i.push(t),t.parentNode=e)}var o=i(1),a=i(8),s=i(14),l=i(239),u=i(30),h=function(t,e){this.name=t||"",this.depth=0,this.height=0,this.parentNode=null,this.dataIndex=-1,this.children=[],this.viewChildren=[],this.hostTree=e};h.prototype={constructor:h,isRemoved:function(){return this.dataIndex<0},eachNode:function(t,e,i){"function"==typeof t&&(i=e,e=t,t=null),t=t||{},o.isString(t)&&(t={order:t});var n,r=t.order||"preorder",a=this[t.attr||"children"];"preorder"===r&&(n=e.call(i,this));for(var s=0;!n&&s<a.length;s++)a[s].eachNode(t,e,i);"postorder"===r&&e.call(i,this)},updateDepthAndHeight:function(t){var e=0;this.depth=t;for(var i=0;i<this.children.length;i++){var n=this.children[i];n.updateDepthAndHeight(t+1),n.height>e&&(e=n.height)}this.height=e+1},getNodeById:function(t){if(this.getId()===t)return this;for(var e=0,i=this.children,n=i.length;n>e;e++){var r=i[e].getNodeById(t);if(r)return r}},contains:function(t){if(t===this)return!0;for(var e=0,i=this.children,n=i.length;n>e;e++){var r=i[e].contains(t);if(r)return r}},getAncestors:function(t){for(var e=[],i=t?this:this.parentNode;i;)e.push(i),i=i.parentNode;return e.reverse(),e},getValue:function(t){var e=this.hostTree.data;return e.get(e.getDimension(t||"value"),this.dataIndex)},setLayout:function(t,e){this.dataIndex>=0&&this.hostTree.data.setItemLayout(this.dataIndex,t,e)},getLayout:function(){return this.hostTree.data.getItemLayout(this.dataIndex)},getModel:function(t){if(!(this.dataIndex<0)){var e=this.hostTree,i=e.data.getItemModel(this.dataIndex),n=this.getLevelModel();return i.getModel(t,(n||e.hostModel).getModel(t))}},getLevelModel:function(){return(this.hostTree.levelModels||[])[this.depth]},setVisual:function(t,e){this.dataIndex>=0&&this.hostTree.data.setItemVisual(this.dataIndex,t,e)},getVisual:function(t,e){return this.hostTree.data.getItemVisual(this.dataIndex,t,e)},getRawIndex:function(){return this.hostTree.data.getRawIndex(this.dataIndex)},getId:function(){return this.hostTree.data.getId(this.dataIndex)}},n.prototype={constructor:n,type:"tree",eachNode:function(t,e,i){this.root.eachNode(t,e,i)},getNodeByDataIndex:function(t){var e=this.data.getRawIndex(t);return this._nodes[e]},getNodeByName:function(t){return this.root.getNodeByName(t)},update:function(){for(var t=this.data,e=this._nodes,i=0,n=e.length;n>i;i++)e[i].dataIndex=-1;for(var i=0,n=t.count();n>i;i++)e[t.getRawIndex(i)].dataIndex=i},clearLayouts:function(){this.data.clearItemLayouts()}},n.createTree=function(t,e,i){function o(t,e){c.push(t);var i=new h(t.name,a);e?r(i,e):a.root=i,a._nodes.push(i);var n=t.children;if(n)for(var s=0;s<n.length;s++)o(n[s],i)}var a=new n(e,i),c=[];o(t),a.root.updateDepthAndHeight(0);var d=u([{name:"value"}],c),f=new s(d,e);return f.initData(c),l({mainData:f,struct:a,structAttr:"tree"}),a.update(),a},t.exports=n},function(t,e,i){function n(){var t,e=[],i={};return{add:function(t,n,o,a,s){return r.isString(a)&&(s=a,a=0),i[t.id]?!1:(i[t.id]=1,e.push({el:t,target:n,time:o,delay:a,easing:s}),!0)},done:function(e){return t=e,this},start:function(){function n(){r--,r||(e.length=0,i={},t&&t())}for(var r=e.length,o=0,a=e.length;a>o;o++){var s=e[o];s.el.animateTo(s.target,s.time,s.delay,s.easing,n)}return this}}}var r=i(1);t.exports={createWrap:n}},function(t,e,i){function n(){function t(e,n){if(n>=i.length)return e;for(var o=-1,a=e.length,s=i[n++],l={},u={};++o<a;){var h=s(e[o]),c=u[h];c?c.push(e[o]):u[h]=[e[o]]}return r.each(u,function(e,i){l[i]=t(e,n)}),l}function e(t,o){if(o>=i.length)return t;var a=[],s=n[o++];return r.each(t,function(t,i){a.push({key:i,values:e(t,o)})}),s?a.sort(function(t,e){return s(t.key,e.key)}):a}var i=[],n=[];return{key:function(t){return i.push(t),this},sortKeys:function(t){return n[i.length-1]=t,this},entries:function(i){return e(t(i,0),0)}}}var r=i(1);t.exports=n},function(t,e,i){var n=i(1),r={get:function(t,e,i){var r=n.clone((o[t]||{})[e]);return i&&n.isArray(r)?r[r.length-1]:r}},o={color:{active:["#006edd","#e0ffff"],inactive:["rgba(0,0,0,0)"]},colorHue:{active:[0,360],inactive:[0,0]},colorSaturation:{active:[.3,1],inactive:[0,0]},colorLightness:{active:[.9,.5],inactive:[0,0]},colorAlpha:{active:[.3,1],inactive:[0,0]},opacity:{active:[.3,1],inactive:[0,0]},symbol:{active:["circle","roundRect","diamond"],inactive:["none"]},symbolSize:{active:[10,50],inactive:[0,0]}};t.exports=r}])});
+
+
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("echarts"));
+	else if(typeof define === 'function' && define.amd)
+		define(["echarts"], factory);
+	else if(typeof exports === 'object')
+		exports["echarts-wordcloud"] = factory(require("echarts"));
+	else
+		root["echarts-wordcloud"] = factory(root["echarts"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(1);
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var echarts = __webpack_require__(2);
+	var layoutUtil = __webpack_require__(3);
+
+	__webpack_require__(11);
+	__webpack_require__(13);
+
+	var wordCloudLayoutHelper = __webpack_require__(14);
+
+	if (!wordCloudLayoutHelper.isSupported) {
+	    throw new Error('Sorry your browser not support wordCloud');
+	}
+
+	// https://github.com/timdream/wordcloud2.js/blob/c236bee60436e048949f9becc4f0f67bd832dc5c/index.js#L233
+	function updateCanvasMask(maskCanvas) {
+	    var ctx = maskCanvas.getContext('2d');
+	    var imageData = ctx.getImageData(
+	        0, 0, maskCanvas.width, maskCanvas.height);
+	    var newImageData = ctx.createImageData(imageData);
+
+	    for (var i = 0; i < imageData.data.length; i += 4) {
+	        var tone = imageData.data[i] +
+	            imageData.data[i + 1] +
+	            imageData.data[i + 2];
+	        var alpha = imageData.data[i + 3];
+
+	        if (alpha < 128 || tone > 128 * 3) {
+	            // Area not to draw
+	            newImageData.data[i] = 0;
+	            newImageData.data[i + 1] = 0;
+	            newImageData.data[i + 2] = 0;
+	            newImageData.data[i + 3] = 0;
+	        }
+	        else {
+	            // Area to draw
+	            // The color must be same with backgroundColor
+	            newImageData.data[i] = 255;
+	            newImageData.data[i + 1] = 255;
+	            newImageData.data[i + 2] = 255;
+	            newImageData.data[i + 3] = 255;
+	        }
+	    }
+
+	    ctx.putImageData(newImageData, 0, 0);
+	}
+
+	echarts.registerLayout(function (ecModel, api) {
+	    ecModel.eachSeriesByType('wordCloud', function (seriesModel) {
+	        var gridRect = layoutUtil.getLayoutRect(
+	            seriesModel.getBoxLayoutParams(), {
+	                width: api.getWidth(),
+	                height: api.getHeight()
+	            }
+	        );
+	        var data = seriesModel.getData();
+
+	        var canvas = document.createElement('canvas');
+	        canvas.width = gridRect.width;
+	        canvas.height = gridRect.height;
+
+	        var ctx = canvas.getContext('2d');
+	        var maskImage = seriesModel.get('maskImage');
+	        if (maskImage) {
+	            try {
+	                ctx.drawImage(maskImage, 0, 0, canvas.width, canvas.height);
+	                updateCanvasMask(canvas);
+	            }
+	            catch (e) {
+	                console.error('Invalid mask image');
+	                console.error(e.toString());
+	            }
+	        }
+
+	        var sizeRange = seriesModel.get('sizeRange');
+	        var rotationRange = seriesModel.get('rotationRange');
+	        var valueExtent = data.getDataExtent('value');
+
+	        var DEGREE_TO_RAD = Math.PI / 180;
+	        var gridSize = seriesModel.get('gridSize');
+	        wordCloudLayoutHelper(canvas, {
+	            list: data.mapArray('value', function (value, idx) {
+	                var itemModel = data.getItemModel(idx);
+	                return [
+	                    data.getName(idx),
+	                    itemModel.get('textStyle.normal.textSize', true)
+	                        || echarts.number.linearMap(value, valueExtent, sizeRange),
+	                    idx
+	                ];
+	            }).sort(function (a, b) {
+	                // Sort from large to small in case there is no more room for more words
+	                return b[1] - a[1];
+	            }),
+	            fontFamily: seriesModel.get('textStyle.normal.fontFamily')
+	                || seriesModel.get('textStyle.emphasis.fontFamily')
+	                || ecModel.get('textStyle.fontFamily'),
+	            fontWeight: seriesModel.get('textStyle.normal.fontWeight')
+	                || seriesModel.get('textStyle.emphasis.fontWeight')
+	                || ecModel.get('textStyle.fontWeight'),
+	            gridSize: gridSize,
+
+	            ellipticity: gridRect.height / gridRect.width,
+
+	            minRotation: rotationRange[0] * DEGREE_TO_RAD,
+	            maxRotation: rotationRange[1] * DEGREE_TO_RAD,
+
+	            clearCanvas: !maskImage,
+
+	            rotateRatio: 1,
+
+	            rotationStep: seriesModel.get('rotationStep') * DEGREE_TO_RAD,
+
+	            drawOutOfBound: false,
+
+	            shuffle: false,
+
+	            shape: seriesModel.get('shape')
+	        });
+
+	        canvas.addEventListener('wordclouddrawn', function (e) {
+	            var item = e.detail.item;
+	            if (e.detail.drawn && seriesModel.layoutInstance.ondraw) {
+	                e.detail.drawn.gx += gridRect.x / gridSize;
+	                e.detail.drawn.gy += gridRect.y / gridSize;
+	                seriesModel.layoutInstance.ondraw(
+	                    item[0], item[1], item[2], e.detail.drawn
+	                );
+	            }
+	        });
+
+	        seriesModel.layoutInstance = {
+	            ondraw: null
+	        };
+	    });
+	});
+
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// Layout helpers for each component positioning
+
+
+	    var zrUtil = __webpack_require__(4);
+	    var BoundingRect = __webpack_require__(6);
+	    var numberUtil = __webpack_require__(9);
+	    var formatUtil = __webpack_require__(10);
+	    var parsePercent = numberUtil.parsePercent;
+	    var each = zrUtil.each;
+
+	    var layout = {};
+
+	    var LOCATION_PARAMS = ['left', 'right', 'top', 'bottom', 'width', 'height'];
+
+	    function boxLayout(orient, group, gap, maxWidth, maxHeight) {
+	        var x = 0;
+	        var y = 0;
+	        if (maxWidth == null) {
+	            maxWidth = Infinity;
+	        }
+	        if (maxHeight == null) {
+	            maxHeight = Infinity;
+	        }
+	        var currentLineMaxSize = 0;
+	        group.eachChild(function (child, idx) {
+	            var position = child.position;
+	            var rect = child.getBoundingRect();
+	            var nextChild = group.childAt(idx + 1);
+	            var nextChildRect = nextChild && nextChild.getBoundingRect();
+	            var nextX;
+	            var nextY;
+	            if (orient === 'horizontal') {
+	                var moveX = rect.width + (nextChildRect ? (-nextChildRect.x + rect.x) : 0);
+	                nextX = x + moveX;
+	                // Wrap when width exceeds maxWidth or meet a `newline` group
+	                if (nextX > maxWidth || child.newline) {
+	                    x = 0;
+	                    nextX = moveX;
+	                    y += currentLineMaxSize + gap;
+	                    currentLineMaxSize = rect.height;
+	                }
+	                else {
+	                    currentLineMaxSize = Math.max(currentLineMaxSize, rect.height);
+	                }
+	            }
+	            else {
+	                var moveY = rect.height + (nextChildRect ? (-nextChildRect.y + rect.y) : 0);
+	                nextY = y + moveY;
+	                // Wrap when width exceeds maxHeight or meet a `newline` group
+	                if (nextY > maxHeight || child.newline) {
+	                    x += currentLineMaxSize + gap;
+	                    y = 0;
+	                    nextY = moveY;
+	                    currentLineMaxSize = rect.width;
+	                }
+	                else {
+	                    currentLineMaxSize = Math.max(currentLineMaxSize, rect.width);
+	                }
+	            }
+
+	            if (child.newline) {
+	                return;
+	            }
+
+	            position[0] = x;
+	            position[1] = y;
+
+	            orient === 'horizontal'
+	                ? (x = nextX + gap)
+	                : (y = nextY + gap);
+	        });
+	    }
+
+	    /**
+	     * VBox or HBox layouting
+	     * @param {string} orient
+	     * @param {module:zrender/container/Group} group
+	     * @param {number} gap
+	     * @param {number} [width=Infinity]
+	     * @param {number} [height=Infinity]
+	     */
+	    layout.box = boxLayout;
+
+	    /**
+	     * VBox layouting
+	     * @param {module:zrender/container/Group} group
+	     * @param {number} gap
+	     * @param {number} [width=Infinity]
+	     * @param {number} [height=Infinity]
+	     */
+	    layout.vbox = zrUtil.curry(boxLayout, 'vertical');
+
+	    /**
+	     * HBox layouting
+	     * @param {module:zrender/container/Group} group
+	     * @param {number} gap
+	     * @param {number} [width=Infinity]
+	     * @param {number} [height=Infinity]
+	     */
+	    layout.hbox = zrUtil.curry(boxLayout, 'horizontal');
+
+	    /**
+	     * If x or x2 is not specified or 'center' 'left' 'right',
+	     * the width would be as long as possible.
+	     * If y or y2 is not specified or 'middle' 'top' 'bottom',
+	     * the height would be as long as possible.
+	     *
+	     * @param {Object} positionInfo
+	     * @param {number|string} [positionInfo.x]
+	     * @param {number|string} [positionInfo.y]
+	     * @param {number|string} [positionInfo.x2]
+	     * @param {number|string} [positionInfo.y2]
+	     * @param {Object} containerRect
+	     * @param {string|number} margin
+	     * @return {Object} {width, height}
+	     */
+	    layout.getAvailableSize = function (positionInfo, containerRect, margin) {
+	        var containerWidth = containerRect.width;
+	        var containerHeight = containerRect.height;
+
+	        var x = parsePercent(positionInfo.x, containerWidth);
+	        var y = parsePercent(positionInfo.y, containerHeight);
+	        var x2 = parsePercent(positionInfo.x2, containerWidth);
+	        var y2 = parsePercent(positionInfo.y2, containerHeight);
+
+	        (isNaN(x) || isNaN(parseFloat(positionInfo.x))) && (x = 0);
+	        (isNaN(x2) || isNaN(parseFloat(positionInfo.x2))) && (x2 = containerWidth);
+	        (isNaN(y) || isNaN(parseFloat(positionInfo.y))) && (y = 0);
+	        (isNaN(y2) || isNaN(parseFloat(positionInfo.y2))) && (y2 = containerHeight);
+
+	        margin = formatUtil.normalizeCssArray(margin || 0);
+
+	        return {
+	            width: Math.max(x2 - x - margin[1] - margin[3], 0),
+	            height: Math.max(y2 - y - margin[0] - margin[2], 0)
+	        };
+	    };
+
+	    /**
+	     * Parse position info.
+	     *
+	     * @param {Object} positionInfo
+	     * @param {number|string} [positionInfo.left]
+	     * @param {number|string} [positionInfo.top]
+	     * @param {number|string} [positionInfo.right]
+	     * @param {number|string} [positionInfo.bottom]
+	     * @param {number|string} [positionInfo.width]
+	     * @param {number|string} [positionInfo.height]
+	     * @param {number|string} [positionInfo.aspect] Aspect is width / height
+	     * @param {Object} containerRect
+	     * @param {string|number} [margin]
+	     *
+	     * @return {module:zrender/core/BoundingRect}
+	     */
+	    layout.getLayoutRect = function (
+	        positionInfo, containerRect, margin
+	    ) {
+	        margin = formatUtil.normalizeCssArray(margin || 0);
+
+	        var containerWidth = containerRect.width;
+	        var containerHeight = containerRect.height;
+
+	        var left = parsePercent(positionInfo.left, containerWidth);
+	        var top = parsePercent(positionInfo.top, containerHeight);
+	        var right = parsePercent(positionInfo.right, containerWidth);
+	        var bottom = parsePercent(positionInfo.bottom, containerHeight);
+	        var width = parsePercent(positionInfo.width, containerWidth);
+	        var height = parsePercent(positionInfo.height, containerHeight);
+
+	        var verticalMargin = margin[2] + margin[0];
+	        var horizontalMargin = margin[1] + margin[3];
+	        var aspect = positionInfo.aspect;
+
+	        // If width is not specified, calculate width from left and right
+	        if (isNaN(width)) {
+	            width = containerWidth - right - horizontalMargin - left;
+	        }
+	        if (isNaN(height)) {
+	            height = containerHeight - bottom - verticalMargin - top;
+	        }
+
+	        // If width and height are not given
+	        // 1. Graph should not exceeds the container
+	        // 2. Aspect must be keeped
+	        // 3. Graph should take the space as more as possible
+	        if (isNaN(width) && isNaN(height)) {
+	            if (aspect > containerWidth / containerHeight) {
+	                width = containerWidth * 0.8;
+	            }
+	            else {
+	                height = containerHeight * 0.8;
+	            }
+	        }
+
+	        if (aspect != null) {
+	            // Calculate width or height with given aspect
+	            if (isNaN(width)) {
+	                width = aspect * height;
+	            }
+	            if (isNaN(height)) {
+	                height = width / aspect;
+	            }
+	        }
+
+	        // If left is not specified, calculate left from right and width
+	        if (isNaN(left)) {
+	            left = containerWidth - right - width - horizontalMargin;
+	        }
+	        if (isNaN(top)) {
+	            top = containerHeight - bottom - height - verticalMargin;
+	        }
+
+	        // Align left and top
+	        switch (positionInfo.left || positionInfo.right) {
+	            case 'center':
+	                left = containerWidth / 2 - width / 2 - margin[3];
+	                break;
+	            case 'right':
+	                left = containerWidth - width - horizontalMargin;
+	                break;
+	        }
+	        switch (positionInfo.top || positionInfo.bottom) {
+	            case 'middle':
+	            case 'center':
+	                top = containerHeight / 2 - height / 2 - margin[0];
+	                break;
+	            case 'bottom':
+	                top = containerHeight - height - verticalMargin;
+	                break;
+	        }
+	        // If something is wrong and left, top, width, height are calculated as NaN
+	        left = left || 0;
+	        top = top || 0;
+	        if (isNaN(width)) {
+	            // Width may be NaN if only one value is given except width
+	            width = containerWidth - left - (right || 0);
+	        }
+	        if (isNaN(height)) {
+	            // Height may be NaN if only one value is given except height
+	            height = containerHeight - top - (bottom || 0);
+	        }
+
+	        var rect = new BoundingRect(left + margin[3], top + margin[0], width, height);
+	        rect.margin = margin;
+	        return rect;
+	    };
+
+	    /**
+	     * Position group of component in viewport
+	     *  Group position is specified by either
+	     *  {left, top}, {right, bottom}
+	     *  If all properties exists, right and bottom will be igonred.
+	     *
+	     * @param {module:zrender/container/Group} group
+	     * @param {Object} positionInfo
+	     * @param {number|string} [positionInfo.left]
+	     * @param {number|string} [positionInfo.top]
+	     * @param {number|string} [positionInfo.right]
+	     * @param {number|string} [positionInfo.bottom]
+	     * @param {Object} containerRect
+	     * @param {string|number} margin
+	     */
+	    layout.positionGroup = function (
+	        group, positionInfo, containerRect, margin
+	    ) {
+	        var groupRect = group.getBoundingRect();
+
+	        positionInfo = zrUtil.extend(zrUtil.clone(positionInfo), {
+	            width: groupRect.width,
+	            height: groupRect.height
+	        });
+
+	        positionInfo = layout.getLayoutRect(
+	            positionInfo, containerRect, margin
+	        );
+
+	        group.position = [
+	            positionInfo.x - groupRect.x,
+	            positionInfo.y - groupRect.y
+	        ];
+	    };
+
+	    /**
+	     * Consider Case:
+	     * When defulat option has {left: 0, width: 100}, and we set {right: 0}
+	     * through setOption or media query, using normal zrUtil.merge will cause
+	     * {right: 0} does not take effect.
+	     *
+	     * @example
+	     * ComponentModel.extend({
+	     *     init: function () {
+	     *         ...
+	     *         var inputPositionParams = layout.getLayoutParams(option);
+	     *         this.mergeOption(inputPositionParams);
+	     *     },
+	     *     mergeOption: function (newOption) {
+	     *         newOption && zrUtil.merge(thisOption, newOption, true);
+	     *         layout.mergeLayoutParam(thisOption, newOption);
+	     *     }
+	     * });
+	     *
+	     * @param {Object} targetOption
+	     * @param {Object} newOption
+	     * @param {Object|string} [opt]
+	     * @param {boolean} [opt.ignoreSize=false] Some component must has width and height.
+	     */
+	    layout.mergeLayoutParam = function (targetOption, newOption, opt) {
+	        !zrUtil.isObject(opt) && (opt = {});
+	        var hNames = ['width', 'left', 'right']; // Order by priority.
+	        var vNames = ['height', 'top', 'bottom']; // Order by priority.
+	        var hResult = merge(hNames);
+	        var vResult = merge(vNames);
+
+	        copy(hNames, targetOption, hResult);
+	        copy(vNames, targetOption, vResult);
+
+	        function merge(names) {
+	            var newParams = {};
+	            var newValueCount = 0;
+	            var merged = {};
+	            var mergedValueCount = 0;
+	            var enoughParamNumber = opt.ignoreSize ? 1 : 2;
+
+	            each(names, function (name) {
+	                merged[name] = targetOption[name];
+	            });
+	            each(names, function (name) {
+	                // Consider case: newOption.width is null, which is
+	                // set by user for removing width setting.
+	                hasProp(newOption, name) && (newParams[name] = merged[name] = newOption[name]);
+	                hasValue(newParams, name) && newValueCount++;
+	                hasValue(merged, name) && mergedValueCount++;
+	            });
+
+	            // Case: newOption: {width: ..., right: ...},
+	            // or targetOption: {right: ...} and newOption: {width: ...},
+	            // There is no conflict when merged only has params count
+	            // little than enoughParamNumber.
+	            if (mergedValueCount === enoughParamNumber || !newValueCount) {
+	                return merged;
+	            }
+	            // Case: newOption: {width: ..., right: ...},
+	            // Than we can make sure user only want those two, and ignore
+	            // all origin params in targetOption.
+	            else if (newValueCount >= enoughParamNumber) {
+	                return newParams;
+	            }
+	            else {
+	                // Chose another param from targetOption by priority.
+	                // When 'ignoreSize', enoughParamNumber is 1 and those will not happen.
+	                for (var i = 0; i < names.length; i++) {
+	                    var name = names[i];
+	                    if (!hasProp(newParams, name) && hasProp(targetOption, name)) {
+	                        newParams[name] = targetOption[name];
+	                        break;
+	                    }
+	                }
+	                return newParams;
+	            }
+	        }
+
+	        function hasProp(obj, name) {
+	            return obj.hasOwnProperty(name);
+	        }
+
+	        function hasValue(obj, name) {
+	            return obj[name] != null && obj[name] !== 'auto';
+	        }
+
+	        function copy(names, target, source) {
+	            each(names, function (name) {
+	                target[name] = source[name];
+	            });
+	        }
+	    };
+
+	    /**
+	     * Retrieve 'left', 'right', 'top', 'bottom', 'width', 'height' from object.
+	     * @param {Object} source
+	     * @return {Object} Result contains those props.
+	     */
+	    layout.getLayoutParams = function (source) {
+	        return layout.copyLayoutParams({}, source);
+	    };
+
+	    /**
+	     * Retrieve 'left', 'right', 'top', 'bottom', 'width', 'height' from object.
+	     * @param {Object} source
+	     * @return {Object} Result contains those props.
+	     */
+	    layout.copyLayoutParams = function (target, source) {
+	        source && target && each(LOCATION_PARAMS, function (name) {
+	            source.hasOwnProperty(name) && (target[name] = source[name]);
+	        });
+	        return target;
+	    };
+
+	    module.exports = layout;
+
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * @module zrender/core/util
+	 */
+
+	    var Gradient = __webpack_require__(5);
+	    // 用于处理merge时无法遍历Date等对象的问题
+	    var BUILTIN_OBJECT = {
+	        '[object Function]': 1,
+	        '[object RegExp]': 1,
+	        '[object Date]': 1,
+	        '[object Error]': 1,
+	        '[object CanvasGradient]': 1
+	    };
+
+	    var objToString = Object.prototype.toString;
+
+	    var arrayProto = Array.prototype;
+	    var nativeForEach = arrayProto.forEach;
+	    var nativeFilter = arrayProto.filter;
+	    var nativeSlice = arrayProto.slice;
+	    var nativeMap = arrayProto.map;
+	    var nativeReduce = arrayProto.reduce;
+
+	    /**
+	     * @param {*} source
+	     * @return {*} 拷贝后的新对象
+	     */
+	    function clone(source) {
+	        if (typeof source == 'object' && source !== null) {
+	            var result = source;
+	            if (source instanceof Array) {
+	                result = [];
+	                for (var i = 0, len = source.length; i < len; i++) {
+	                    result[i] = clone(source[i]);
+	                }
+	            }
+	            else if (
+	                !isBuildInObject(source)
+	                // 是否为 dom 对象
+	                && !isDom(source)
+	            ) {
+	                result = {};
+	                for (var key in source) {
+	                    if (source.hasOwnProperty(key)) {
+	                        result[key] = clone(source[key]);
+	                    }
+	                }
+	            }
+
+	            return result;
+	        }
+
+	        return source;
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} target
+	     * @param {*} source
+	     * @param {boolean} [overwrite=false]
+	     */
+	    function merge(target, source, overwrite) {
+	        // We should escapse that source is string
+	        // and enter for ... in ...
+	        if (!isObject(source) || !isObject(target)) {
+	            return overwrite ? clone(source) : target;
+	        }
+
+	        for (var key in source) {
+	            if (source.hasOwnProperty(key)) {
+	                var targetProp = target[key];
+	                var sourceProp = source[key];
+
+	                if (isObject(sourceProp)
+	                    && isObject(targetProp)
+	                    && !isArray(sourceProp)
+	                    && !isArray(targetProp)
+	                    && !isDom(sourceProp)
+	                    && !isDom(targetProp)
+	                    && !isBuildInObject(sourceProp)
+	                    && !isBuildInObject(targetProp)
+	                ) {
+	                    // 如果需要递归覆盖，就递归调用merge
+	                    merge(targetProp, sourceProp, overwrite);
+	                }
+	                else if (overwrite || !(key in target)) {
+	                    // 否则只处理overwrite为true，或者在目标对象中没有此属性的情况
+	                    // NOTE，在 target[key] 不存在的时候也是直接覆盖
+	                    target[key] = clone(source[key], true);
+	                }
+	            }
+	        }
+
+	        return target;
+	    }
+
+	    /**
+	     * @param {Array} targetAndSources The first item is target, and the rests are source.
+	     * @param {boolean} [overwrite=false]
+	     * @return {*} target
+	     */
+	    function mergeAll(targetAndSources, overwrite) {
+	        var result = targetAndSources[0];
+	        for (var i = 1, len = targetAndSources.length; i < len; i++) {
+	            result = merge(result, targetAndSources[i], overwrite);
+	        }
+	        return result;
+	    }
+
+	    /**
+	     * @param {*} target
+	     * @param {*} source
+	     * @memberOf module:zrender/core/util
+	     */
+	    function extend(target, source) {
+	        for (var key in source) {
+	            if (source.hasOwnProperty(key)) {
+	                target[key] = source[key];
+	            }
+	        }
+	        return target;
+	    }
+
+	    /**
+	     * @param {*} target
+	     * @param {*} source
+	     * @param {boolen} [overlay=false]
+	     * @memberOf module:zrender/core/util
+	     */
+	    function defaults(target, source, overlay) {
+	        for (var key in source) {
+	            if (source.hasOwnProperty(key)
+	                && (overlay ? source[key] != null : target[key] == null)
+	            ) {
+	                target[key] = source[key];
+	            }
+	        }
+	        return target;
+	    }
+
+	    function createCanvas() {
+	        return document.createElement('canvas');
+	    }
+	    // FIXME
+	    var _ctx;
+	    function getContext() {
+	        if (!_ctx) {
+	            // Use util.createCanvas instead of createCanvas
+	            // because createCanvas may be overwritten in different environment
+	            _ctx = util.createCanvas().getContext('2d');
+	        }
+	        return _ctx;
+	    }
+
+	    /**
+	     * 查询数组中元素的index
+	     * @memberOf module:zrender/core/util
+	     */
+	    function indexOf(array, value) {
+	        if (array) {
+	            if (array.indexOf) {
+	                return array.indexOf(value);
+	            }
+	            for (var i = 0, len = array.length; i < len; i++) {
+	                if (array[i] === value) {
+	                    return i;
+	                }
+	            }
+	        }
+	        return -1;
+	    }
+
+	    /**
+	     * 构造类继承关系
+	     *
+	     * @memberOf module:zrender/core/util
+	     * @param {Function} clazz 源类
+	     * @param {Function} baseClazz 基类
+	     */
+	    function inherits(clazz, baseClazz) {
+	        var clazzPrototype = clazz.prototype;
+	        function F() {}
+	        F.prototype = baseClazz.prototype;
+	        clazz.prototype = new F();
+
+	        for (var prop in clazzPrototype) {
+	            clazz.prototype[prop] = clazzPrototype[prop];
+	        }
+	        clazz.prototype.constructor = clazz;
+	        clazz.superClass = baseClazz;
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {Object|Function} target
+	     * @param {Object|Function} sorce
+	     * @param {boolean} overlay
+	     */
+	    function mixin(target, source, overlay) {
+	        target = 'prototype' in target ? target.prototype : target;
+	        source = 'prototype' in source ? source.prototype : source;
+
+	        defaults(target, source, overlay);
+	    }
+
+	    /**
+	     * @param {Array|TypedArray} data
+	     */
+	    function isArrayLike(data) {
+	        if (! data) {
+	            return;
+	        }
+	        if (typeof data == 'string') {
+	            return false;
+	        }
+	        return typeof data.length == 'number';
+	    }
+
+	    /**
+	     * 数组或对象遍历
+	     * @memberOf module:zrender/core/util
+	     * @param {Object|Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     */
+	    function each(obj, cb, context) {
+	        if (!(obj && cb)) {
+	            return;
+	        }
+	        if (obj.forEach && obj.forEach === nativeForEach) {
+	            obj.forEach(cb, context);
+	        }
+	        else if (obj.length === +obj.length) {
+	            for (var i = 0, len = obj.length; i < len; i++) {
+	                cb.call(context, obj[i], i, obj);
+	            }
+	        }
+	        else {
+	            for (var key in obj) {
+	                if (obj.hasOwnProperty(key)) {
+	                    cb.call(context, obj[key], key, obj);
+	                }
+	            }
+	        }
+	    }
+
+	    /**
+	     * 数组映射
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
+	    function map(obj, cb, context) {
+	        if (!(obj && cb)) {
+	            return;
+	        }
+	        if (obj.map && obj.map === nativeMap) {
+	            return obj.map(cb, context);
+	        }
+	        else {
+	            var result = [];
+	            for (var i = 0, len = obj.length; i < len; i++) {
+	                result.push(cb.call(context, obj[i], i, obj));
+	            }
+	            return result;
+	        }
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {Object} [memo]
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
+	    function reduce(obj, cb, memo, context) {
+	        if (!(obj && cb)) {
+	            return;
+	        }
+	        if (obj.reduce && obj.reduce === nativeReduce) {
+	            return obj.reduce(cb, memo, context);
+	        }
+	        else {
+	            for (var i = 0, len = obj.length; i < len; i++) {
+	                memo = cb.call(context, memo, obj[i], i, obj);
+	            }
+	            return memo;
+	        }
+	    }
+
+	    /**
+	     * 数组过滤
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
+	    function filter(obj, cb, context) {
+	        if (!(obj && cb)) {
+	            return;
+	        }
+	        if (obj.filter && obj.filter === nativeFilter) {
+	            return obj.filter(cb, context);
+	        }
+	        else {
+	            var result = [];
+	            for (var i = 0, len = obj.length; i < len; i++) {
+	                if (cb.call(context, obj[i], i, obj)) {
+	                    result.push(obj[i]);
+	                }
+	            }
+	            return result;
+	        }
+	    }
+
+	    /**
+	     * 数组项查找
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} obj
+	     * @param {Function} cb
+	     * @param {*} [context]
+	     * @return {Array}
+	     */
+	    function find(obj, cb, context) {
+	        if (!(obj && cb)) {
+	            return;
+	        }
+	        for (var i = 0, len = obj.length; i < len; i++) {
+	            if (cb.call(context, obj[i], i, obj)) {
+	                return obj[i];
+	            }
+	        }
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {Function} func
+	     * @param {*} context
+	     * @return {Function}
+	     */
+	    function bind(func, context) {
+	        var args = nativeSlice.call(arguments, 2);
+	        return function () {
+	            return func.apply(context, args.concat(nativeSlice.call(arguments)));
+	        };
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {Function} func
+	     * @return {Function}
+	     */
+	    function curry(func) {
+	        var args = nativeSlice.call(arguments, 1);
+	        return function () {
+	            return func.apply(this, args.concat(nativeSlice.call(arguments)));
+	        };
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
+	    function isArray(value) {
+	        return objToString.call(value) === '[object Array]';
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
+	    function isFunction(value) {
+	        return typeof value === 'function';
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
+	    function isString(value) {
+	        return objToString.call(value) === '[object String]';
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
+	    function isObject(value) {
+	        // Avoid a V8 JIT bug in Chrome 19-20.
+	        // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	        var type = typeof value;
+	        return type === 'function' || (!!value && type == 'object');
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
+	    function isBuildInObject(value) {
+	        return !!BUILTIN_OBJECT[objToString.call(value)]
+	            || (value instanceof Gradient);
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {*} value
+	     * @return {boolean}
+	     */
+	    function isDom(value) {
+	        return value && value.nodeType === 1
+	               && typeof(value.nodeName) == 'string';
+	    }
+
+	    /**
+	     * If value1 is not null, then return value1, otherwise judget rest of values.
+	     * @memberOf module:zrender/core/util
+	     * @return {*} Final value
+	     */
+	    function retrieve(values) {
+	        for (var i = 0, len = arguments.length; i < len; i++) {
+	            if (arguments[i] != null) {
+	                return arguments[i];
+	            }
+	        }
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {Array} arr
+	     * @param {number} startIndex
+	     * @param {number} endIndex
+	     * @return {Array}
+	     */
+	    function slice() {
+	        return Function.call.apply(nativeSlice, arguments);
+	    }
+
+	    /**
+	     * @memberOf module:zrender/core/util
+	     * @param {boolean} condition
+	     * @param {string} message
+	     */
+	    function assert(condition, message) {
+	        if (!condition) {
+	            throw new Error(message);
+	        }
+	    }
+
+	    var util = {
+	        inherits: inherits,
+	        mixin: mixin,
+	        clone: clone,
+	        merge: merge,
+	        mergeAll: mergeAll,
+	        extend: extend,
+	        defaults: defaults,
+	        getContext: getContext,
+	        createCanvas: createCanvas,
+	        indexOf: indexOf,
+	        slice: slice,
+	        find: find,
+	        isArrayLike: isArrayLike,
+	        each: each,
+	        map: map,
+	        reduce: reduce,
+	        filter: filter,
+	        bind: bind,
+	        curry: curry,
+	        isArray: isArray,
+	        isString: isString,
+	        isObject: isObject,
+	        isFunction: isFunction,
+	        isBuildInObject: isBuildInObject,
+	        isDom: isDom,
+	        retrieve: retrieve,
+	        assert: assert,
+	        noop: function () {}
+	    };
+	    module.exports = util;
+
+
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	
+
+	    /**
+	     * @param {Array.<Object>} colorStops
+	     */
+	    var Gradient = function (colorStops) {
+
+	        this.colorStops = colorStops || [];
+	    };
+
+	    Gradient.prototype = {
+
+	        constructor: Gradient,
+
+	        addColorStop: function (offset, color) {
+	            this.colorStops.push({
+
+	                offset: offset,
+
+	                color: color
+	            });
+	        }
+	    };
+
+	    module.exports = Gradient;
+
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	/**
+	 * @module echarts/core/BoundingRect
+	 */
+
+
+	    var vec2 = __webpack_require__(7);
+	    var matrix = __webpack_require__(8);
+
+	    var v2ApplyTransform = vec2.applyTransform;
+	    var mathMin = Math.min;
+	    var mathAbs = Math.abs;
+	    var mathMax = Math.max;
+	    /**
+	     * @alias module:echarts/core/BoundingRect
+	     */
+	    function BoundingRect(x, y, width, height) {
+	        /**
+	         * @type {number}
+	         */
+	        this.x = x;
+	        /**
+	         * @type {number}
+	         */
+	        this.y = y;
+	        /**
+	         * @type {number}
+	         */
+	        this.width = width;
+	        /**
+	         * @type {number}
+	         */
+	        this.height = height;
+	    }
+
+	    BoundingRect.prototype = {
+
+	        constructor: BoundingRect,
+
+	        /**
+	         * @param {module:echarts/core/BoundingRect} other
+	         */
+	        union: function (other) {
+	            var x = mathMin(other.x, this.x);
+	            var y = mathMin(other.y, this.y);
+
+	            this.width = mathMax(
+	                    other.x + other.width,
+	                    this.x + this.width
+	                ) - x;
+	            this.height = mathMax(
+	                    other.y + other.height,
+	                    this.y + this.height
+	                ) - y;
+	            this.x = x;
+	            this.y = y;
+	        },
+
+	        /**
+	         * @param {Array.<number>} m
+	         * @methods
+	         */
+	        applyTransform: (function () {
+	            var min = [];
+	            var max = [];
+	            return function (m) {
+	                // In case usage like this
+	                // el.getBoundingRect().applyTransform(el.transform)
+	                // And element has no transform
+	                if (!m) {
+	                    return;
+	                }
+	                min[0] = this.x;
+	                min[1] = this.y;
+	                max[0] = this.x + this.width;
+	                max[1] = this.y + this.height;
+
+	                v2ApplyTransform(min, min, m);
+	                v2ApplyTransform(max, max, m);
+
+	                this.x = mathMin(min[0], max[0]);
+	                this.y = mathMin(min[1], max[1]);
+	                this.width = mathAbs(max[0] - min[0]);
+	                this.height = mathAbs(max[1] - min[1]);
+	            };
+	        })(),
+
+	        /**
+	         * Calculate matrix of transforming from self to target rect
+	         * @param  {module:zrender/core/BoundingRect} b
+	         * @return {Array.<number>}
+	         */
+	        calculateTransform: function (b) {
+	            var a = this;
+	            var sx = b.width / a.width;
+	            var sy = b.height / a.height;
+
+	            var m = matrix.create();
+
+	            // 矩阵右乘
+	            matrix.translate(m, m, [-a.x, -a.y]);
+	            matrix.scale(m, m, [sx, sy]);
+	            matrix.translate(m, m, [b.x, b.y]);
+
+	            return m;
+	        },
+
+	        /**
+	         * @param {(module:echarts/core/BoundingRect|Object)} b
+	         * @return {boolean}
+	         */
+	        intersect: function (b) {
+	            var a = this;
+	            var ax0 = a.x;
+	            var ax1 = a.x + a.width;
+	            var ay0 = a.y;
+	            var ay1 = a.y + a.height;
+
+	            var bx0 = b.x;
+	            var bx1 = b.x + b.width;
+	            var by0 = b.y;
+	            var by1 = b.y + b.height;
+
+	            return ! (ax1 < bx0 || bx1 < ax0 || ay1 < by0 || by1 < ay0);
+	        },
+
+	        contain: function (x, y) {
+	            var rect = this;
+	            return x >= rect.x
+	                && x <= (rect.x + rect.width)
+	                && y >= rect.y
+	                && y <= (rect.y + rect.height);
+	        },
+
+	        /**
+	         * @return {module:echarts/core/BoundingRect}
+	         */
+	        clone: function () {
+	            return new BoundingRect(this.x, this.y, this.width, this.height);
+	        },
+
+	        /**
+	         * Copy from another rect
+	         */
+	        copy: function (other) {
+	            this.x = other.x;
+	            this.y = other.y;
+	            this.width = other.width;
+	            this.height = other.height;
+	        }
+	    };
+
+	    module.exports = BoundingRect;
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	
+	    var ArrayCtor = typeof Float32Array === 'undefined'
+	        ? Array
+	        : Float32Array;
+
+	    /**
+	     * @typedef {Float32Array|Array.<number>} Vector2
+	     */
+	    /**
+	     * 二维向量类
+	     * @exports zrender/tool/vector
+	     */
+	    var vector = {
+	        /**
+	         * 创建一个向量
+	         * @param {number} [x=0]
+	         * @param {number} [y=0]
+	         * @return {Vector2}
+	         */
+	        create: function (x, y) {
+	            var out = new ArrayCtor(2);
+	            out[0] = x || 0;
+	            out[1] = y || 0;
+	            return out;
+	        },
+
+	        /**
+	         * 复制向量数据
+	         * @param {Vector2} out
+	         * @param {Vector2} v
+	         * @return {Vector2}
+	         */
+	        copy: function (out, v) {
+	            out[0] = v[0];
+	            out[1] = v[1];
+	            return out;
+	        },
+
+	        /**
+	         * 克隆一个向量
+	         * @param {Vector2} v
+	         * @return {Vector2}
+	         */
+	        clone: function (v) {
+	            var out = new ArrayCtor(2);
+	            out[0] = v[0];
+	            out[1] = v[1];
+	            return out;
+	        },
+
+	        /**
+	         * 设置向量的两个项
+	         * @param {Vector2} out
+	         * @param {number} a
+	         * @param {number} b
+	         * @return {Vector2} 结果
+	         */
+	        set: function (out, a, b) {
+	            out[0] = a;
+	            out[1] = b;
+	            return out;
+	        },
+
+	        /**
+	         * 向量相加
+	         * @param {Vector2} out
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         */
+	        add: function (out, v1, v2) {
+	            out[0] = v1[0] + v2[0];
+	            out[1] = v1[1] + v2[1];
+	            return out;
+	        },
+
+	        /**
+	         * 向量缩放后相加
+	         * @param {Vector2} out
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         * @param {number} a
+	         */
+	        scaleAndAdd: function (out, v1, v2, a) {
+	            out[0] = v1[0] + v2[0] * a;
+	            out[1] = v1[1] + v2[1] * a;
+	            return out;
+	        },
+
+	        /**
+	         * 向量相减
+	         * @param {Vector2} out
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         */
+	        sub: function (out, v1, v2) {
+	            out[0] = v1[0] - v2[0];
+	            out[1] = v1[1] - v2[1];
+	            return out;
+	        },
+
+	        /**
+	         * 向量长度
+	         * @param {Vector2} v
+	         * @return {number}
+	         */
+	        len: function (v) {
+	            return Math.sqrt(this.lenSquare(v));
+	        },
+
+	        /**
+	         * 向量长度平方
+	         * @param {Vector2} v
+	         * @return {number}
+	         */
+	        lenSquare: function (v) {
+	            return v[0] * v[0] + v[1] * v[1];
+	        },
+
+	        /**
+	         * 向量乘法
+	         * @param {Vector2} out
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         */
+	        mul: function (out, v1, v2) {
+	            out[0] = v1[0] * v2[0];
+	            out[1] = v1[1] * v2[1];
+	            return out;
+	        },
+
+	        /**
+	         * 向量除法
+	         * @param {Vector2} out
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         */
+	        div: function (out, v1, v2) {
+	            out[0] = v1[0] / v2[0];
+	            out[1] = v1[1] / v2[1];
+	            return out;
+	        },
+
+	        /**
+	         * 向量点乘
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         * @return {number}
+	         */
+	        dot: function (v1, v2) {
+	            return v1[0] * v2[0] + v1[1] * v2[1];
+	        },
+
+	        /**
+	         * 向量缩放
+	         * @param {Vector2} out
+	         * @param {Vector2} v
+	         * @param {number} s
+	         */
+	        scale: function (out, v, s) {
+	            out[0] = v[0] * s;
+	            out[1] = v[1] * s;
+	            return out;
+	        },
+
+	        /**
+	         * 向量归一化
+	         * @param {Vector2} out
+	         * @param {Vector2} v
+	         */
+	        normalize: function (out, v) {
+	            var d = vector.len(v);
+	            if (d === 0) {
+	                out[0] = 0;
+	                out[1] = 0;
+	            }
+	            else {
+	                out[0] = v[0] / d;
+	                out[1] = v[1] / d;
+	            }
+	            return out;
+	        },
+
+	        /**
+	         * 计算向量间距离
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         * @return {number}
+	         */
+	        distance: function (v1, v2) {
+	            return Math.sqrt(
+	                (v1[0] - v2[0]) * (v1[0] - v2[0])
+	                + (v1[1] - v2[1]) * (v1[1] - v2[1])
+	            );
+	        },
+
+	        /**
+	         * 向量距离平方
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         * @return {number}
+	         */
+	        distanceSquare: function (v1, v2) {
+	            return (v1[0] - v2[0]) * (v1[0] - v2[0])
+	                + (v1[1] - v2[1]) * (v1[1] - v2[1]);
+	        },
+
+	        /**
+	         * 求负向量
+	         * @param {Vector2} out
+	         * @param {Vector2} v
+	         */
+	        negate: function (out, v) {
+	            out[0] = -v[0];
+	            out[1] = -v[1];
+	            return out;
+	        },
+
+	        /**
+	         * 插值两个点
+	         * @param {Vector2} out
+	         * @param {Vector2} v1
+	         * @param {Vector2} v2
+	         * @param {number} t
+	         */
+	        lerp: function (out, v1, v2, t) {
+	            out[0] = v1[0] + t * (v2[0] - v1[0]);
+	            out[1] = v1[1] + t * (v2[1] - v1[1]);
+	            return out;
+	        },
+
+	        /**
+	         * 矩阵左乘向量
+	         * @param {Vector2} out
+	         * @param {Vector2} v
+	         * @param {Vector2} m
+	         */
+	        applyTransform: function (out, v, m) {
+	            var x = v[0];
+	            var y = v[1];
+	            out[0] = m[0] * x + m[2] * y + m[4];
+	            out[1] = m[1] * x + m[3] * y + m[5];
+	            return out;
+	        },
+	        /**
+	         * 求两个向量最小值
+	         * @param  {Vector2} out
+	         * @param  {Vector2} v1
+	         * @param  {Vector2} v2
+	         */
+	        min: function (out, v1, v2) {
+	            out[0] = Math.min(v1[0], v2[0]);
+	            out[1] = Math.min(v1[1], v2[1]);
+	            return out;
+	        },
+	        /**
+	         * 求两个向量最大值
+	         * @param  {Vector2} out
+	         * @param  {Vector2} v1
+	         * @param  {Vector2} v2
+	         */
+	        max: function (out, v1, v2) {
+	            out[0] = Math.max(v1[0], v2[0]);
+	            out[1] = Math.max(v1[1], v2[1]);
+	            return out;
+	        }
+	    };
+
+	    vector.length = vector.len;
+	    vector.lengthSquare = vector.lenSquare;
+	    vector.dist = vector.distance;
+	    vector.distSquare = vector.distanceSquare;
+
+	    module.exports = vector;
+
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	
+	    var ArrayCtor = typeof Float32Array === 'undefined'
+	        ? Array
+	        : Float32Array;
+	    /**
+	     * 3x2矩阵操作类
+	     * @exports zrender/tool/matrix
+	     */
+	    var matrix = {
+	        /**
+	         * 创建一个单位矩阵
+	         * @return {Float32Array|Array.<number>}
+	         */
+	        create : function() {
+	            var out = new ArrayCtor(6);
+	            matrix.identity(out);
+
+	            return out;
+	        },
+	        /**
+	         * 设置矩阵为单位矩阵
+	         * @param {Float32Array|Array.<number>} out
+	         */
+	        identity : function(out) {
+	            out[0] = 1;
+	            out[1] = 0;
+	            out[2] = 0;
+	            out[3] = 1;
+	            out[4] = 0;
+	            out[5] = 0;
+	            return out;
+	        },
+	        /**
+	         * 复制矩阵
+	         * @param {Float32Array|Array.<number>} out
+	         * @param {Float32Array|Array.<number>} m
+	         */
+	        copy: function(out, m) {
+	            out[0] = m[0];
+	            out[1] = m[1];
+	            out[2] = m[2];
+	            out[3] = m[3];
+	            out[4] = m[4];
+	            out[5] = m[5];
+	            return out;
+	        },
+	        /**
+	         * 矩阵相乘
+	         * @param {Float32Array|Array.<number>} out
+	         * @param {Float32Array|Array.<number>} m1
+	         * @param {Float32Array|Array.<number>} m2
+	         */
+	        mul : function (out, m1, m2) {
+	            // Consider matrix.mul(m, m2, m);
+	            // where out is the same as m2.
+	            // So use temp variable to escape error.
+	            var out0 = m1[0] * m2[0] + m1[2] * m2[1];
+	            var out1 = m1[1] * m2[0] + m1[3] * m2[1];
+	            var out2 = m1[0] * m2[2] + m1[2] * m2[3];
+	            var out3 = m1[1] * m2[2] + m1[3] * m2[3];
+	            var out4 = m1[0] * m2[4] + m1[2] * m2[5] + m1[4];
+	            var out5 = m1[1] * m2[4] + m1[3] * m2[5] + m1[5];
+	            out[0] = out0;
+	            out[1] = out1;
+	            out[2] = out2;
+	            out[3] = out3;
+	            out[4] = out4;
+	            out[5] = out5;
+	            return out;
+	        },
+	        /**
+	         * 平移变换
+	         * @param {Float32Array|Array.<number>} out
+	         * @param {Float32Array|Array.<number>} a
+	         * @param {Float32Array|Array.<number>} v
+	         */
+	        translate : function(out, a, v) {
+	            out[0] = a[0];
+	            out[1] = a[1];
+	            out[2] = a[2];
+	            out[3] = a[3];
+	            out[4] = a[4] + v[0];
+	            out[5] = a[5] + v[1];
+	            return out;
+	        },
+	        /**
+	         * 旋转变换
+	         * @param {Float32Array|Array.<number>} out
+	         * @param {Float32Array|Array.<number>} a
+	         * @param {number} rad
+	         */
+	        rotate : function(out, a, rad) {
+	            var aa = a[0];
+	            var ac = a[2];
+	            var atx = a[4];
+	            var ab = a[1];
+	            var ad = a[3];
+	            var aty = a[5];
+	            var st = Math.sin(rad);
+	            var ct = Math.cos(rad);
+
+	            out[0] = aa * ct + ab * st;
+	            out[1] = -aa * st + ab * ct;
+	            out[2] = ac * ct + ad * st;
+	            out[3] = -ac * st + ct * ad;
+	            out[4] = ct * atx + st * aty;
+	            out[5] = ct * aty - st * atx;
+	            return out;
+	        },
+	        /**
+	         * 缩放变换
+	         * @param {Float32Array|Array.<number>} out
+	         * @param {Float32Array|Array.<number>} a
+	         * @param {Float32Array|Array.<number>} v
+	         */
+	        scale : function(out, a, v) {
+	            var vx = v[0];
+	            var vy = v[1];
+	            out[0] = a[0] * vx;
+	            out[1] = a[1] * vy;
+	            out[2] = a[2] * vx;
+	            out[3] = a[3] * vy;
+	            out[4] = a[4] * vx;
+	            out[5] = a[5] * vy;
+	            return out;
+	        },
+	        /**
+	         * 求逆矩阵
+	         * @param {Float32Array|Array.<number>} out
+	         * @param {Float32Array|Array.<number>} a
+	         */
+	        invert : function(out, a) {
+
+	            var aa = a[0];
+	            var ac = a[2];
+	            var atx = a[4];
+	            var ab = a[1];
+	            var ad = a[3];
+	            var aty = a[5];
+
+	            var det = aa * ad - ab * ac;
+	            if (!det) {
+	                return null;
+	            }
+	            det = 1.0 / det;
+
+	            out[0] = ad * det;
+	            out[1] = -ab * det;
+	            out[2] = -ac * det;
+	            out[3] = aa * det;
+	            out[4] = (ac * aty - ad * atx) * det;
+	            out[5] = (ab * atx - aa * aty) * det;
+	            return out;
+	        }
+	    };
+
+	    module.exports = matrix;
+
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	/**
+	 * 数值处理模块
+	 * @module echarts/util/number
+	 */
+
+
+
+	    var number = {};
+
+	    var RADIAN_EPSILON = 1e-4;
+
+	    function _trim(str) {
+	        return str.replace(/^\s+/, '').replace(/\s+$/, '');
+	    }
+
+	    /**
+	     * Linear mapping a value from domain to range
+	     * @memberOf module:echarts/util/number
+	     * @param  {(number|Array.<number>)} val
+	     * @param  {Array.<number>} domain Domain extent domain[0] can be bigger than domain[1]
+	     * @param  {Array.<number>} range  Range extent range[0] can be bigger than range[1]
+	     * @param  {boolean} clamp
+	     * @return {(number|Array.<number>}
+	     */
+	    number.linearMap = function (val, domain, range, clamp) {
+	        var subDomain = domain[1] - domain[0];
+	        var subRange = range[1] - range[0];
+
+	        if (subDomain === 0) {
+	            return subRange === 0
+	                ? range[0]
+	                : (range[0] + range[1]) / 2;
+	        }
+
+	        // Avoid accuracy problem in edge, such as
+	        // 146.39 - 62.83 === 83.55999999999999.
+	        // See echarts/test/ut/spec/util/number.js#linearMap#accuracyError
+	        // It is a little verbose for efficiency considering this method
+	        // is a hotspot.
+	        if (clamp) {
+	            if (subDomain > 0) {
+	                if (val <= domain[0]) {
+	                    return range[0];
+	                }
+	                else if (val >= domain[1]) {
+	                    return range[1];
+	                }
+	            }
+	            else {
+	                if (val >= domain[0]) {
+	                    return range[0];
+	                }
+	                else if (val <= domain[1]) {
+	                    return range[1];
+	                }
+	            }
+	        }
+	        else {
+	            if (val === domain[0]) {
+	                return range[0];
+	            }
+	            if (val === domain[1]) {
+	                return range[1];
+	            }
+	        }
+
+	        return (val - domain[0]) / subDomain * subRange + range[0];
+	    };
+
+	    /**
+	     * Convert a percent string to absolute number.
+	     * Returns NaN if percent is not a valid string or number
+	     * @memberOf module:echarts/util/number
+	     * @param {string|number} percent
+	     * @param {number} all
+	     * @return {number}
+	     */
+	    number.parsePercent = function(percent, all) {
+	        switch (percent) {
+	            case 'center':
+	            case 'middle':
+	                percent = '50%';
+	                break;
+	            case 'left':
+	            case 'top':
+	                percent = '0%';
+	                break;
+	            case 'right':
+	            case 'bottom':
+	                percent = '100%';
+	                break;
+	        }
+	        if (typeof percent === 'string') {
+	            if (_trim(percent).match(/%$/)) {
+	                return parseFloat(percent) / 100 * all;
+	            }
+
+	            return parseFloat(percent);
+	        }
+
+	        return percent == null ? NaN : +percent;
+	    };
+
+	    /**
+	     * Fix rounding error of float numbers
+	     * @param {number} x
+	     * @return {number}
+	     */
+	    number.round = function (x) {
+	        // PENDING
+	        return +(+x).toFixed(10);
+	    };
+
+	    number.asc = function (arr) {
+	        arr.sort(function (a, b) {
+	            return a - b;
+	        });
+	        return arr;
+	    };
+
+	    /**
+	     * Get precision
+	     * @param {number} val
+	     */
+	    number.getPrecision = function (val) {
+	        if (isNaN(val)) {
+	            return 0;
+	        }
+	        // It is much faster than methods converting number to string as follows
+	        //      var tmp = val.toString();
+	        //      return tmp.length - 1 - tmp.indexOf('.');
+	        // especially when precision is low
+	        var e = 1;
+	        var count = 0;
+	        while (Math.round(val * e) / e !== val) {
+	            e *= 10;
+	            count++;
+	        }
+	        return count;
+	    };
+
+	    /**
+	     * @param {Array.<number>} dataExtent
+	     * @param {Array.<number>} pixelExtent
+	     * @return {number}  precision
+	     */
+	    number.getPixelPrecision = function (dataExtent, pixelExtent) {
+	        var log = Math.log;
+	        var LN10 = Math.LN10;
+	        var dataQuantity = Math.floor(log(dataExtent[1] - dataExtent[0]) / LN10);
+	        var sizeQuantity = Math.round(log(Math.abs(pixelExtent[1] - pixelExtent[0])) / LN10);
+	        return Math.max(
+	            -dataQuantity + sizeQuantity,
+	            0
+	        );
+	    };
+
+	    // Number.MAX_SAFE_INTEGER, ie do not support.
+	    number.MAX_SAFE_INTEGER = 9007199254740991;
+
+	    /**
+	     * To 0 - 2 * PI, considering negative radian.
+	     * @param {number} radian
+	     * @return {number}
+	     */
+	    number.remRadian = function (radian) {
+	        var pi2 = Math.PI * 2;
+	        return (radian % pi2 + pi2) % pi2;
+	    };
+
+	    /**
+	     * @param {type} radian
+	     * @return {boolean}
+	     */
+	    number.isRadianAroundZero = function (val) {
+	        return val > -RADIAN_EPSILON && val < RADIAN_EPSILON;
+	    };
+
+	    /**
+	     * @param {string|Date|number} value
+	     * @return {number} timestamp
+	     */
+	    number.parseDate = function (value) {
+	        return value instanceof Date
+	            ? value
+	            : new Date(
+	                typeof value === 'string'
+	                    ? value.replace(/-/g, '/')
+	                    : Math.round(value)
+	            );
+	    };
+
+	    /**
+	     * Quantity of a number. e.g. 0.1, 1, 10, 100
+	     * @param  {number} val
+	     * @return {number}
+	     */
+	    number.quantity = function (val) {
+	        return Math.pow(10, Math.floor(Math.log(val) / Math.LN10));
+	    };
+
+	    // "Nice Numbers for Graph Labels" of Graphic Gems
+	    /**
+	     * find a “nice” number approximately equal to x. Round the number if round = true, take ceiling if round = false
+	     * The primary observation is that the “nicest” numbers in decimal are 1, 2, and 5, and all power-of-ten multiples of these numbers.
+	     * @param  {number} val
+	     * @param  {boolean} round
+	     * @return {number}
+	     */
+	    number.nice = function (val, round) {
+	        var exp10 = number.quantity(val);
+	        var f = val / exp10; // between 1 and 10
+	        var nf;
+	        if (round) {
+	            if (f < 1.5) { nf = 1; }
+	            else if (f < 2.5) { nf = 2; }
+	            else if (f < 4) { nf = 3; }
+	            else if (f < 7) { nf = 5; }
+	            else { nf = 10; }
+	        }
+	        else {
+	            if (f < 1) { nf = 1; }
+	            else if (f < 2) { nf = 2; }
+	            else if (f < 3) { nf = 3; }
+	            else if (f < 5) { nf = 5; }
+	            else { nf = 10; }
+	        }
+	        return nf * exp10;
+	    };
+
+	    module.exports = number;
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+
+	    var zrUtil = __webpack_require__(4);
+	    var numberUtil = __webpack_require__(9);
+
+	    /**
+	     * 每三位默认加,格式化
+	     * @type {string|number} x
+	     */
+	    function addCommas(x) {
+	        if (isNaN(x)) {
+	            return '-';
+	        }
+	        x = (x + '').split('.');
+	        return x[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g,'$1,')
+	               + (x.length > 1 ? ('.' + x[1]) : '');
+	    }
+
+	    /**
+	     * @param {string} str
+	     * @return {string} str
+	     */
+	    function toCamelCase(str) {
+	        return str.toLowerCase().replace(/-(.)/g, function(match, group1) {
+	            return group1.toUpperCase();
+	        });
+	    }
+
+	    /**
+	     * Normalize css liked array configuration
+	     * e.g.
+	     *  3 => [3, 3, 3, 3]
+	     *  [4, 2] => [4, 2, 4, 2]
+	     *  [4, 3, 2] => [4, 3, 2, 3]
+	     * @param {number|Array.<number>} val
+	     */
+	    function normalizeCssArray(val) {
+	        var len = val.length;
+	        if (typeof (val) === 'number') {
+	            return [val, val, val, val];
+	        }
+	        else if (len === 2) {
+	            // vertical | horizontal
+	            return [val[0], val[1], val[0], val[1]];
+	        }
+	        else if (len === 3) {
+	            // top | horizontal | bottom
+	            return [val[0], val[1], val[2], val[1]];
+	        }
+	        return val;
+	    }
+
+	    function encodeHTML(source) {
+	        return String(source)
+	            .replace(/&/g, '&amp;')
+	            .replace(/</g, '&lt;')
+	            .replace(/>/g, '&gt;')
+	            .replace(/"/g, '&quot;')
+	            .replace(/'/g, '&#39;');
+	    }
+
+	    var TPL_VAR_ALIAS = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
+	    function wrapVar(varName, seriesIdx) {
+	        return '{' + varName + (seriesIdx == null ? '' : seriesIdx) + '}';
+	    }
+	    /**
+	     * Template formatter
+	     * @param  {string} tpl
+	     * @param  {Array.<Object>|Object} paramsList
+	     * @return {string}
+	     */
+	    function formatTpl(tpl, paramsList) {
+	        if (!zrUtil.isArray(paramsList)) {
+	            paramsList = [paramsList];
+	        }
+	        var seriesLen = paramsList.length;
+	        if (!seriesLen) {
+	            return '';
+	        }
+
+	        var $vars = paramsList[0].$vars;
+	        for (var i = 0; i < $vars.length; i++) {
+	            var alias = TPL_VAR_ALIAS[i];
+	            tpl = tpl.replace(wrapVar(alias),  wrapVar(alias, 0));
+	        }
+	        for (var seriesIdx = 0; seriesIdx < seriesLen; seriesIdx++) {
+	            for (var k = 0; k < $vars.length; k++) {
+	                tpl = tpl.replace(
+	                    wrapVar(TPL_VAR_ALIAS[k], seriesIdx),
+	                    paramsList[seriesIdx][$vars[k]]
+	                );
+	            }
+	        }
+
+	        return tpl;
+	    }
+
+	    /**
+	     * ISO Date format
+	     * @param {string} tpl
+	     * @param {number} value
+	     * @inner
+	     */
+	    function formatTime(tpl, value) {
+	        if (tpl === 'week'
+	            || tpl === 'month'
+	            || tpl === 'quarter'
+	            || tpl === 'half-year'
+	            || tpl === 'year'
+	        ) {
+	            tpl = 'MM-dd\nyyyy';
+	        }
+
+	        var date = numberUtil.parseDate(value);
+	        var y = date.getFullYear();
+	        var M = date.getMonth() + 1;
+	        var d = date.getDate();
+	        var h = date.getHours();
+	        var m = date.getMinutes();
+	        var s = date.getSeconds();
+
+	        tpl = tpl.replace('MM', s2d(M))
+	            .toLowerCase()
+	            .replace('yyyy', y)
+	            .replace('yy', y % 100)
+	            .replace('dd', s2d(d))
+	            .replace('d', d)
+	            .replace('hh', s2d(h))
+	            .replace('h', h)
+	            .replace('mm', s2d(m))
+	            .replace('m', m)
+	            .replace('ss', s2d(s))
+	            .replace('s', s);
+
+	        return tpl;
+	    }
+
+	    /**
+	     * @param {string} str
+	     * @return {string}
+	     * @inner
+	     */
+	    function s2d(str) {
+	        return str < 10 ? ('0' + str) : str;
+	    }
+
+	    module.exports = {
+
+	        normalizeCssArray: normalizeCssArray,
+
+	        addCommas: addCommas,
+
+	        toCamelCase: toCamelCase,
+
+	        encodeHTML: encodeHTML,
+
+	        formatTpl: formatTpl,
+
+	        formatTime: formatTime
+	    };
+
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var completeDimensions = __webpack_require__(12);
+	var echarts = __webpack_require__(2);
+
+	echarts.extendSeriesModel({
+
+	    type: 'series.wordCloud',
+
+	    visualColorAccessPath: 'textStyle.normal.color',
+
+	    optionUpdated: function () {
+	        var option = this.option;
+	        option.gridSize = Math.max(Math.floor(option.gridSize), 4);
+	    },
+
+	    getInitialData: function (option, ecModel) {
+	        var dimensions = completeDimensions(['value'], option.data);
+	        var list = new echarts.List(dimensions, this);
+	        list.initData(option.data);
+	        return list;
+	    },
+
+	    // Most of options are from https://github.com/timdream/wordcloud2.js/blob/gh-pages/API.md
+	    defaultOption: {
+
+	        maskImage: null,
+
+	        // Shape can be 'circle', 'cardioid', 'diamond', 'triangle-forward', 'triangle', 'pentagon', 'star'
+	        shape: 'circle',
+
+	        left: 'center',
+
+	        top: 'center',
+
+	        width: '70%',
+
+	        height: '80%',
+
+	        sizeRange: [12, 60],
+
+	        rotationRange: [-90, 90],
+
+	        rotationStep: 45,
+
+	        gridSize: 8,
+
+	        textStyle: {
+	            normal: {
+	                fontWeight: 'normal'
+	            }
+	        }
+	    }
+	});
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Complete dimensions by data (guess dimension).
+	 */
+
+
+	    var zrUtil = __webpack_require__(4);
+
+	    /**
+	     * Complete the dimensions array guessed from the data structure.
+	     * @param  {Array.<string>} dimensions      Necessary dimensions, like ['x', 'y']
+	     * @param  {Array} data                     Data list. [[1, 2, 3], [2, 3, 4]]
+	     * @param  {Array.<string>} defaultNames    Default names to fill not necessary dimensions, like ['value']
+	     * @param  {string} extraPrefix             Prefix of name when filling the left dimensions.
+	     * @return {Array.<string>}
+	     */
+	    function completeDimensions(dimensions, data, defaultNames, extraPrefix) {
+	        if (!data) {
+	            return dimensions;
+	        }
+
+	        var value0 = retrieveValue(data[0]);
+	        var dimSize = zrUtil.isArray(value0) && value0.length || 1;
+
+	        defaultNames = defaultNames || [];
+	        extraPrefix = extraPrefix || 'extra';
+	        for (var i = 0; i < dimSize; i++) {
+	            if (!dimensions[i]) {
+	                var name = defaultNames[i] || (extraPrefix + (i - defaultNames.length));
+	                dimensions[i] = guessOrdinal(data, i)
+	                    ? {type: 'ordinal', name: name}
+	                    : name;
+	            }
+	        }
+
+	        return dimensions;
+	    }
+
+	    // The rule should not be complex, otherwise user might not
+	    // be able to known where the data is wrong.
+	    function guessOrdinal(data, dimIndex) {
+	        for (var i = 0, len = data.length; i < len; i++) {
+	            var value = retrieveValue(data[i]);
+
+	            if (!zrUtil.isArray(value)) {
+	                return false;
+	            }
+
+	            var value = value[dimIndex];
+	            if (value != null && isFinite(value)) {
+	                return false;
+	            }
+	            else if (zrUtil.isString(value) && value !== '-') {
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
+
+	    function retrieveValue(o) {
+	        return zrUtil.isArray(o) ? o : zrUtil.isObject(o) ? o.value: o;
+	    }
+
+	    module.exports = completeDimensions;
+
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var echarts = __webpack_require__(2);
+
+	function getShallow(model, path) {
+	    return model && model.getShallow(path);
+	}
+
+	echarts.extendChartView({
+
+	    type: 'wordCloud',
+
+	    render: function (seriesModel, ecModel, api) {
+	        var group = this.group;
+	        group.removeAll();
+
+	        var data = seriesModel.getData();
+
+	        var gridSize = seriesModel.get('gridSize');
+
+	        seriesModel.layoutInstance.ondraw = function (text, size, dataIdx, drawn) {
+	            var itemModel = data.getItemModel(dataIdx);
+	            var textStyleModel = itemModel.getModel('textStyle.normal');
+	            var emphasisTextStyleModel = itemModel.getModel('textStyle.emphasis');
+
+	            var getFont = function (model, otherModel) {
+	                var ecModel = model.ecModel;
+	                var gTextStyleModel = ecModel && ecModel.getModel('textStyle');
+	                return ['fontStyle', 'fontWeight', 'fontSize', 'fontFamily'].map(function (name, idx) {
+	                    if (idx !== 2) {
+	                        return model.getShallow(name)
+	                                || otherModel.getShallow(name)
+	                                || getShallow(gTextStyleModel, name);
+	                    }
+	                    else {
+	                        return (
+	                            model.getShallow(name, true)
+	                            || Math.round(
+	                                    model === textStyleModel
+	                                    ? size : (otherModel.getShallow(name, true) || size)
+	                                )
+	                        ) + 'px';
+	                    }
+	                }).join(' ');
+	            };
+	            var text = new echarts.graphic.Text({
+	                style: {
+	                    x: drawn.info.fillTextOffsetX,
+	                    y: drawn.info.fillTextOffsetY + size * 0.5,
+	                    text: text,
+	                    textBaseline: 'middle',
+	                    font: getFont(textStyleModel, emphasisTextStyleModel)
+	                },
+	                scale: [1 / drawn.info.mu, 1 / drawn.info.mu],
+	                position: [
+	                    (drawn.gx + drawn.info.gw / 2) * gridSize,
+	                    (drawn.gy + drawn.info.gh / 2) * gridSize
+	                ],
+	                rotation: drawn.rot
+	            });
+
+	            text.setStyle(textStyleModel.getItemStyle());
+	            text.setStyle({
+	                fill: data.getItemVisual(dataIdx, 'color')
+	            });
+
+	            group.add(text);
+
+	            data.setItemGraphicEl(dataIdx, text);
+	            echarts.graphic.setHoverStyle(
+	                text, echarts.util.extend(
+	                    emphasisTextStyleModel.getItemStyle(),
+	                    {
+	                        font: getFont(emphasisTextStyleModel, textStyleModel)
+	                    }
+	                )
+	            );
+	        };
+	    }
+	});
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * wordcloud2.js
+	 * http://timdream.org/wordcloud2.js/
+	 *
+	 * Copyright 2011 - 2013 Tim Chien
+	 * Released under the MIT license
+	 */
+
+	'use strict';
+
+	// setImmediate
+	if (!window.setImmediate) {
+	  window.setImmediate = (function setupSetImmediate() {
+	    return window.msSetImmediate ||
+	    window.webkitSetImmediate ||
+	    window.mozSetImmediate ||
+	    window.oSetImmediate ||
+	    (function setupSetZeroTimeout() {
+	      if (!window.postMessage || !window.addEventListener) {
+	        return null;
+	      }
+
+	      var callbacks = [undefined];
+	      var message = 'zero-timeout-message';
+
+	      // Like setTimeout, but only takes a function argument.  There's
+	      // no time argument (always zero) and no arguments (you have to
+	      // use a closure).
+	      var setZeroTimeout = function setZeroTimeout(callback) {
+	        var id = callbacks.length;
+	        callbacks.push(callback);
+	        window.postMessage(message + id.toString(36), '*');
+
+	        return id;
+	      };
+
+	      window.addEventListener('message', function setZeroTimeoutMessage(evt) {
+	        // Skipping checking event source, retarded IE confused this window
+	        // object with another in the presence of iframe
+	        if (typeof evt.data !== 'string' ||
+	            evt.data.substr(0, message.length) !== message/* ||
+	            evt.source !== window */) {
+	          return;
+	        }
+
+	        evt.stopImmediatePropagation();
+
+	        var id = parseInt(evt.data.substr(message.length), 36);
+	        if (!callbacks[id]) {
+	          return;
+	        }
+
+	        callbacks[id]();
+	        callbacks[id] = undefined;
+	      }, true);
+
+	      /* specify clearImmediate() here since we need the scope */
+	      window.clearImmediate = function clearZeroTimeout(id) {
+	        if (!callbacks[id]) {
+	          return;
+	        }
+
+	        callbacks[id] = undefined;
+	      };
+
+	      return setZeroTimeout;
+	    })() ||
+	    // fallback
+	    function setImmediateFallback(fn) {
+	      window.setTimeout(fn, 0);
+	    };
+	  })();
+	}
+
+	if (!window.clearImmediate) {
+	  window.clearImmediate = (function setupClearImmediate() {
+	    return window.msClearImmediate ||
+	    window.webkitClearImmediate ||
+	    window.mozClearImmediate ||
+	    window.oClearImmediate ||
+	    // "clearZeroTimeout" is implement on the previous block ||
+	    // fallback
+	    function clearImmediateFallback(timer) {
+	      window.clearTimeout(timer);
+	    };
+	  })();
+	}
+
+	(function(global) {
+
+	  // Check if WordCloud can run on this browser
+	  var isSupported = (function isSupported() {
+	    var canvas = document.createElement('canvas');
+	    if (!canvas || !canvas.getContext) {
+	      return false;
+	    }
+
+	    var ctx = canvas.getContext('2d');
+	    if (!ctx.getImageData) {
+	      return false;
+	    }
+	    if (!ctx.fillText) {
+	      return false;
+	    }
+
+	    if (!Array.prototype.some) {
+	      return false;
+	    }
+	    if (!Array.prototype.push) {
+	      return false;
+	    }
+
+	    return true;
+	  }());
+
+	  // Find out if the browser impose minium font size by
+	  // drawing small texts on a canvas and measure it's width.
+	  var minFontSize = (function getMinFontSize() {
+	    if (!isSupported) {
+	      return;
+	    }
+
+	    var ctx = document.createElement('canvas').getContext('2d');
+
+	    // start from 20
+	    var size = 20;
+
+	    // two sizes to measure
+	    var hanWidth, mWidth;
+
+	    while (size) {
+	      ctx.font = size.toString(10) + 'px sans-serif';
+	      if ((ctx.measureText('\uFF37').width === hanWidth) &&
+	          (ctx.measureText('m').width) === mWidth) {
+	        return (size + 1);
+	      }
+
+	      hanWidth = ctx.measureText('\uFF37').width;
+	      mWidth = ctx.measureText('m').width;
+
+	      size--;
+	    }
+
+	    return 0;
+	  })();
+
+	  // Based on http://jsfromhell.com/array/shuffle
+	  var shuffleArray = function shuffleArray(arr) {
+	    for (var j, x, i = arr.length; i;
+	      j = Math.floor(Math.random() * i),
+	      x = arr[--i], arr[i] = arr[j],
+	      arr[j] = x) {}
+	    return arr;
+	  };
+
+	  var WordCloud = function WordCloud(elements, options) {
+	    if (!isSupported) {
+	      return;
+	    }
+
+	    if (!Array.isArray(elements)) {
+	      elements = [elements];
+	    }
+
+	    elements.forEach(function(el, i) {
+	      if (typeof el === 'string') {
+	        elements[i] = document.getElementById(el);
+	        if (!elements[i]) {
+	          throw 'The element id specified is not found.';
+	        }
+	      } else if (!el.tagName && !el.appendChild) {
+	        throw 'You must pass valid HTML elements, or ID of the element.';
+	      }
+	    });
+
+	    /* Default values to be overwritten by options object */
+	    var settings = {
+	      list: [],
+	      fontFamily: '"Trebuchet MS", "Heiti TC", "微軟正黑體", ' +
+	                  '"Arial Unicode MS", "Droid Fallback Sans", sans-serif',
+	      fontWeight: 'normal',
+	      color: 'random-dark',
+	      minSize: 0, // 0 to disable
+	      weightFactor: 1,
+	      clearCanvas: true,
+	      backgroundColor: '#fff',  // opaque white = rgba(255, 255, 255, 1)
+
+	      gridSize: 8,
+	      drawOutOfBound: false,
+	      origin: null,
+
+	      drawMask: false,
+	      maskColor: 'rgba(255,0,0,0.3)',
+	      maskGapWidth: 0.3,
+
+	      wait: 0,
+	      abortThreshold: 0, // disabled
+	      abort: function noop() {},
+
+	      minRotation: - Math.PI / 2,
+	      maxRotation: Math.PI / 2,
+	      rotationStep: 0.1,
+
+	      shuffle: true,
+	      rotateRatio: 0.1,
+
+	      shape: 'circle',
+	      ellipticity: 0.65,
+
+	      classes: null,
+
+	      hover: null,
+	      click: null
+	    };
+
+	    if (options) {
+	      for (var key in options) {
+	        if (key in settings) {
+	          settings[key] = options[key];
+	        }
+	      }
+	    }
+
+	    /* Convert weightFactor into a function */
+	    if (typeof settings.weightFactor !== 'function') {
+	      var factor = settings.weightFactor;
+	      settings.weightFactor = function weightFactor(pt) {
+	        return pt * factor; //in px
+	      };
+	    }
+
+	    /* Convert shape into a function */
+	    if (typeof settings.shape !== 'function') {
+	      switch (settings.shape) {
+	        case 'circle':
+	        /* falls through */
+	        default:
+	          // 'circle' is the default and a shortcut in the code loop.
+	          settings.shape = 'circle';
+	          break;
+
+	        case 'cardioid':
+	          settings.shape = function shapeCardioid(theta) {
+	            return 1 - Math.sin(theta);
+	          };
+	          break;
+
+	        /*
+	        To work out an X-gon, one has to calculate "m",
+	        where 1/(cos(2*PI/X)+m*sin(2*PI/X)) = 1/(cos(0)+m*sin(0))
+	        http://www.wolframalpha.com/input/?i=1%2F%28cos%282*PI%2FX%29%2Bm*sin%28
+	        2*PI%2FX%29%29+%3D+1%2F%28cos%280%29%2Bm*sin%280%29%29
+	        Copy the solution into polar equation r = 1/(cos(t') + m*sin(t'))
+	        where t' equals to mod(t, 2PI/X);
+	        */
+
+	        case 'diamond':
+	        case 'square':
+	          // http://www.wolframalpha.com/input/?i=plot+r+%3D+1%2F%28cos%28mod+
+	          // %28t%2C+PI%2F2%29%29%2Bsin%28mod+%28t%2C+PI%2F2%29%29%29%2C+t+%3D
+	          // +0+..+2*PI
+	          settings.shape = function shapeSquare(theta) {
+	            var thetaPrime = theta % (2 * Math.PI / 4);
+	            return 1 / (Math.cos(thetaPrime) + Math.sin(thetaPrime));
+	          };
+	          break;
+
+	        case 'triangle-forward':
+	          // http://www.wolframalpha.com/input/?i=plot+r+%3D+1%2F%28cos%28mod+
+	          // %28t%2C+2*PI%2F3%29%29%2Bsqrt%283%29sin%28mod+%28t%2C+2*PI%2F3%29
+	          // %29%29%2C+t+%3D+0+..+2*PI
+	          settings.shape = function shapeTriangle(theta) {
+	            var thetaPrime = theta % (2 * Math.PI / 3);
+	            return 1 / (Math.cos(thetaPrime) +
+	                        Math.sqrt(3) * Math.sin(thetaPrime));
+	          };
+	          break;
+
+	        case 'triangle':
+	        case 'triangle-upright':
+	          settings.shape = function shapeTriangle(theta) {
+	            var thetaPrime = (theta + Math.PI * 3 / 2) % (2 * Math.PI / 3);
+	            return 1 / (Math.cos(thetaPrime) +
+	                        Math.sqrt(3) * Math.sin(thetaPrime));
+	          };
+	          break;
+
+	        case 'pentagon':
+	          settings.shape = function shapePentagon(theta) {
+	            var thetaPrime = (theta + 0.955) % (2 * Math.PI / 5);
+	            return 1 / (Math.cos(thetaPrime) +
+	                        0.726543 * Math.sin(thetaPrime));
+	          };
+	          break;
+
+	        case 'star':
+	          settings.shape = function shapeStar(theta) {
+	            var thetaPrime = (theta + 0.955) % (2 * Math.PI / 10);
+	            if ((theta + 0.955) % (2 * Math.PI / 5) - (2 * Math.PI / 10) >= 0) {
+	              return 1 / (Math.cos((2 * Math.PI / 10) - thetaPrime) +
+	                          3.07768 * Math.sin((2 * Math.PI / 10) - thetaPrime));
+	            } else {
+	              return 1 / (Math.cos(thetaPrime) +
+	                          3.07768 * Math.sin(thetaPrime));
+	            }
+	          };
+	          break;
+	      }
+	    }
+
+	    /* Make sure gridSize is a whole number and is not smaller than 4px */
+	    settings.gridSize = Math.max(Math.floor(settings.gridSize), 4);
+
+	    /* shorthand */
+	    var g = settings.gridSize;
+	    var maskRectWidth = g - settings.maskGapWidth;
+
+	    /* normalize rotation settings */
+	    var rotationRange = Math.abs(settings.maxRotation - settings.minRotation);
+	    var minRotation = Math.min(settings.maxRotation, settings.minRotation);
+	    var rotationStep = settings.rotationStep;
+
+	    /* information/object available to all functions, set when start() */
+	    var grid, // 2d array containing filling information
+	      ngx, ngy, // width and height of the grid
+	      center, // position of the center of the cloud
+	      maxRadius;
+
+	    /* timestamp for measuring each putWord() action */
+	    var escapeTime;
+
+	    /* function for getting the color of the text */
+	    var getTextColor;
+	    function random_hsl_color(min, max) {
+	      return 'hsl(' +
+	        (Math.random() * 360).toFixed() + ',' +
+	        (Math.random() * 30 + 70).toFixed() + '%,' +
+	        (Math.random() * (max - min) + min).toFixed() + '%)';
+	    }
+	    switch (settings.color) {
+	      case 'random-dark':
+	        getTextColor = function getRandomDarkColor() {
+	          return random_hsl_color(10, 50);
+	        };
+	        break;
+
+	      case 'random-light':
+	        getTextColor = function getRandomLightColor() {
+	          return random_hsl_color(50, 90);
+	        };
+	        break;
+
+	      default:
+	        if (typeof settings.color === 'function') {
+	          getTextColor = settings.color;
+	        }
+	        break;
+	    }
+
+	    /* function for getting the classes of the text */
+	    var getTextClasses = null;
+	    if (typeof settings.classes === 'function') {
+	      getTextClasses = settings.classes;
+	    }
+
+	    /* Interactive */
+	    var interactive = false;
+	    var infoGrid = [];
+	    var hovered;
+
+	    var getInfoGridFromMouseTouchEvent =
+	    function getInfoGridFromMouseTouchEvent(evt) {
+	      var canvas = evt.currentTarget;
+	      var rect = canvas.getBoundingClientRect();
+	      var clientX;
+	      var clientY;
+	      /** Detect if touches are available */
+	      if (evt.touches) {
+	        clientX = evt.touches[0].clientX;
+	        clientY = evt.touches[0].clientY;
+	      } else {
+	        clientX = evt.clientX;
+	        clientY = evt.clientY;
+	      }
+	      var eventX = clientX - rect.left;
+	      var eventY = clientY - rect.top;
+
+	      var x = Math.floor(eventX * ((canvas.width / rect.width) || 1) / g);
+	      var y = Math.floor(eventY * ((canvas.height / rect.height) || 1) / g);
+
+	      return infoGrid[x][y];
+	    };
+
+	    var wordcloudhover = function wordcloudhover(evt) {
+	      var info = getInfoGridFromMouseTouchEvent(evt);
+
+	      if (hovered === info) {
+	        return;
+	      }
+
+	      hovered = info;
+	      if (!info) {
+	        settings.hover(undefined, undefined, evt);
+
+	        return;
+	      }
+
+	      settings.hover(info.item, info.dimension, evt);
+
+	    };
+
+	    var wordcloudclick = function wordcloudclick(evt) {
+	      var info = getInfoGridFromMouseTouchEvent(evt);
+	      if (!info) {
+	        return;
+	      }
+
+	      settings.click(info.item, info.dimension, evt);
+	      evt.preventDefault();
+	    };
+
+	    /* Get points on the grid for a given radius away from the center */
+	    var pointsAtRadius = [];
+	    var getPointsAtRadius = function getPointsAtRadius(radius) {
+	      if (pointsAtRadius[radius]) {
+	        return pointsAtRadius[radius];
+	      }
+
+	      // Look for these number of points on each radius
+	      var T = radius * 8;
+
+	      // Getting all the points at this radius
+	      var t = T;
+	      var points = [];
+
+	      if (radius === 0) {
+	        points.push([center[0], center[1], 0]);
+	      }
+
+	      while (t--) {
+	        // distort the radius to put the cloud in shape
+	        var rx = 1;
+	        if (settings.shape !== 'circle') {
+	          rx = settings.shape(t / T * 2 * Math.PI); // 0 to 1
+	        }
+
+	        // Push [x, y, t]; t is used solely for getTextColor()
+	        points.push([
+	          center[0] + radius * rx * Math.cos(-t / T * 2 * Math.PI),
+	          center[1] + radius * rx * Math.sin(-t / T * 2 * Math.PI) *
+	            settings.ellipticity,
+	          t / T * 2 * Math.PI]);
+	      }
+
+	      pointsAtRadius[radius] = points;
+	      return points;
+	    };
+
+	    /* Return true if we had spent too much time */
+	    var exceedTime = function exceedTime() {
+	      return ((settings.abortThreshold > 0) &&
+	        ((new Date()).getTime() - escapeTime > settings.abortThreshold));
+	    };
+
+	    /* Get the deg of rotation according to settings, and luck. */
+	    var getRotateDeg = function getRotateDeg() {
+	      if (settings.rotateRatio === 0) {
+	        return 0;
+	      }
+
+	      if (Math.random() > settings.rotateRatio) {
+	        return 0;
+	      }
+
+	      if (rotationRange === 0) {
+	        return minRotation;
+	      }
+
+	      return minRotation + Math.round(Math.random() * rotationRange / rotationStep) * rotationStep;
+	    };
+
+	    var getTextInfo = function getTextInfo(word, weight, rotateDeg) {
+	      // calculate the acutal font size
+	      // fontSize === 0 means weightFactor function wants the text skipped,
+	      // and size < minSize means we cannot draw the text.
+	      var debug = false;
+	      var fontSize = settings.weightFactor(weight);
+	      if (fontSize <= settings.minSize) {
+	        return false;
+	      }
+
+	      // Scale factor here is to make sure fillText is not limited by
+	      // the minium font size set by browser.
+	      // It will always be 1 or 2n.
+	      var mu = 1;
+	      if (fontSize < minFontSize) {
+	        mu = (function calculateScaleFactor() {
+	          var mu = 2;
+	          while (mu * fontSize < minFontSize) {
+	            mu += 2;
+	          }
+	          return mu;
+	        })();
+	      }
+
+	      var fcanvas = document.createElement('canvas');
+	      var fctx = fcanvas.getContext('2d', { willReadFrequently: true });
+
+	      fctx.font = settings.fontWeight + ' ' +
+	        (fontSize * mu).toString(10) + 'px ' + settings.fontFamily;
+
+	      // Estimate the dimension of the text with measureText().
+	      var fw = fctx.measureText(word).width / mu;
+	      var fh = Math.max(fontSize * mu,
+	                        fctx.measureText('m').width,
+	                        fctx.measureText('\uFF37').width) / mu;
+
+	      // Create a boundary box that is larger than our estimates,
+	      // so text don't get cut of (it sill might)
+	      var boxWidth = fw + fh * 2;
+	      var boxHeight = fh * 3;
+	      var fgw = Math.ceil(boxWidth / g);
+	      var fgh = Math.ceil(boxHeight / g);
+	      boxWidth = fgw * g;
+	      boxHeight = fgh * g;
+
+	      // Calculate the proper offsets to make the text centered at
+	      // the preferred position.
+
+	      // This is simply half of the width.
+	      var fillTextOffsetX = - fw / 2;
+	      // Instead of moving the box to the exact middle of the preferred
+	      // position, for Y-offset we move 0.4 instead, so Latin alphabets look
+	      // vertical centered.
+	      var fillTextOffsetY = - fh * 0.4;
+
+	      // Calculate the actual dimension of the canvas, considering the rotation.
+	      var cgh = Math.ceil((boxWidth * Math.abs(Math.sin(rotateDeg)) +
+	                           boxHeight * Math.abs(Math.cos(rotateDeg))) / g);
+	      var cgw = Math.ceil((boxWidth * Math.abs(Math.cos(rotateDeg)) +
+	                           boxHeight * Math.abs(Math.sin(rotateDeg))) / g);
+	      var width = cgw * g;
+	      var height = cgh * g;
+
+	      fcanvas.setAttribute('width', width);
+	      fcanvas.setAttribute('height', height);
+
+	      if (debug) {
+	        // Attach fcanvas to the DOM
+	        document.body.appendChild(fcanvas);
+	        // Save it's state so that we could restore and draw the grid correctly.
+	        fctx.save();
+	      }
+
+	      // Scale the canvas with |mu|.
+	      fctx.scale(1 / mu, 1 / mu);
+	      fctx.translate(width * mu / 2, height * mu / 2);
+	      fctx.rotate(- rotateDeg);
+
+	      // Once the width/height is set, ctx info will be reset.
+	      // Set it again here.
+	      fctx.font = settings.fontWeight + ' ' +
+	        (fontSize * mu).toString(10) + 'px ' + settings.fontFamily;
+
+	      // Fill the text into the fcanvas.
+	      // XXX: We cannot because textBaseline = 'top' here because
+	      // Firefox and Chrome uses different default line-height for canvas.
+	      // Please read https://bugzil.la/737852#c6.
+	      // Here, we use textBaseline = 'middle' and draw the text at exactly
+	      // 0.5 * fontSize lower.
+	      fctx.fillStyle = '#000';
+	      fctx.textBaseline = 'middle';
+	      fctx.fillText(word, fillTextOffsetX * mu,
+	                    (fillTextOffsetY + fontSize * 0.5) * mu);
+
+	      // Get the pixels of the text
+	      var imageData = fctx.getImageData(0, 0, width, height).data;
+
+	      if (exceedTime()) {
+	        return false;
+	      }
+
+	      if (debug) {
+	        // Draw the box of the original estimation
+	        fctx.strokeRect(fillTextOffsetX * mu,
+	                        fillTextOffsetY, fw * mu, fh * mu);
+	        fctx.restore();
+	      }
+
+	      // Read the pixels and save the information to the occupied array
+	      var occupied = [];
+	      var gx = cgw, gy, x, y;
+	      var bounds = [cgh / 2, cgw / 2, cgh / 2, cgw / 2];
+	      while (gx--) {
+	        gy = cgh;
+	        while (gy--) {
+	          y = g;
+	          singleGridLoop: {
+	            while (y--) {
+	              x = g;
+	              while (x--) {
+	                if (imageData[((gy * g + y) * width +
+	                               (gx * g + x)) * 4 + 3]) {
+	                  occupied.push([gx, gy]);
+
+	                  if (gx < bounds[3]) {
+	                    bounds[3] = gx;
+	                  }
+	                  if (gx > bounds[1]) {
+	                    bounds[1] = gx;
+	                  }
+	                  if (gy < bounds[0]) {
+	                    bounds[0] = gy;
+	                  }
+	                  if (gy > bounds[2]) {
+	                    bounds[2] = gy;
+	                  }
+
+	                  if (debug) {
+	                    fctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+	                    fctx.fillRect(gx * g, gy * g, g - 0.5, g - 0.5);
+	                  }
+	                  break singleGridLoop;
+	                }
+	              }
+	            }
+	            if (debug) {
+	              fctx.fillStyle = 'rgba(0, 0, 255, 0.5)';
+	              fctx.fillRect(gx * g, gy * g, g - 0.5, g - 0.5);
+	            }
+	          }
+	        }
+	      }
+
+	      if (debug) {
+	        fctx.fillStyle = 'rgba(0, 255, 0, 0.5)';
+	        fctx.fillRect(bounds[3] * g,
+	                      bounds[0] * g,
+	                      (bounds[1] - bounds[3] + 1) * g,
+	                      (bounds[2] - bounds[0] + 1) * g);
+	      }
+
+	      // Return information needed to create the text on the real canvas
+	      return {
+	        mu: mu,
+	        occupied: occupied,
+	        bounds: bounds,
+	        gw: cgw,
+	        gh: cgh,
+	        fillTextOffsetX: fillTextOffsetX,
+	        fillTextOffsetY: fillTextOffsetY,
+	        fillTextWidth: fw,
+	        fillTextHeight: fh,
+	        fontSize: fontSize
+	      };
+	    };
+
+	    /* Determine if there is room available in the given dimension */
+	    var canFitText = function canFitText(gx, gy, gw, gh, occupied) {
+	      // Go through the occupied points,
+	      // return false if the space is not available.
+	      var i = occupied.length;
+	      while (i--) {
+	        var px = gx + occupied[i][0];
+	        var py = gy + occupied[i][1];
+
+	        if (px >= ngx || py >= ngy || px < 0 || py < 0) {
+	          if (!settings.drawOutOfBound) {
+	            return false;
+	          }
+	          continue;
+	        }
+
+	        if (!grid[px][py]) {
+	          return false;
+	        }
+	      }
+	      return true;
+	    };
+
+	    /* Actually draw the text on the grid */
+	    var drawText = function drawText(gx, gy, info, word, weight,
+	                                     distance, theta, rotateDeg, attributes) {
+
+	      var fontSize = info.fontSize;
+	      var color;
+	      if (getTextColor) {
+	        color = getTextColor(word, weight, fontSize, distance, theta);
+	      } else {
+	        color = settings.color;
+	      }
+
+	      var classes;
+	      if (getTextClasses) {
+	        classes = getTextClasses(word, weight, fontSize, distance, theta);
+	      } else {
+	        classes = settings.classes;
+	      }
+
+	      var dimension;
+	      var bounds = info.bounds;
+	      dimension = {
+	        x: (gx + bounds[3]) * g,
+	        y: (gy + bounds[0]) * g,
+	        w: (bounds[1] - bounds[3] + 1) * g,
+	        h: (bounds[2] - bounds[0] + 1) * g
+	      };
+
+	      elements.forEach(function(el) {
+	        if (el.getContext) {
+	          var ctx = el.getContext('2d');
+	          var mu = info.mu;
+
+	          // Save the current state before messing it
+	          ctx.save();
+	          ctx.scale(1 / mu, 1 / mu);
+
+	          ctx.font = settings.fontWeight + ' ' +
+	                     (fontSize * mu).toString(10) + 'px ' + settings.fontFamily;
+	          ctx.fillStyle = color;
+
+	          // Translate the canvas position to the origin coordinate of where
+	          // the text should be put.
+	          ctx.translate((gx + info.gw / 2) * g * mu,
+	                        (gy + info.gh / 2) * g * mu);
+
+	          if (rotateDeg !== 0) {
+	            ctx.rotate(- rotateDeg);
+	          }
+
+	          // Finally, fill the text.
+
+	          // XXX: We cannot because textBaseline = 'top' here because
+	          // Firefox and Chrome uses different default line-height for canvas.
+	          // Please read https://bugzil.la/737852#c6.
+	          // Here, we use textBaseline = 'middle' and draw the text at exactly
+	          // 0.5 * fontSize lower.
+	          ctx.textBaseline = 'middle';
+	          ctx.fillText(word, info.fillTextOffsetX * mu,
+	                             (info.fillTextOffsetY + fontSize * 0.5) * mu);
+
+	          // The below box is always matches how <span>s are positioned
+	          /* ctx.strokeRect(info.fillTextOffsetX, info.fillTextOffsetY,
+	            info.fillTextWidth, info.fillTextHeight); */
+
+	          // Restore the state.
+	          ctx.restore();
+	        } else {
+	          // drawText on DIV element
+	          var span = document.createElement('span');
+	          var transformRule = '';
+	          transformRule = 'rotate(' + (- rotateDeg / Math.PI * 180) + 'deg) ';
+	          if (info.mu !== 1) {
+	            transformRule +=
+	              'translateX(-' + (info.fillTextWidth / 4) + 'px) ' +
+	              'scale(' + (1 / info.mu) + ')';
+	          }
+	          var styleRules = {
+	            'position': 'absolute',
+	            'display': 'block',
+	            'font': settings.fontWeight + ' ' +
+	                    (fontSize * info.mu) + 'px ' + settings.fontFamily,
+	            'left': ((gx + info.gw / 2) * g + info.fillTextOffsetX) + 'px',
+	            'top': ((gy + info.gh / 2) * g + info.fillTextOffsetY) + 'px',
+	            'width': info.fillTextWidth + 'px',
+	            'height': info.fillTextHeight + 'px',
+	            'lineHeight': fontSize + 'px',
+	            'whiteSpace': 'nowrap',
+	            'transform': transformRule,
+	            'webkitTransform': transformRule,
+	            'msTransform': transformRule,
+	            'transformOrigin': '50% 40%',
+	            'webkitTransformOrigin': '50% 40%',
+	            'msTransformOrigin': '50% 40%'
+	          };
+	          if (color) {
+	            styleRules.color = color;
+	          }
+	          span.textContent = word;
+	          for (var cssProp in styleRules) {
+	            span.style[cssProp] = styleRules[cssProp];
+	          }
+	          if (attributes) {
+	            for (var attribute in attributes) {
+	              span.setAttribute(attribute, attributes[attribute]);
+	            }
+	          }
+	          if (classes) {
+	            span.className += classes;
+	          }
+	          el.appendChild(span);
+	        }
+	      });
+	    };
+
+	    /* Help function to updateGrid */
+	    var fillGridAt = function fillGridAt(x, y, drawMask, dimension, item) {
+	      if (x >= ngx || y >= ngy || x < 0 || y < 0) {
+	        return;
+	      }
+
+	      grid[x][y] = false;
+
+	      if (drawMask) {
+	        var ctx = elements[0].getContext('2d');
+	        ctx.fillRect(x * g, y * g, maskRectWidth, maskRectWidth);
+	      }
+
+	      if (interactive) {
+	        infoGrid[x][y] = { item: item, dimension: dimension };
+	      }
+	    };
+
+	    /* Update the filling information of the given space with occupied points.
+	       Draw the mask on the canvas if necessary. */
+	    var updateGrid = function updateGrid(gx, gy, gw, gh, info, item) {
+	      var occupied = info.occupied;
+	      var drawMask = settings.drawMask;
+	      var ctx;
+	      if (drawMask) {
+	        ctx = elements[0].getContext('2d');
+	        ctx.save();
+	        ctx.fillStyle = settings.maskColor;
+	      }
+
+	      var dimension;
+	      if (interactive) {
+	        var bounds = info.bounds;
+	        dimension = {
+	          x: (gx + bounds[3]) * g,
+	          y: (gy + bounds[0]) * g,
+	          w: (bounds[1] - bounds[3] + 1) * g,
+	          h: (bounds[2] - bounds[0] + 1) * g
+	        };
+	      }
+
+	      var i = occupied.length;
+	      while (i--) {
+	        var px = gx + occupied[i][0];
+	        var py = gy + occupied[i][1];
+
+	        if (px >= ngx || py >= ngy || px < 0 || py < 0) {
+	          continue;
+	        }
+
+	        fillGridAt(px, py, drawMask, dimension, item);
+	      }
+
+	      if (drawMask) {
+	        ctx.restore();
+	      }
+	    };
+
+	    /* putWord() processes each item on the list,
+	       calculate it's size and determine it's position, and actually
+	       put it on the canvas. */
+	    var putWord = function putWord(item) {
+	      var word, weight, attributes;
+	      if (Array.isArray(item)) {
+	        word = item[0];
+	        weight = item[1];
+	      } else {
+	        word = item.word;
+	        weight = item.weight;
+	        attributes = item.attributes;
+	      }
+	      var rotateDeg = getRotateDeg();
+
+	      // get info needed to put the text onto the canvas
+	      var info = getTextInfo(word, weight, rotateDeg);
+
+	      // not getting the info means we shouldn't be drawing this one.
+	      if (!info) {
+	        return false;
+	      }
+
+	      if (exceedTime()) {
+	        return false;
+	      }
+
+	      // If drawOutOfBound is set to false,
+	      // skip the loop if we have already know the bounding box of
+	      // word is larger than the canvas.
+	      if (!settings.drawOutOfBound) {
+	        var bounds = info.bounds;
+	        if ((bounds[1] - bounds[3] + 1) > ngx ||
+	          (bounds[2] - bounds[0] + 1) > ngy) {
+	          return false;
+	        }
+	      }
+
+	      // Determine the position to put the text by
+	      // start looking for the nearest points
+	      var r = maxRadius + 1;
+
+	      var tryToPutWordAtPoint = function(gxy) {
+	        var gx = Math.floor(gxy[0] - info.gw / 2);
+	        var gy = Math.floor(gxy[1] - info.gh / 2);
+	        var gw = info.gw;
+	        var gh = info.gh;
+
+	        // If we cannot fit the text at this position, return false
+	        // and go to the next position.
+	        if (!canFitText(gx, gy, gw, gh, info.occupied)) {
+	          return false;
+	        }
+
+	        // Actually put the text on the canvas
+	        drawText(gx, gy, info, word, weight,
+	                 (maxRadius - r), gxy[2], rotateDeg, attributes);
+
+	        // Mark the spaces on the grid as filled
+	        updateGrid(gx, gy, gw, gh, info, item);
+
+	        return {
+	          gx: gx,
+	          gy: gy,
+	          rot: rotateDeg,
+	          info: info
+	        };
+	      };
+
+	      while (r--) {
+	        var points = getPointsAtRadius(maxRadius - r);
+
+	        if (settings.shuffle) {
+	          points = [].concat(points);
+	          shuffleArray(points);
+	        }
+
+	        // Try to fit the words by looking at each point.
+	        // array.some() will stop and return true
+	        // when putWordAtPoint() returns true.
+	        for (var i = 0; i < points.length; i++) {
+	          var res = tryToPutWordAtPoint(points[i]);
+	          if (res) {
+	            return res;
+	          }
+	        }
+
+	        // var drawn = points.some(tryToPutWordAtPoint);
+	        // if (drawn) {
+	        //   // leave putWord() and return true
+	        //   return true;
+	        // }
+	      }
+	      // we tried all distances but text won't fit, return null
+	      return null;
+	    };
+
+	    /* Send DOM event to all elements. Will stop sending event and return
+	       if the previous one is canceled (for cancelable events). */
+	    var sendEvent = function sendEvent(type, cancelable, detail) {
+	      if (cancelable) {
+	        return !elements.some(function(el) {
+	          var evt = document.createEvent('CustomEvent');
+	          evt.initCustomEvent(type, true, cancelable, detail || {});
+	          return !el.dispatchEvent(evt);
+	        }, this);
+	      } else {
+	        elements.forEach(function(el) {
+	          var evt = document.createEvent('CustomEvent');
+	          evt.initCustomEvent(type, true, cancelable, detail || {});
+	          el.dispatchEvent(evt);
+	        }, this);
+	      }
+	    };
+
+	    /* Start drawing on a canvas */
+	    var start = function start() {
+	      // For dimensions, clearCanvas etc.,
+	      // we only care about the first element.
+	      var canvas = elements[0];
+
+	      if (canvas.getContext) {
+	        ngx = Math.ceil(canvas.width / g);
+	        ngy = Math.ceil(canvas.height / g);
+	      } else {
+	        var rect = canvas.getBoundingClientRect();
+	        ngx = Math.ceil(rect.width / g);
+	        ngy = Math.ceil(rect.height / g);
+	      }
+
+	      // Sending a wordcloudstart event which cause the previous loop to stop.
+	      // Do nothing if the event is canceled.
+	      if (!sendEvent('wordcloudstart', true)) {
+	        return;
+	      }
+
+	      // Determine the center of the word cloud
+	      center = (settings.origin) ?
+	        [settings.origin[0]/g, settings.origin[1]/g] :
+	        [ngx / 2, ngy / 2];
+
+	      // Maxium radius to look for space
+	      maxRadius = Math.floor(Math.sqrt(ngx * ngx + ngy * ngy));
+
+	      /* Clear the canvas only if the clearCanvas is set,
+	         if not, update the grid to the current canvas state */
+	      grid = [];
+
+	      var gx, gy, i;
+	      if (!canvas.getContext || settings.clearCanvas) {
+	        elements.forEach(function(el) {
+	          if (el.getContext) {
+	            var ctx = el.getContext('2d');
+	            ctx.fillStyle = settings.backgroundColor;
+	            ctx.clearRect(0, 0, ngx * (g + 1), ngy * (g + 1));
+	            ctx.fillRect(0, 0, ngx * (g + 1), ngy * (g + 1));
+	          } else {
+	            el.textContent = '';
+	            el.style.backgroundColor = settings.backgroundColor;
+	            el.style.position = 'relative';
+	          }
+	        });
+
+	        /* fill the grid with empty state */
+	        gx = ngx;
+	        while (gx--) {
+	          grid[gx] = [];
+	          gy = ngy;
+	          while (gy--) {
+	            grid[gx][gy] = true;
+	          }
+	        }
+	      } else {
+	        /* Determine bgPixel by creating
+	           another canvas and fill the specified background color. */
+	        var bctx = document.createElement('canvas').getContext('2d');
+
+	        bctx.fillStyle = settings.backgroundColor;
+	        bctx.fillRect(0, 0, 1, 1);
+	        var bgPixel = bctx.getImageData(0, 0, 1, 1).data;
+
+	        /* Read back the pixels of the canvas we got to tell which part of the
+	           canvas is empty.
+	           (no clearCanvas only works with a canvas, not divs) */
+	        var imageData =
+	          canvas.getContext('2d').getImageData(0, 0, ngx * g, ngy * g).data;
+
+	        gx = ngx;
+	        var x, y;
+	        while (gx--) {
+	          grid[gx] = [];
+	          gy = ngy;
+	          while (gy--) {
+	            y = g;
+	            singleGridLoop: while (y--) {
+	              x = g;
+	              while (x--) {
+	                i = 4;
+	                while (i--) {
+	                  if (imageData[((gy * g + y) * ngx * g +
+	                                 (gx * g + x)) * 4 + i] !== bgPixel[i]) {
+	                    grid[gx][gy] = false;
+	                    break singleGridLoop;
+	                  }
+	                }
+	              }
+	            }
+	            if (grid[gx][gy] !== false) {
+	              grid[gx][gy] = true;
+	            }
+	          }
+	        }
+
+	        imageData = bctx = bgPixel = undefined;
+	      }
+
+	      // fill the infoGrid with empty state if we need it
+	      if (settings.hover || settings.click) {
+
+	        interactive = true;
+
+	        /* fill the grid with empty state */
+	        gx = ngx + 1;
+	        while (gx--) {
+	          infoGrid[gx] = [];
+	        }
+
+	        if (settings.hover) {
+	          canvas.addEventListener('mousemove', wordcloudhover);
+	        }
+
+	        if (settings.click) {
+	          canvas.addEventListener('click', wordcloudclick);
+	          canvas.addEventListener('touchstart', wordcloudclick);
+	          canvas.addEventListener('touchend', function (e) {
+	            e.preventDefault();
+	          });
+	          canvas.style.webkitTapHighlightColor = 'rgba(0, 0, 0, 0)';
+	        }
+
+	        canvas.addEventListener('wordcloudstart', function stopInteraction() {
+	          canvas.removeEventListener('wordcloudstart', stopInteraction);
+
+	          canvas.removeEventListener('mousemove', wordcloudhover);
+	          canvas.removeEventListener('click', wordcloudclick);
+	          hovered = undefined;
+	        });
+	      }
+
+	      i = 0;
+	      var loopingFunction, stoppingFunction;
+	      if (settings.wait !== 0) {
+	        loopingFunction = window.setTimeout;
+	        stoppingFunction = window.clearTimeout;
+	      } else {
+	        loopingFunction = window.setImmediate;
+	        stoppingFunction = window.clearImmediate;
+	      }
+
+	      var addEventListener = function addEventListener(type, listener) {
+	        elements.forEach(function(el) {
+	          el.addEventListener(type, listener);
+	        }, this);
+	      };
+
+	      var removeEventListener = function removeEventListener(type, listener) {
+	        elements.forEach(function(el) {
+	          el.removeEventListener(type, listener);
+	        }, this);
+	      };
+
+	      var anotherWordCloudStart = function anotherWordCloudStart() {
+	        removeEventListener('wordcloudstart', anotherWordCloudStart);
+	        stoppingFunction(timer);
+	      };
+
+	      addEventListener('wordcloudstart', anotherWordCloudStart);
+
+	      var timer = loopingFunction(function loop() {
+	        if (i >= settings.list.length) {
+	          stoppingFunction(timer);
+	          sendEvent('wordcloudstop', false);
+	          removeEventListener('wordcloudstart', anotherWordCloudStart);
+
+	          return;
+	        }
+	        escapeTime = (new Date()).getTime();
+	        var drawn = putWord(settings.list[i]);
+	        var canceled = !sendEvent('wordclouddrawn', true, {
+	          item: settings.list[i], drawn: drawn });
+	        if (exceedTime() || canceled) {
+	          stoppingFunction(timer);
+	          settings.abort();
+	          sendEvent('wordcloudabort', false);
+	          sendEvent('wordcloudstop', false);
+	          removeEventListener('wordcloudstart', anotherWordCloudStart);
+	          return;
+	        }
+	        i++;
+	        timer = loopingFunction(loop, settings.wait);
+	      }, settings.wait);
+	    };
+
+	    // All set, start the drawing
+	    start();
+	  };
+
+	  WordCloud.isSupported = isSupported;
+	  WordCloud.minFontSize = minFontSize;
+
+	  // Expose the library as an AMD module
+	  if (true) {
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() { return WordCloud; }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	  } else if (typeof module !== 'undefined' && module.exports) {
+	    module.exports = WordCloud;
+	  } else {
+	    global.WordCloud = WordCloud;
+	  }
+
+	})(this); //jshint ignore:line
+
+/***/ }
+/******/ ])
+});
+;

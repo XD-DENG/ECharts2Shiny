@@ -6,7 +6,7 @@ shinyUI(fluidPage(
 
   # We HAVE TO to load the ECharts Word Cloud extension javascript library in advance
   loadEChartsLibrary(),
-  loadWordcloudExtension(),
+
 
   h2("Largest Continents in Area (km^2)"),
   "Data Source: http://geography.about.com/od/lists/a/largecontinent.htm",
