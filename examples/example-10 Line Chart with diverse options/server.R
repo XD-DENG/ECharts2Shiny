@@ -22,13 +22,15 @@ shinyServer(function(input, output) {
   renderLineChart(div_id = "test_1",
                   data = dat,
                   line.width = 8,
-                  line.type = "dashed")
+                  line.type = "dotted")
 
   # set line.width with a vector whose length is the same as the number of categories in the data
   renderLineChart(div_id = "test_2",
                   data = dat,
                   line.width = c(2, 6, 12),
-                  line.type = c("solid", "dashed", "dotted"))
+                  line.type = c("solid", "dashed", "dotted"),
+                  point.size = c(10,15,20),
+                  point.type = c("emptyCircle", "rect", 'circle'))
 
 
   })

@@ -234,11 +234,23 @@ renderLineChart <- function(div_id,
     stop("The line.width should either be numeric or integer.")
   }
 
+  # check the type of point.size
+  if((class(point.size) %in% c("numeric", "integer")) == FALSE){
+    stop("The point.size should either be numeric or integer.")
+  }
+
+  # check the value of point.type
+  unique_point.types <- unique(point.type)
+  if(sum(sapply(unique_point.types, function(x){x %in% c('emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
+    stop("The point.type can only be 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
+  }
+
   # check the value of line.type
   unique_line.types <- unique(line.type)
   if(sum(sapply(unique_line.types, function(x){x %in% c("solid", "dashed", "dotted")})) != length(unique_line.types)){
     stop("The line.type can only be 'solid', 'dashed', or 'dotted'.")
   }
+
 
   n_of_category <- dim(data)[2]
   # Check the length of line.width
@@ -253,16 +265,19 @@ renderLineChart <- function(div_id,
   # check the length of line.type
   if(length(line.type) != 1){
     if(length(line.type) != n_of_category){
-      stop("The length of line.width should either be one or the same as the number of categories.")
+      stop("The length of line.type should either be one or the same as the number of categories.")
     }
   } else {
     line.type <- rep(line.type, n_of_category)
   }
 
-  # check the value of point.type
-  unique_point.types <- unique(point.type)
-  if(sum(sapply(unique_point.types, function(x){x %in% c('emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow')})) != length(unique_point.types)){
-    stop("The point.type can only be 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'.")
+  # Check the length of point.size
+  if(length(point.size) != 1){
+    if(length(point.size) != n_of_category){
+      stop("The length of point.size should either be one or the same as the number of categories.")
+    }
+  } else {
+    point.size <- rep(point.size, n_of_category)
   }
 
   # Check the length of point.type
@@ -287,7 +302,7 @@ renderLineChart <- function(div_id,
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
 
-                  paste("symbolSize:", point.size, ",", sep=""),
+                  paste("symbolSize:", point.size[i], ",", sep=""),
                   paste("symbol:'", point.type[i], "',", sep=""),
 
                   "itemStyle:{normal:{lineStyle: {width:", line.width[i],", type:'", line.type[i], "'}}},",

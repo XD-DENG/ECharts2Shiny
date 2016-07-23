@@ -41,7 +41,11 @@ The value can be "solid", "dashed", or "dotted". The default value is "solid".
 Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
 }
   \item{point.size}{
-This argument helps set the size of points in the scatter plots. It should be a single numeric or integer value. The dafault value is 5.
+This argument helps set the size of points in the scatter plots.
+
+The value should be either numeric or integer. The default value is 5.
+
+Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
 }
   \item{point.type}{
 The shape of the points in scatter plots.
