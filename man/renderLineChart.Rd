@@ -11,7 +11,7 @@ renderLineChart() function helps render the line chart into Shiny application.
 renderLineChart(div_id, data, theme = "default",
                 line.width = 2, line.type = "solid",
                 point.size = 5, point.type = "emptyCircle",
-                stack_plot = FALSE,
+                stack_plot = FALSE, step = "null",
                 show.legend = TRUE, show.tools = TRUE,
                 running_in_shiny = TRUE)
 }
@@ -56,6 +56,11 @@ Its length should be either one or the same as the number of categories in the d
 }
   \item{stack_plot}{
 Whether do stack line chart. The default value is FALSE.
+}
+  \item{step}{
+This argument helps plot step line charts. The default value is "null", i.e., non-step line chart.
+
+If users want step line chart, they can choose "start", "middle", or "end" to determine the turning point positions in the step line charts.
 }
   \item{show.legend}{
 If display the legends. The default value is TRUE.

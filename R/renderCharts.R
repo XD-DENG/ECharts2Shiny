@@ -223,7 +223,7 @@ renderLineChart <- function(div_id,
                             data, theme = "default",
                             line.width = 2, line.type = "solid",
                             point.size = 5, point.type = "emptyCircle",
-                            stack_plot = FALSE,
+                            stack_plot = FALSE, step = "null",
                             show.legend = TRUE, show.tools = TRUE,
                             running_in_shiny = TRUE){
 
@@ -249,6 +249,11 @@ renderLineChart <- function(div_id,
   unique_line.types <- unique(line.type)
   if(sum(sapply(unique_line.types, function(x){x %in% c("solid", "dashed", "dotted")})) != length(unique_line.types)){
     stop("The line.type can only be 'solid', 'dashed', or 'dotted'.")
+  }
+
+  # check the value of 'step'
+  if((step %in% c('null', 'start', 'middle', 'end')) == FALSE){
+    stop("The 'step' can only be 'null', 'start', 'middle' or 'end'.")
   }
 
 
@@ -297,10 +302,16 @@ renderLineChart <- function(div_id,
   legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
   legend_name <- paste("[", legend_name, "]", sep="")
 
+  step_statement <- ifelse(step == 'null',
+                           "step:false,",
+                           paste("step:'", step, "',", sep = ""))
+
   # Convert raw data into JSON format
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'line', ",
+
+                  step_statement,
 
                   paste("symbolSize:", point.size[i], ",", sep=""),
                   paste("symbol:'", point.type[i], "',", sep=""),
@@ -318,6 +329,7 @@ renderLineChart <- function(div_id,
     series_data[i] <- temp
   }
   series_data <- paste(series_data, collapse = ", ")
+
 
   js_statement <- paste("var " ,
                   div_id,
@@ -431,7 +443,7 @@ renderGauge <- function(div_id, theme = "default",
 
 
 renderScatter <- function(div_id, data,
-                          point.size = 10, point.type = "emptyCircle",
+                          point.size = 10, point.type = "circle",
                           theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
                           running_in_shiny = TRUE){

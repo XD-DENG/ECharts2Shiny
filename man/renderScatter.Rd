@@ -8,7 +8,7 @@ renderScatter() function helps render the scatter plots into Shiny applications.
 }
 \usage{
 renderScatter(div_id, data,
-              point.size = 10, point.type = "emptyCircle",
+              point.size = 10, point.type = "circle",
               theme = "default", auto.scale = TRUE,
               show.legend = TRUE, show.tools = TRUE,
               running_in_shiny = TRUE)
@@ -26,7 +26,7 @@ This argument helps set the size of points in the scatter plots. It should be a 
   \item{point.type}{
 The shape of the points in scatter plots.
 
-Valid values include 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'. The default value is 'emptyCircle'.
+Valid values include 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'. The default value is 'circle'.
 
 The length of this argument should either be one or be the same as the number of UNIQUE groups (the number of unique elements in 'group' column of the data input).
 }
