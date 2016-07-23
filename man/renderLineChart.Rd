@@ -48,7 +48,7 @@ The shape of the points in scatter plots.
 
 Valid values include 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'. The default value is 'emptyCircle'.
 
-The length of this argument should either be one or be the same as the number of UNIQUE groups (the 'group' column in the data input).
+Its length should be either one or the same as the number of categories in the data (the number of columns in the data).
 }
   \item{stack_plot}{
 Whether do stack line chart. The default value is FALSE.

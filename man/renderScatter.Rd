@@ -28,7 +28,7 @@ The shape of the points in scatter plots.
 
 Valid values include 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', 'diamond', 'pin', 'arrow'. The default value is 'emptyCircle'.
 
-The length of this argument should either be one or be the same as the number of UNIQUE groups (the 'group' column in the data input).
+The length of this argument should either be one or be the same as the number of UNIQUE groups (the number of unique elements in 'group' column of the data input).
 }
   \item{theme}{
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
