@@ -21,6 +21,13 @@
 
 }
 
+# This is a function defined to help us tackle NA values in data
+# In line charts and bar charts, if there is NA values in the data, the function can not work well as Javascript can NOT identify "NA" and it can only identify 'null'.
+.process_NA <- function(data){
+  data[is.na(data)] <- 'null'
+  return(data)
+}
+
 
 ###########################################################################
 # Pie Chart ---------------------------------------------------------------
@@ -126,6 +133,8 @@ renderBarChart <- function(div_id,
 
   data <- isolate(data)
 
+  data <- .process_NA(data)
+
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
@@ -228,6 +237,8 @@ renderLineChart <- function(div_id,
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
+
+  data <- .process_NA(data)
 
   # check the type of line.width
   if((class(line.width) %in% c("numeric", "integer")) == FALSE){
@@ -449,6 +460,13 @@ renderScatter <- function(div_id, data,
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
+
+  if(sum(is.na(data)) > 0 & auto.scale == FALSE){
+    auto.scale <- TRUE
+    warning("auto.scale must be on when there is any N.A. values in the data.")
+  }
+
+  data <- .process_NA(data)
 
   # DATA PREPARATION:
   # For scatter plots, the data must be prepared as a data.frame of 3 columns.
