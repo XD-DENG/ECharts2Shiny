@@ -1,7 +1,7 @@
 ---
 title: "Introduction to ECharts2Shiny"
 author: "Xiaodong DENG"
-date: "July 1, 2016"
+date: "July 26, 2016"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to ECharts2Shiny}
@@ -9,18 +9,44 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
 
-As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by *ECharts* library into our *Shiny* application. Currently, we can support pie charts, line charts, bar charts, and gauge.
+- Pie charts
+- Line charts
+- Bar charts
+- Scatter plots
+- Radar chart
+- Gauge
+- Word Cloud
 
+It's strongly recommended to visit **[examples](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples)** for diverse examples so that you can know how much this package can help you and the details of how to use the functions.
 
+### Contents
+- [How to Install](#how-to-install)
 - [Features](#features)
 - [Examples](#examples)
+- [Note](#note)
+- [License](#license)
+
+
+## How to Install
+
+From CRAN,
+```{r, eval=FALSE}
+install.packages("ECharts2Shiny")
+```
+
+For the latest development version, please install from GitHub
+```{r, eval=FALSE}
+library(devtools)
+install_github("XD-DENG/ECharts2Shiny")
+```
 
 ## Features
 
 **Easy to Use**: Only 3-4 lines are needed to insert an interactive chart into our Shiny application.
 
-**Customisable**: As rich options as possible are kept, including the 'grid' option in the original *ECharts* library.
+**Customisable**: As rich options as possible are kept, including the 'grid' option in the original *ECharts* library. Users can specify the line width, line type, point type, and point size etc, just like what we can do in normal R plotting functions.
 
 **Theme Options**: In line with the original ECharts library, users can select the theme for their interactive charts, including 'roma', 'shine', 'vintage', 'maracons', and 'infographic'. Users can select the theme of diverse fashion according to their needs and preference.
 
@@ -28,40 +54,80 @@ As a R package, *ECharts2Shiny* can help embed the interactive charts plotted by
 
 ## Examples
 
-ui.R
+**(For more examples, please refer to the `/examples` folder)**
 
 ```{r, eval=FALSE}
 library(shiny)
 library(ECharts2Shiny)
 
-shinyUI(fluidPage(
+
+# Prepare sample data for plotting ---------------------------------------
+
+dat_1 <- c(rep("Type-A", 8),
+           rep("Type-B", 5),
+           rep("Type-C", 1))
+
+dat_2 <- data.frame(c(1, 2, 3, 1),
+                    c(2, 4, 6, 6),
+                    c(3, 2, 7, 5))
+names(dat_2) <- c("Type-A", "Type-B", "Type-C")
+row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
+
+
+# Server function ---------------------------------------------------------
+
+server <- function(input, output) {
+  
+  # Call functions from ECharts2Shiny to render charts
+  renderPieChart(div_id = "test_1",
+                 data = dat_1,
+                 radius = "70%",center_x = "50%", center_y = "50%")
+  
+  renderLineChart(div_id = "test_2", theme = "shine",
+                  data = dat_2)
+  
+  renderBarChart(div_id = "test_3", grid_left = '1%',
+                 data = dat_2)
+  
+  renderBarChart(div_id = "test_4", theme = "vintage",
+                 direction = "vertical", grid_left = "10%",
+                 data = dat_2)
+  
+  renderGauge(div_id = "test_5", gauge_name = "Finished Rate",
+              rate = 99.9)
+}
+
+
+# UI layout ---------------------------------------------------------------
+
+ui <- fluidPage(
   # We HAVE TO to load the ECharts javascript library in advance
   loadEChartsLibrary(),
   loadEChartsTheme('shine'),
   loadEChartsTheme('vintage'),
-
+  
   fluidRow(
     column(6,
-           tags$div(id="test_1", style="width: '80%';height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           tags$div(id="test_1", style="width: 80%;height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
            deliverChart(div_id = "test_1")  # Deliver the plotting
-           ),
+    ),
     column(6,
            tags$div(id="test_2", style="width:80%;height:300px;"),
            deliverChart(div_id = "test_2")
-           )
+    )
   ),
-
+  
   fluidRow(
     column(6,
            tags$div(id="test_3", style="width:80%;height:300px;"),
            deliverChart(div_id = "test_3")
-           ),
+    ),
     column(6,
            tags$div(id="test_4", style="width:80%;height:300px;"),
            deliverChart(div_id = "test_4")
-           )
+    )
   ),
-
+  
   fluidRow(
     column(6,
            tags$div(id="test_5", style="width:100%;height:400px;"),
@@ -71,51 +137,31 @@ shinyUI(fluidPage(
     )
   )
 )
-)
-```
 
-server.R
-
-```{r, eval=FALSE}
-library(shiny)
-library(ECharts2Shiny)
-
-# Prepare sample data for plotting ---------------------------------------
-
-dat_1 <- data.frame(matrix(c(3,2,8), 1,3))
-names(dat_1) <- c("Type-A", "Type-B", "Type-C")
-
-
-dat_2 <- data.frame(c(1, 2, 3, 1),
-                  c(2, 4, 6, 6),
-                  c(3, 2, 7, 5))
-names(dat_2) <- c("Type-A", "Type-B", "Type-C")
-row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
-
-shinyServer(function(input, output) {
-
-  # Call functions from ECharts2Shiny to render charts
-  renderPieChart(div_id = "test_1",
-                 data = dat_1,
-                 radius = "70%",center_x = "50%", center_y = "50%")
-
-  renderLineChart(div_id = "test_2", theme = "shine",
-                  data = dat_2)
-
-  renderBarChart(div_id = "test_3", grid_left = '1%',
-                 data = dat_2)
-
-  renderBarChart(div_id = "test_4", theme = "vintage",
-                 direction = "vertical", grid_left = "10%",
-                 data = dat_2)
-
-  renderGauge(div_id = "test_5", gauge_name = "Finished Rate",
-              rate = 99.9)
-  })
-
+# Run the application
+shinyApp(ui = ui, server = server)
 ```
 
 ```{r, out.width = 800, echo = FALSE}
 knitr::include_graphics("Capture.png")
 ```
+
+
+## Note
+
+For each type of charts, you need to prepare the data to be in specific format for **EChart2Shiny**. 
+
+For both line charts and bar charts, the data input should be a data.frame. Each column would be one category, and each row would be one observation.
+
+For word cloud, the data input should either be a data.frame containing two columns named "name" and "value", or be a vector containing all the lements users need to count and plot, like `c("a", "a", "b", "a", "b", "c")`.
+
+
+
+## License
+
+***ECharts2Shiny*** package itself is under GPL-2. 
+
+The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/ecomfe/echarts)).
+
+
 
