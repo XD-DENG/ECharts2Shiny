@@ -38,6 +38,7 @@ renderPieChart <- function(div_id,
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
                            show.legend = TRUE, show.tools = TRUE,
+                           font.size.legend = 12,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -86,7 +87,9 @@ renderPieChart <- function(div_id,
 
                   ifelse(show.legend,
                          paste("legend:{orient: 'vertical', left: 'left', data:",
-                               legend_data,  "},",
+                               legend_data,
+                               ", textStyle:{fontSize:", font.size.legend, "}",
+                               "},",
                                sep=""),
                          ""),
                   "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
@@ -129,6 +132,7 @@ renderBarChart <- function(div_id,
                            direction = "horizontal",
                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                            show.legend = TRUE, show.tools = TRUE,
+                           font.size.legend = 12,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -188,7 +192,9 @@ renderBarChart <- function(div_id,
 
                   ifelse(show.legend,
                          paste("legend:{data:",
-                               legend_name, "},",
+                               legend_name,
+                               ", textStyle:{fontSize:", font.size.legend, "}",
+                               "},",
                                sep=""),
                          ""),
                   "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
@@ -234,6 +240,7 @@ renderLineChart <- function(div_id,
                             point.size = 5, point.type = "emptyCircle",
                             stack_plot = FALSE, step = "null",
                             show.legend = TRUE, show.tools = TRUE,
+                            font.size.legend =12,
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -358,6 +365,7 @@ renderLineChart <- function(div_id,
                   ifelse(show.legend,
                          paste("legend:{data:",
                                legend_name,
+                               ", textStyle:{fontSize:", font.size.legend, "}",
                                "},",
                                sep=""),
                          ""),
@@ -457,6 +465,7 @@ renderScatter <- function(div_id, data,
                           point.size = 10, point.type = "circle",
                           theme = "default", auto.scale = TRUE,
                           show.legend = TRUE, show.tools = TRUE,
+                          font.size.legend = 12,
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -553,7 +562,9 @@ renderScatter <- function(div_id, data,
 
                   ifelse(show.legend,
                          paste("legend:{data:",
-                               legend_name, "},",
+                               legend_name,
+                               ", textStyle:{fontSize:", font.size.legend, "}",
+                               "},",
                                sep=""),
                          ""),
 
@@ -611,6 +622,7 @@ renderRadarChart <- function(div_id,
                            data, theme = "default",
                            shape = "default", line.width = 2,
                            show.legend = TRUE, show.tools = TRUE,
+                           font.size.legend = 12,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -669,7 +681,9 @@ renderRadarChart <- function(div_id,
 
                   ifelse(show.legend,
                          paste("legend:{orient: 'vertical', left: 'left', data:",
-                               legend_data,  "},",
+                               legend_data,
+                               ", textStyle:{fontSize:", font.size.legend, "}",
+                               "},",
                                sep=""),
                          ""),
                   "radar:{",
