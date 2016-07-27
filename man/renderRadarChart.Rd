@@ -10,7 +10,7 @@ renderRadarChart() function helps render the Radar chart into Shiny application.
 renderRadarChart(div_id, data, theme = "default",
                   shape = "default", line.width = 2,
                   show.legend = TRUE, show.tools = TRUE,
-                  font.size.legend,
+                  font.size.legend = 12,
                   running_in_shiny = TRUE)
 }
 \arguments{

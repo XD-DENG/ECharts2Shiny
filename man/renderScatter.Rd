@@ -11,7 +11,9 @@ renderScatter(div_id, data,
               point.size = 10, point.type = "circle",
               theme = "default", auto.scale = TRUE,
               show.legend = TRUE, show.tools = TRUE,
-              font.size.legend,
+              font.size.legend = 12,
+              font.size.axis.x = 12, font.size.axis.y = 12,
+              rotate.axis.x = 0, rotate.axis.y = 0,
               running_in_shiny = TRUE)
 }
 \arguments{
@@ -45,6 +47,18 @@ If display the tool bar. The default value is TRUE.
 }
   \item{font.size.legend}{
 The font size of legend bar. The default value is 12.
+}
+  \item{font.size.axis.x}{
+The font size of the labels on X axis. The default value is 12.
+}
+  \item{font.size.axis.y}{
+The font size of the labels on Y axis. The default value is 12.
+}
+  \item{rotate.axis.x}{
+The rotation degree of labels on X axis. The default value is 0.
+}
+  \item{rotate.axis.y}{
+The rotation degree of labels on Y axis. The default value is 0.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

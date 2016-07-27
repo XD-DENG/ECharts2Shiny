@@ -10,7 +10,7 @@ renderPieChart() function helps render the pie chart into Shiny application.
 \usage{
 renderPieChart(div_id, data, theme, radius,center_x,center_y,
                show.legend, show.tools = TRUE,
-               font.size.legend,
+               font.size.legend= 12,
                running_in_shiny)
 }
 %- maybe also 'usage' for other objects documented here.
