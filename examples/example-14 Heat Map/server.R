@@ -13,7 +13,7 @@ shinyServer(function(input, output) {
   renderHeatMap(div_id = "test_1",
                  data = dat_1)
 
-  renderHeatMap(div_id = "test_2", theme = "macarons",
+  renderHeatMap(div_id = "test_2",
                 data = dat_2)
 
   }
