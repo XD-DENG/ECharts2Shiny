@@ -11,6 +11,7 @@ renderScatter(div_id, data,
               point.size = 10, point.type = "circle",
               theme = "default", auto.scale = TRUE,
               show.legend = TRUE, show.tools = TRUE,
+              font.size.legend,
               running_in_shiny = TRUE)
 }
 \arguments{
@@ -41,6 +42,9 @@ If display the legends. The default value is TRUE.
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.
+}
+  \item{font.size.legend}{
+The font size of legend bar. The default value is 12.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
