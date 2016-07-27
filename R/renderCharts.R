@@ -840,11 +840,21 @@ renderHeatMap <- function(div_id, data,
 
   data <- isolate(data)
 
+  if((is.matrix(data) == FALSE) | ((class(data[1, 1]) %in% c("numeric", "integer")) == FALSE)){
+    stop("The data input must be a matrix containing numeric or integer values")
+  }
+
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
   # Convert raw data into JSON format
   series_data <- paste("[{type: 'heatmap',data:", .prepare_data_for_heatmap(data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]", sep="")
+
+  # prepare axis labels
+
+  row_names <- row.names(data)
+  col_names <- colnames(data)
+
 
   js_statement <- paste("var ",
                         div_id,
@@ -860,8 +870,24 @@ renderHeatMap <- function(div_id, data,
                                "toolbox: {feature: {saveAsImage: {}}},",
                                ""),
 
-                        "xAxis: {type: 'category',data: [''],splitArea: {show: true}},",
-                        "yAxis: {type: 'category',data: [''],splitArea: {show: true}},",
+                        "xAxis: {type: 'category',data: [",
+                        ifelse(is.null(row_names),
+                               "' '",
+                               paste(sapply(row_names,
+                                            function(x){
+                                              paste("'", x, "'", sep="")
+                                            }), collapse = ",")),
+                        "],splitArea: {show: true}},",
+
+
+                        "yAxis: {type: 'category',data: [",
+                        ifelse(is.null(col_names),
+                               "' '",
+                               paste(sapply(col_names,
+                                            function(x){
+                                              paste("'", x, "'", sep="")
+                                            }), collapse = ",")),
+                        "],splitArea: {show: true}},",
 
                         "visualMap: {min: ", min(data), ",max: ", max(data), ",bottom: '15%', show:false},",
 

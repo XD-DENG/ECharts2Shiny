@@ -14,6 +14,7 @@ As an R package, *ECharts2Shiny* can help embed the interactive charts plotted b
 - Radar chart
 - Gauge
 - Word Cloud
+- Heat Map
 
 ### Contents
 - [How to Install](#how-to-install)
@@ -155,13 +156,14 @@ The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/
 
 ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*ECharts*](https://github.com/ecomfe/echarts)库绘出的交互图形。当前支持的图形包括
 
-- 饼图（pie chart）
-- 折线图（line chart）
-- 柱形图（bar chart）
+- 饼图 （pie chart）
+- 折线图 （line chart）
+- 柱形图 （bar chart）
 - 散点图 (scatter chart)
-- 雷达图(radar chart)
-- 仪表盘（gauge）
-- 词云（word cloud）
+- 雷达图 (radar chart)
+- 仪表盘 （gauge）
+- 词云 （word cloud）
+- 热力图 (heat map)
 
 
 ###目录
