@@ -29,6 +29,23 @@
 }
 
 
+# A function designed to help prepare data for heat map
+
+.prepare_data_for_heatmap <- function(dat){
+  n_row <- dim(dat)[1]
+  n_col <- dim(dat)[2]
+
+  temp <- c()
+  for(i in 1:n_row){
+    for(j in 1:n_col){
+      temp <- c(temp, paste("[", i, ",", j, ",", dat[i,j], "]", sep=""))
+    }
+  }
+  temp <- paste(temp, collapse = ", ")
+  temp <- paste("[", temp, "]")
+  return(temp)
+}
+
 ###########################################################################
 # Pie Chart ---------------------------------------------------------------
 ###########################################################################
@@ -806,4 +823,93 @@ renderWordcloud <- function(div_id,
   } else {
     cat(to_eval)
   }
+}
+
+
+
+
+
+###########################################################################
+# Heat Map ----------------------------------------------------------------
+###########################################################################
+
+renderHeatMap <- function(div_id, data,
+                          theme = "default",
+                          show.tools = TRUE,
+                          running_in_shiny = TRUE){
+
+  data <- isolate(data)
+
+  if((is.matrix(data) == FALSE) | ((class(data[1, 1]) %in% c("numeric", "integer")) == FALSE)){
+    stop("The data input must be a matrix containing numeric or integer values")
+  }
+
+  # Check the value for theme
+  theme_placeholder <- .theme_placeholder(theme)
+
+  # Convert raw data into JSON format
+  series_data <- paste("[{type: 'heatmap',data:", .prepare_data_for_heatmap(data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]", sep="")
+
+  # prepare axis labels
+
+  row_names <- row.names(data)
+  col_names <- colnames(data)
+
+
+  js_statement <- paste("var ",
+                        div_id,
+                        " = echarts.init(document.getElementById('",
+                        div_id,
+                        "')",
+                        theme_placeholder,
+                        ");",
+
+                        "option_", div_id, "={tooltip:{position: 'top'}, ",
+
+                        ifelse(show.tools,
+                               "toolbox: {feature: {saveAsImage: {}}},",
+                               ""),
+
+                        "xAxis: {type: 'category',data: [",
+                        ifelse(is.null(row_names),
+                               "' '",
+                               paste(sapply(row_names,
+                                            function(x){
+                                              paste("'", x, "'", sep="")
+                                            }), collapse = ",")),
+                        "],splitArea: {show: true}},",
+
+
+                        "yAxis: {type: 'category',data: [",
+                        ifelse(is.null(col_names),
+                               "' '",
+                               paste(sapply(col_names,
+                                            function(x){
+                                              paste("'", x, "'", sep="")
+                                            }), collapse = ",")),
+                        "],splitArea: {show: true}},",
+
+                        "visualMap: {min: ", min(data), ",max: ", max(data), ",bottom: '15%', show:false},",
+
+                        "series:",
+                        series_data,
+                        "};",
+
+                        div_id,
+                        ".setOption(option_",
+                        div_id,
+                        ");",
+                        sep="")
+
+  to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
+                   js_statement,
+                   "\"))})",
+                   sep="")
+
+  if(running_in_shiny == TRUE){
+    eval(parse(text = to_eval), envir = parent.frame())
+  } else {
+    cat(to_eval)
+  }
+
 }
