@@ -9,7 +9,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
+As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support eight types of charts, including
 
 - Pie charts
 - Line charts
@@ -18,8 +18,9 @@ As an R package, *ECharts2Shiny* can help embed the interactive charts plotted b
 - Radar chart
 - Gauge
 - Word Cloud
+- Heat Map
 
-It's strongly recommended to visit **[examples](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples)** for diverse examples so that you can know how much this package can help you and the details of how to use the functions.
+It's strongly recommended to visit **[examples](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples)** for diverse examples so that you can know how much this package can help you and the details of how to use the functions. In this vignette, we would mainly introduce the basic usage of **ECharts2Shiny**.
 
 ### Contents
 - [How to Install](#how-to-install)
@@ -45,6 +46,8 @@ install_github("XD-DENG/ECharts2Shiny")
 ## Features
 
 **Easy to Use**: Only 3-4 lines are needed to insert an interactive chart into our Shiny application.
+
+**Diverse Charts**: This package can support most of your needs for data visualization, including *word cloud* and *heat map*.
 
 **Customisable**: As rich options as possible are kept, including the 'grid' option in the original *ECharts* library. Users can specify the line width, line type, point type, and point size etc, just like what we can do in normal R plotting functions.
 
