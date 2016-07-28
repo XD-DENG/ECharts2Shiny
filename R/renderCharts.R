@@ -844,11 +844,15 @@ renderHeatMap <- function(div_id, data,
     stop("The data input must be a matrix containing numeric or integer values")
   }
 
+  # This is to process NA values. If there is NA values, it will be changed into "null" to be consistent with Javascript
+  # The values in the matrix will turn to be "character". This is also why we save it separately as a new variable (we still need the NUMERIC values in the raw data to compute max and min values)
+  processed_data <- .process_NA(data)
+
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
   # Convert raw data into JSON format
-  series_data <- paste("[{type: 'heatmap',data:", .prepare_data_for_heatmap(data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]", sep="")
+  series_data <- paste("[{type: 'heatmap',data:", .prepare_data_for_heatmap(processed_data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]", sep="")
 
   # prepare axis labels
 
@@ -889,7 +893,7 @@ renderHeatMap <- function(div_id, data,
                                             }), collapse = ",")),
                         "],splitArea: {show: true}},",
 
-                        "visualMap: {min: ", min(data), ",max: ", max(data), ",bottom: '15%', show:false},",
+                        "visualMap: {min: ", min(data[is.na(data)==FALSE]), ",max: ", max(data[is.na(data)==FALSE]), ",bottom: '15%', show:false},",
 
                         "series:",
                         series_data,
