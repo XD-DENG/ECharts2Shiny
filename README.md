@@ -1,7 +1,7 @@
 # ECharts2Shiny
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
-- [中文版](https://github.com/XD-DENG/ECharts2Shiny/blob/master/README_cn.md)
+- [中文版](/README_cn.md)
 
 ![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
 
