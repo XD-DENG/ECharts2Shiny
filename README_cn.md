@@ -1,7 +1,7 @@
 # ECharts2Shiny包
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
-- [English Version](#echarts2shiny)
+- [English Version](/)
 
 ![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
 
