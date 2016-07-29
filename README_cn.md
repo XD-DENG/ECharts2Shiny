@@ -1,56 +1,55 @@
-# ECharts2Shiny
+# ECharts2Shiny包
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
 
-- [中文版](https://github.com/XD-DENG/ECharts2Shiny/blob/master/README_cn.md)
+- [English Version](#echarts2shiny)
 
 ![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
 
-As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
+ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*ECharts*](https://github.com/ecomfe/echarts)库绘出的交互图形。当前支持的图形包括
 
-- Pie charts
-- Line charts
-- Bar charts
-- Scatter plots
-- Radar chart
-- Gauge
-- Word Cloud
-- Heat Map
-
-### Contents
-- [How to Install](#how-to-install)
-- [Features](#features)
-- [Examples](#examples)
-- [License](#license)
+- 饼图 （pie chart）
+- 折线图 （line chart）
+- 柱形图 （bar chart）
+- 散点图 (scatter chart)
+- 雷达图 (radar chart)
+- 仪表盘 （gauge）
+- 词云 （word cloud）
+- 热力图 (heat map)
 
 
-## How to Install
+###目录
+- [安装](#安装)
+- [特点](#特点)
+- [例子](#例子)
+- [许可证](#许可证)
 
-**(As this package is under active development, it's recommended to install the latest development version from GitHub, instead of the CRAN version.)**
 
-From CRAN,
+##安装
+
+**(鉴于我们仍在努力添加更多新的功能到ECharts2Shiny当中，我们更推荐由GitHub安装最新的开发版本。)**
+
+CRAN版本
 ```{r}
 install.packages("ECharts2Shiny")
 ```
 
-For the latest development version, please install from GitHub
+由GitHub安装最新开发版本
 ```{r}
 library(devtools)
 install_github("XD-DENG/ECharts2Shiny")
 ```
 
-## Features
+## 特点
+**简洁易用**：只需要3-4行函数，即可在Shiny应用当中插入一个交互图形。
 
-**Easy to Use**: Only 3-4 lines are needed to insert an interactive chart into our Shiny application.
+**可定制图形**：在这个R包中，我尽量保留了ECharts库中的各个可选项，包括grid等。
 
-**Customisable**: As rich options as possible are kept, including the 'grid' option in the original *ECharts* library.
-
-**Theme Options**: In line with the original ECharts library, users can select the theme for their interactive charts, including 'roma', 'shine', 'vintage', 'maracons', and 'infographic'. Users can select the theme of diverse fashion according to their needs and preference.
-
+**可选主题**：与原生的ECharts库一致，用户可选择使用多个主题，包括'roma'， 'shine'， 'vintage'， 'maracons'， 以及'infographic'。用户可根据自己的需要及偏好， 为图形选择不同风格的主题。
 
 
-## Examples
 
-**(For more examples, please refer to the `/examples` folder)**
+##例子
+**(请参考`/examples` 文件夹以获得更多实例信息)**
 
 ```{r}
 library(shiny)
@@ -73,22 +72,22 @@ row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
 # Server function ---------------------------------------------------------
 
 server <- function(input, output) {
-  
+
   # Call functions from ECharts2Shiny to render charts
   renderPieChart(div_id = "test_1",
                  data = dat_1,
                  radius = "70%",center_x = "50%", center_y = "50%")
-  
+
   renderLineChart(div_id = "test_2", theme = "shine",
                   data = dat_2)
-  
+
   renderBarChart(div_id = "test_3", grid_left = '1%',
                  data = dat_2)
-  
+
   renderBarChart(div_id = "test_4", theme = "vintage",
                  direction = "vertical", grid_left = "10%",
                  data = dat_2)
-  
+
   renderGauge(div_id = "test_5", gauge_name = "Finished Rate",
               rate = 99.9)
 }
@@ -101,7 +100,7 @@ ui <- fluidPage(
   loadEChartsLibrary(),
   loadEChartsTheme('shine'),
   loadEChartsTheme('vintage'),
-  
+
   fluidRow(
     column(6,
            tags$div(id="test_1", style="width: 80%;height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
@@ -112,7 +111,7 @@ ui <- fluidPage(
            deliverChart(div_id = "test_2")
     )
   ),
-  
+
   fluidRow(
     column(6,
            tags$div(id="test_3", style="width:80%;height:300px;"),
@@ -123,7 +122,7 @@ ui <- fluidPage(
            deliverChart(div_id = "test_4")
     )
   ),
-  
+
   fluidRow(
     column(6,
            tags$div(id="test_5", style="width:100%;height:400px;"),
@@ -137,11 +136,12 @@ ui <- fluidPage(
 # Run the application
 shinyApp(ui = ui, server = server)
 ```
+
 ![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
 
 
-## License
+## 许可证
 
-***ECharts2Shiny*** package itself is under GPL-2. 
+***ECharts2Shiny*** 包使用GLP－2许可证。
 
-The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/ecomfe/echarts)).
+The ***ECharts*** JS库使用BSD许可证([ECharts](https://github.com/ecomfe/echarts))。
