@@ -16,6 +16,7 @@ renderLineChart(div_id, data, theme = "default",
                 font.size.legend= 12,
                 font.size.axis.x = 12, font.size.axis.y = 12,
                 rotate.axis.x = 0, rotate.axis.y = 0,
+                show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                 running_in_shiny = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -85,6 +86,12 @@ The rotation degree of labels on X axis. The default value is 0.
 }
   \item{rotate.axis.y}{
 The rotation degree of labels on Y axis. The default value is 0.
+}
+  \item{show.slider.axis.x}{
+Whether display slider on X axis. The default value is FALSE.
+}
+  \item{show.slider.axis.y}{
+Whether display slider on Y axis. The default value is FALSE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
