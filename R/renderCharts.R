@@ -262,6 +262,7 @@ renderLineChart <- function(div_id,
                             font.size.legend =12,
                             font.size.axis.x = 12, font.size.axis.y = 12,
                             rotate.axis.x = 0, rotate.axis.y = 0,
+                            show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -383,6 +384,15 @@ renderLineChart <- function(div_id,
                          "toolbox:{feature:{saveAsImage:{}}}, ",
                          ""),
 
+                  ifelse(show.slider.axis.x == TRUE & show.slider.axis.y == FALSE,
+                         "dataZoom: [{type:'slider', xAxisIndex : 0}],",
+                         ifelse(show.slider.axis.x == FALSE & show.slider.axis.y == TRUE,
+                                "dataZoom: [{type:'slider', yAxisIndex : 0}],",
+                                ifelse(show.slider.axis.x == TRUE & show.slider.axis.y == TRUE,
+                                       "dataZoom: [{type:'slider', xAxisIndex : 0},{type:'slider',yAxisIndex:0}],",
+                                       'dataZoom: [],')
+                         )),
+
                   ifelse(show.legend,
                          paste("legend:{data:",
                                legend_name,
@@ -490,6 +500,7 @@ renderScatter <- function(div_id, data,
                           font.size.legend = 12,
                           font.size.axis.x = 12, font.size.axis.y = 12,
                           rotate.axis.x = 0, rotate.axis.y = 0,
+                          show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -591,6 +602,15 @@ renderScatter <- function(div_id, data,
                                "},",
                                sep=""),
                          ""),
+
+                  ifelse(show.slider.axis.x == TRUE & show.slider.axis.y == FALSE,
+                         "dataZoom: [{type:'slider', xAxisIndex : 0}],",
+                         ifelse(show.slider.axis.x == FALSE & show.slider.axis.y == TRUE,
+                                "dataZoom: [{type:'slider', yAxisIndex : 0}],",
+                                ifelse(show.slider.axis.x == TRUE & show.slider.axis.y == TRUE,
+                                       "dataZoom: [{type:'slider', xAxisIndex : 0},{type:'slider',yAxisIndex:0}],",
+                                       'dataZoom: [],')
+                         )),
 
                   ifelse(auto.scale,
 
