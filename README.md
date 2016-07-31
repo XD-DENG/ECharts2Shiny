@@ -18,7 +18,6 @@ As an R package, *ECharts2Shiny* can help embed the interactive charts plotted b
 
 ### Contents
 - [How to Install](#how-to-install)
-- [Features](#features)
 - [Examples](#examples)
 - [License](#license)
 
@@ -37,16 +36,6 @@ For the latest development version, please install from GitHub
 library(devtools)
 install_github("XD-DENG/ECharts2Shiny")
 ```
-
-## Features
-
-**Easy to Use**: Only 3-4 lines are needed to insert an interactive chart into our Shiny application.
-
-**Customisable**: As rich options as possible are kept, including the 'grid' option in the original *ECharts* library.
-
-**Theme Options**: In line with the original ECharts library, users can select the theme for their interactive charts, including 'roma', 'shine', 'vintage', 'maracons', and 'infographic'. Users can select the theme of diverse fashion according to their needs and preference.
-
-
 
 ## Examples
 
@@ -130,7 +119,6 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*EC
 
 ###目录
 - [安装](#安装)
-- [特点](#特点)
 - [例子](#例子)
 - [许可证](#许可证)
 
@@ -149,15 +137,6 @@ install.packages("ECharts2Shiny")
 library(devtools)
 install_github("XD-DENG/ECharts2Shiny")
 ```
-
-## 特点
-**简洁易用**：只需要3-4行函数，即可在Shiny应用当中插入一个交互图形。
-
-**可定制图形**：在这个R包中，我尽量保留了ECharts库中的各个可选项，包括grid等。
-
-**可选主题**：与原生的ECharts库一致，用户可选择使用多个主题，包括'roma'， 'shine'， 'vintage'， 'maracons'， 以及'infographic'。用户可根据自己的需要及偏好， 为图形选择不同风格的主题。
-
-
 
 ##例子
 
