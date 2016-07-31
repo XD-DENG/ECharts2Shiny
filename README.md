@@ -72,7 +72,7 @@ ui <- fluidPage(
 shinyApp(ui = ui, server = server)
 ```
 <p align="center">
-<img src="http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="height: 230px;"/>
+<img src="http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="width:50%;"/>
 </p>
 
 **(For more examples, please refer to the `/examples` folder)**
@@ -177,7 +177,7 @@ shinyApp(ui = ui, server = server)
 ```
 
 <p align="center">
-<img src="http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="height: 230px;"/>
+<img src="http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="width:50%;"/>
 </p>
 
 **(请参考`/examples` 文件夹以获得更多实例信息)**
