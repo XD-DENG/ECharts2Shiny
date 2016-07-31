@@ -3,7 +3,9 @@
 
 - [中文版](#echarts2shiny包)
 
-![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
+<p align="center">
+<img src="http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png" alt="Drawing" style="width:80%;"/>
+</p>
 
 As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
 
@@ -69,7 +71,9 @@ ui <- fluidPage(
 # Run the application --------------------------------------
 shinyApp(ui = ui, server = server)
 ```
-![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
+<p align="center">
+<img src="http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="height: 230px;"/>
+</p>
 
 **(For more examples, please refer to the `/examples` folder)**
 
@@ -103,7 +107,9 @@ The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/
 
 - [English Version](#echarts2shiny)
 
-![](http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png)
+<p align="center">
+<img src="http://me.seekingqed.com/files/NOT_remove_for_ECharts2Shiny_repo_new.png" alt="Drawing" style="width:80%;"/>
+</p>
 
 ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*ECharts*](https://github.com/ecomfe/echarts)库绘出的交互图形。当前支持的图形包括
 
@@ -170,7 +176,9 @@ ui <- fluidPage(
 shinyApp(ui = ui, server = server)
 ```
 
-![example](http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png)
+<p align="center">
+<img src="http://me.seekingqed.com/files/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="height: 230px;"/>
+</p>
 
 **(请参考`/examples` 文件夹以获得更多实例信息)**
 ### 实例列表
