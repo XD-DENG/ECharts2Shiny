@@ -18,6 +18,3 @@ LazyData: TRUE
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2016-07-01 12:10:03 UTC; XD
-Repository: CRAN
-Date/Publication: 2016-07-01 16:33:29
