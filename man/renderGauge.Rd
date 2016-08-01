@@ -9,7 +9,9 @@ renderGauge() function helps render the gauge chart into Shiny application.
 }
 \usage{
 renderGauge(div_id, theme = "default", gauge_name, rate, 
-            show.tools = TRUE, running_in_shiny = TRUE)
+            show.tools = TRUE, 
+            animation = TRUE,
+            running_in_shiny = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,6 +29,9 @@ renderGauge(div_id, theme = "default", gauge_name, rate,
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.
+}
+  \item{animation}{
+Whether display the chart with animation. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

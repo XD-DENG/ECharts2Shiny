@@ -11,6 +11,7 @@ renderRadarChart(div_id, data, theme = "default",
                   shape = "default", line.width = 2,
                   show.legend = TRUE, show.tools = TRUE,
                   font.size.legend = 12,
+                  animation = TRUE,
                   running_in_shiny = TRUE)
 }
 \arguments{
@@ -37,6 +38,9 @@ If display the tool bar. The default value is TRUE.
 }
   \item{font.size.legend}{
 The font size of legend bar. The default value is 12.
+}
+  \item{animation}{
+Whether display the chart with animation. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

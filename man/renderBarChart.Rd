@@ -14,6 +14,7 @@ renderBarChart(div_id, data, theme, stack_plot, direction,
                font.size.legend = 12,
                font.size.axis.x = 12, font.size.axis.y = 12,
                rotate.axis.x = 0, rotate.axis.y = 0,
+               animation = TRUE,
                running_in_shiny)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -65,6 +66,9 @@ The rotation degree of labels on X axis. The default value is 0.
 }
   \item{rotate.axis.y}{
 The rotation degree of labels on Y axis. The default value is 0.
+}
+  \item{animation}{
+Whether display the chart with animation. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

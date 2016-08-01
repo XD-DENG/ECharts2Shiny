@@ -57,6 +57,7 @@ renderPieChart <- function(div_id,
                            show.label = TRUE,
                            show.legend = TRUE, show.tools = TRUE,
                            font.size.legend = 12,
+                           animation = TRUE,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -115,6 +116,10 @@ renderPieChart <- function(div_id,
                   ifelse(show.label,
                          "label:{normal:{show: true}},",
                          "label:{normal:{show: false}},"),
+                  
+                  ifelse(animation,
+                         "animation:true,",
+                         "animation:false,"),
 
                   "data:",
                   data,
@@ -157,6 +162,7 @@ renderBarChart <- function(div_id,
                            font.size.legend = 12,
                            font.size.axis.x = 12, font.size.axis.y = 12,
                            rotate.axis.x = 0, rotate.axis.y = 0,
+                           animation = TRUE,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -213,6 +219,10 @@ renderBarChart <- function(div_id,
                   ifelse(show.tools,
                          "toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
                          ""),
+                  
+                  ifelse(animation,
+                         "animation:true,",
+                         "animation:false,"),
 
                   ifelse(show.legend,
                          paste("legend:{data:",
@@ -268,6 +278,7 @@ renderLineChart <- function(div_id,
                             font.size.axis.x = 12, font.size.axis.y = 12,
                             rotate.axis.x = 0, rotate.axis.y = 0,
                             show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
+                            animation = TRUE,
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -405,6 +416,11 @@ renderLineChart <- function(div_id,
                                "},",
                                sep=""),
                          ""),
+                  
+                  ifelse(animation,
+                         "animation:true,",
+                         "animation:false,"),
+                  
                   "yAxis: { type: 'value', axisLabel:{rotate:",rotate.axis.y,",textStyle:{fontSize:", font.size.axis.y, "}}}, ",
                   "xAxis:{type:'category', boundaryGap: false, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, data:",
                   xaxis_name,
@@ -442,6 +458,7 @@ renderLineChart <- function(div_id,
 renderGauge <- function(div_id, theme = "default",
                         gauge_name, rate,
                         show.tools = TRUE,
+                        animation = TRUE,
                         running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -466,6 +483,10 @@ renderGauge <- function(div_id, theme = "default",
                          "toolbox: {feature: {saveAsImage: {}}},",
                          ""),
 
+                  ifelse(animation,
+                         "animation:true,",
+                         "animation:false,"),
+                  
                   "series:[{name:'", gauge_name, "', type:'gauge', detail: {formatter:'{value}%'},data:",
                   series_data,
                   "}]};",
@@ -506,6 +527,7 @@ renderScatter <- function(div_id, data,
                           font.size.axis.x = 12, font.size.axis.y = 12,
                           rotate.axis.x = 0, rotate.axis.y = 0,
                           show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
+                          animation = TRUE,
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -607,6 +629,10 @@ renderScatter <- function(div_id, data,
                                "},",
                                sep=""),
                          ""),
+                  
+                  ifelse(animation,
+                         "animation:true,",
+                         "animation:false,"),
 
                   ifelse(show.slider.axis.x == TRUE & show.slider.axis.y == FALSE,
                          "dataZoom: [{type:'slider', xAxisIndex : 0}],",
@@ -680,6 +706,7 @@ renderRadarChart <- function(div_id,
                            shape = "default", line.width = 2,
                            show.legend = TRUE, show.tools = TRUE,
                            font.size.legend = 12,
+                           animation = TRUE,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -735,6 +762,10 @@ renderRadarChart <- function(div_id,
                   ifelse(show.tools,
                          "toolbox:{feature:{saveAsImage:{}}}, ",
                          ""),
+                  
+                  ifelse(animation,
+                         "animation:true,",
+                         "animation:false,"),
 
                   ifelse(show.legend,
                          paste("legend:{orient: 'vertical', left: 'left', data:",
@@ -820,6 +851,7 @@ renderWordcloud <- function(div_id,
 
                         "option_", div_id,
                         "= {tooltip:{},",
+                        
                         "series:[{type: 'wordCloud',gridSize: ", grid_size, ",",
                         "sizeRange:", paste("[", sizeRange[1], ",", sizeRange[2], "]", sep=""), ",",
                         "rotationRange:", paste("[", rotationRange[1], ",", rotationRange[2], "]", sep=""), ",",
