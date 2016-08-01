@@ -54,6 +54,7 @@ renderPieChart <- function(div_id,
                            data, theme = "default",
                            radius = "50%",
                            center_x = "50%", center_y = "50%",
+                           show.label = TRUE,
                            show.legend = TRUE, show.tools = TRUE,
                            font.size.legend = 12,
                            running_in_shiny = TRUE){
@@ -110,6 +111,10 @@ renderPieChart <- function(div_id,
                                sep=""),
                          ""),
                   "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
+
+                  ifelse(show.label,
+                         "label:{normal:{show: true}},",
+                         "label:{normal:{show: false}},"),
 
                   "data:",
                   data,

@@ -9,7 +9,8 @@ renderPieChart() function helps render the pie chart into Shiny application.
 }
 \usage{
 renderPieChart(div_id, data, theme, radius,center_x,center_y,
-               show.legend, show.tools = TRUE,
+               show.label = TRUE,
+               show.legend = TRUE, show.tools = TRUE,
                font.size.legend= 12,
                running_in_shiny)
 }
@@ -37,11 +38,14 @@ The position of the center of the pie chart (x axis). Default value is "50\%".
   \item{center_y}{
 The position of the center of the pie chart (y axis). Default value is "50\%".
 }
+  \item{show.label}{
+Whether display the leble for the pie chart. The default value is TRUE.
+}
   \item{show.legend}{
-If display the legends. The default value is TRUE.
+Whether display the legends. The default value is TRUE.
 }
   \item{show.tools}{
-If display the tool bar. The default value is TRUE.
+Whether display the tool bar. The default value is TRUE.
 }
   \item{font.size.legend}{
 The font size of legend bar. The default value is 12.
