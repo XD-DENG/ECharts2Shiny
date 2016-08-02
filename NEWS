@@ -1,0 +1,45 @@
+--------------------
+Version 0.2.0
+--------------------
+
+- Added STACK line plot;
+
+- Added STACK bar plot.
+
+- For bar chart, added one more option about "stack" or "tiled", so that end-users can choose and change between "stack" and "tiled" in the final interactive charts;
+
+- Added options to determine if we show legends or not, and if we show tool bar or not.
+
+- Added Scatter plots (including the auto.scale argument for it).
+
+- We use includeScript() function to help include JS files into the apps, so that we no longer need to explicitly build a "www" folder and copy the JS scripts into the users' Shiny apps. This is a quite big progress for this pacakge.
+
+- Figured out the reactive data issue. Previously, if we use reactive() function to introduce some data and use it to plot with this package, we will encounter scope error. But now we can use reactive data seamlessly (by making use of isolate() function in our functions). This is a big progress too.
+
+- Additiaonlly, regarding the reactive data, we solved the issue in which the chart can't respond to the change in the reactive data. That is, we can use input$ to change the reactive data, but the chart will not be updated accordingly automatically. Fortunately, we found that this issue can be perfectly solved by using the chart rendering function together with the observeEvent() function.
+
+- Added Radar charts feature.
+
+- Added wordcloud feature using the extension publised by ECharts team recently.
+
+- Added point.size, point.type, line.width and line.type arguments for line charts;
+
+- Added point.size and point.type argument for scatter plots;
+
+- Added Step Line Chart. Users can use it by specifying step in line chart functioon.
+
+- Figured out the conflict between word cloud and other charts. Now we can use all kinds of charts in one application (previously, the word cloud can't be used together other charts)
+
+- Compressed ECharts library file. Also merged the main JS library with the word cloud extension file, so that users don't need to load extension JS file separately for word cloud.
+
+- Line Charts, Bar Charts and Scatter Plots can deal with NA values now.
+
+- Added font.size.legend argument for all charts with legend bar applicable, to help users better customize the legend bar.
+
+- Added arguments font.size.axis.x, font.size.axis.y, rotate.axis.x, and rotate.axis.y for line charts, bar charts, and scatter plots. These arguments can help users better customize the charts.
+
+- Added Heat Map function.
+
+- Added show.label argument for pie charts.
+
+- With animation argument, users can decide if they want to display the charts with animation (not available for word cloud or heat map)
