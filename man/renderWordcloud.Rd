@@ -53,14 +53,33 @@ https://github.com/ecomfe/echarts-wordcloud
 }
 
 \examples{
-# please refer to vignettes for the practical examples
+if (interactive()) {
+  library(shiny)
+  library(ECharts2Shiny)
 
-sample_data_for_wordcloud <- data.frame(name = c("Asia", "Africa", "North America", "South America",
-                                                 "Antarctica", "Europe", "Australia"),
-                                        value = c(44391162, 30244049, 24247039, 17821029, 14245000,
-                                                  10354636, 7686884))
 
-  renderWordcloud("test_1", data =sample_data_for_wordcloud,
-                  grid_size = 10, sizeRange = c(20, 50),
-                  running_in_shiny = FALSE)
+  sample_data_for_wordcloud <- c(rep("R", 100),
+                                 rep("Python", 100),
+                                 rep("SAS", 90),
+                                 rep("VBA", 50))
+
+
+  # Server function -------------------------------------------
+  server <- function(input, output) {
+    renderWordcloud("test", data =sample_data_for_wordcloud,
+                    grid_size = 10, sizeRange = c(20, 50))
+  }
+
+  # UI layout -------------------------------------------------
+  ui <- fluidPage(
+    # We MUST load the ECharts javascript library in advance
+    loadEChartsLibrary(),
+
+    tags$div(id="test", style="width:100%;height:500px;"),
+    deliverChart(div_id = "test")
+  )
+
+  # Run the application --------------------------------------
+  shinyApp(ui = ui, server = server)
+}
 }

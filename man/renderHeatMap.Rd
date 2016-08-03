@@ -45,7 +45,29 @@ https://github.com/ecomfe/echarts-wordcloud
 \examples{
 # please refer to vignettes or /example folder on GitHub homepage for the practical examples
 
-renderHeatMap("test", data = volcano, running_in_shiny = FALSE)
+if (interactive()) {
+  library(shiny)
+  library(ECharts2Shiny)
+
+
+  # Server function -------------------------------------------
+  server <- function(input, output) {
+    renderHeatMap(div_id = "test",
+                  data = volcano)
+  }
+
+  # UI layout -------------------------------------------------
+  ui <- fluidPage(
+    # We MUST load the ECharts javascript library in advance
+    loadEChartsLibrary(),
+
+    tags$div(id="test", style="width:50%;height:400px;"),
+    deliverChart(div_id = "test")
+  )
+
+  # Run the application --------------------------------------
+  shinyApp(ui = ui, server = server)
+}
 
 }
 

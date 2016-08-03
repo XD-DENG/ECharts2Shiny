@@ -71,13 +71,33 @@ Whether display the chart with animation. The default value is TRUE.
 
 
 \examples{
-# please refer to vignettes for the practical examples
+if (interactive()) {
+  library(shiny)
+  library(ECharts2Shiny)
 
-# Prepare sample data for plotting
-dat <- c(rep("Type-A", 5),
-         rep("Type-B", 10),
-         rep("Type-C", 2))
 
-renderPieChart(div_id = "test", data = dat, running_in_shiny = FALSE)
+  dat <- c(rep("Type-A", 8),
+             rep("Type-B", 5),
+             rep("Type-C", 1))
+
+
+  # Server function -------------------------------------------
+  server <- function(input, output) {
+    renderPieChart(div_id = "test",
+                    data = dat)
+  }
+
+  # UI layout -------------------------------------------------
+  ui <- fluidPage(
+    # We MUST load the ECharts javascript library in advance
+    loadEChartsLibrary(),
+
+    tags$div(id="test", style="width:50%;height:400px;"),
+    deliverChart(div_id = "test")
+  )
+
+  # Run the application --------------------------------------
+  shinyApp(ui = ui, server = server)
+}
 
 }
