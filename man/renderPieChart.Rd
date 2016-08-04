@@ -8,7 +8,8 @@ Render the Pie Chart Plotted by ECharts into Shiny Application
 renderPieChart() function helps render the pie chart into Shiny application.
 }
 \usage{
-renderPieChart(div_id, data, theme, radius,center_x,center_y,
+renderPieChart(div_id, data, 
+               theme = 'default', radius, center_x,center_y,
                show.label = TRUE,
                show.legend = TRUE, show.tools = TRUE,
                font.size.legend= 12,
@@ -31,7 +32,7 @@ The division id users specified for this chart. The division will be specified i
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
 }
   \item{radius}{
-The radius of the pie chart.
+The radius of the pie chart. The default value is "75\%".
 }
   \item{center_x}{
 The position of the center of the pie chart (x axis). Default value is "50\%".
