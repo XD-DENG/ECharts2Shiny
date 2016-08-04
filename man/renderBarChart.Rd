@@ -8,7 +8,8 @@ Render the Bar Chart Plotted by ECharts into Shiny Application
 renderBarChart() function helps render the bar chart into Shiny application.
 }
 \usage{
-renderBarChart(div_id, data, theme, stack_plot, direction,
+renderBarChart(div_id, data, theme, 
+               stack_plot = FALSE, direction = "horizontal",
                grid_left,grid_right, grid_top, grid_bottom,
                show.legend = TRUE, show.tools = TRUE,
                font.size.legend = 12,
