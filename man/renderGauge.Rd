@@ -22,10 +22,10 @@ renderGauge(div_id, theme = "default", gauge_name, rate,
   Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
 }
   \item{gauge_name}{
-  The title to show on the gauge
+  The title to show on the gauge. It can not be ignored.
 }
   \item{rate}{
-  As the gauge helps show some kind of rate, users need to give this rate value.
+  As the gauge helps show some kind of rate, users need to give this rate value. It must be numerical or integer values.
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.
