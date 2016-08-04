@@ -43,7 +43,6 @@ https://github.com/ecomfe/echarts-wordcloud
 }
 
 \examples{
-# please refer to vignettes or /example folder on GitHub homepage for the practical examples
 
 if (interactive()) {
   library(shiny)
