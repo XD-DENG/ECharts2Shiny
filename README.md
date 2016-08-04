@@ -26,8 +26,6 @@ As an R package, *ECharts2Shiny* can help embed the interactive charts plotted b
 
 ## How to Install
 
-**(As this package is under active development, it's recommended to install the latest development version from GitHub, instead of the CRAN version.)**
-
 From CRAN,
 ```{r}
 install.packages("ECharts2Shiny")
@@ -130,8 +128,6 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*EC
 
 
 ##安装
-
-**(鉴于我们仍在努力添加更多新的功能到ECharts2Shiny当中，我们更推荐由GitHub安装最新的开发版本。)**
 
 CRAN版本
 ```{r}
