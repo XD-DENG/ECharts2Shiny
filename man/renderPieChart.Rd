@@ -8,7 +8,8 @@ Render the Pie Chart Plotted by ECharts into Shiny Application
 renderPieChart() function helps render the pie chart into Shiny application.
 }
 \usage{
-renderPieChart(div_id, data, theme, radius,center_x,center_y,
+renderPieChart(div_id, data, 
+               theme = 'default', radius, center_x,center_y,
                show.label = TRUE,
                show.legend = TRUE, show.tools = TRUE,
                font.size.legend= 12,
@@ -31,7 +32,7 @@ The division id users specified for this chart. The division will be specified i
 Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
 }
   \item{radius}{
-The radius of the pie chart.
+The radius of the pie chart. The default value is "75\%".
 }
   \item{center_x}{
 The position of the center of the pie chart (x axis). Default value is "50\%".
@@ -71,13 +72,33 @@ Whether display the chart with animation. The default value is TRUE.
 
 
 \examples{
-# please refer to vignettes for the practical examples
+if (interactive()) {
+  library(shiny)
+  library(ECharts2Shiny)
 
-# Prepare sample data for plotting
-dat <- c(rep("Type-A", 5),
-         rep("Type-B", 10),
-         rep("Type-C", 2))
 
-renderPieChart(div_id = "test", data = dat, running_in_shiny = FALSE)
+  dat <- c(rep("Type-A", 8),
+             rep("Type-B", 5),
+             rep("Type-C", 1))
+
+
+  # Server function -------------------------------------------
+  server <- function(input, output) {
+    renderPieChart(div_id = "test",
+                    data = dat)
+  }
+
+  # UI layout -------------------------------------------------
+  ui <- fluidPage(
+    # We MUST load the ECharts javascript library in advance
+    loadEChartsLibrary(),
+
+    tags$div(id="test", style="width:50%;height:400px;"),
+    deliverChart(div_id = "test")
+  )
+
+  # Run the application --------------------------------------
+  shinyApp(ui = ui, server = server)
+}
 
 }
