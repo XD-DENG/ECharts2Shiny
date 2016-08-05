@@ -7,7 +7,7 @@ Render the Word Cloud Plotted by ECharts into Shiny Application
 renderWordcloud() function helps render the word cloud charts into Shiny applications.
 }
 \usage{
-renderWordcloud(div_id, data, 
+renderWordcloud(div_id, data,
                 shape = 'circle',
                 grid_size = 5, sizeRange = c(15, 50),
                 rotationRange = c(-45, 45),
@@ -76,7 +76,7 @@ if (interactive()) {
     # We MUST load the ECharts javascript library in advance
     loadEChartsLibrary(),
 
-    tags$div(id="test", style="width:100%;height:500px;"),
+    tags$div(id="test", style="width:100\%;height:500px;"),
     deliverChart(div_id = "test")
   )
 

@@ -81,7 +81,7 @@ if (interactive()) {
     # We MUST load the ECharts javascript library in advance
     loadEChartsLibrary(),
 
-    tags$div(id="test", style="width:50%;height:400px;"),
+    tags$div(id="test", style="width:50\%;height:400px;"),
     deliverChart(div_id = "test")
   )
 

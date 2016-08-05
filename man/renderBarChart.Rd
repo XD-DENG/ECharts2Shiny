@@ -8,7 +8,7 @@ Render the Bar Chart Plotted by ECharts into Shiny Application
 renderBarChart() function helps render the bar chart into Shiny application.
 }
 \usage{
-renderBarChart(div_id, data, theme, 
+renderBarChart(div_id, data, theme,
                stack_plot = FALSE, direction = "horizontal",
                grid_left,grid_right, grid_top, grid_bottom,
                show.legend = TRUE, show.tools = TRUE,
@@ -103,7 +103,7 @@ if (interactive()) {
   # Server function -------------------------------------------
   server <- function(input, output) {
     # Call functions from ECharts2Shiny to render charts
-    renderBarChart(div_id = "test", grid_left = '1%', direction = "vertical",
+    renderBarChart(div_id = "test", grid_left = '1\%', direction = "vertical",
                    data = dat)
   }
 
@@ -112,7 +112,7 @@ if (interactive()) {
     # We MUST load the ECharts javascript library in advance
     loadEChartsLibrary(),
 
-    tags$div(id="test", style="width:50%;height:400px;"),
+    tags$div(id="test", style="width:50\%;height:400px;"),
     deliverChart(div_id = "test")
   )
 
