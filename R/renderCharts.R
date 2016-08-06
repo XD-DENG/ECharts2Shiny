@@ -116,7 +116,7 @@ renderPieChart <- function(div_id,
                   ifelse(show.label,
                          "label:{normal:{show: true}},",
                          "label:{normal:{show: false}},"),
-                  
+
                   ifelse(animation,
                          "animation:true,",
                          "animation:false,"),
@@ -129,6 +129,11 @@ renderPieChart <- function(div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
+
+                  "window.addEventListener('resize', function(){",
+                  div_id, ".resize()",
+                  "});",
+
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -219,7 +224,7 @@ renderBarChart <- function(div_id,
                   ifelse(show.tools,
                          "toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
                          ""),
-                  
+
                   ifelse(animation,
                          "animation:true,",
                          "animation:false,"),
@@ -245,6 +250,11 @@ renderBarChart <- function(div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
+
+                  "window.addEventListener('resize', function(){",
+                  div_id, ".resize()",
+                  "});",
+
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -416,11 +426,11 @@ renderLineChart <- function(div_id,
                                "},",
                                sep=""),
                          ""),
-                  
+
                   ifelse(animation,
                          "animation:true,",
                          "animation:false,"),
-                  
+
                   "yAxis: { type: 'value', axisLabel:{rotate:",rotate.axis.y,",textStyle:{fontSize:", font.size.axis.y, "}}}, ",
                   "xAxis:{type:'category', boundaryGap: false, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, data:",
                   xaxis_name,
@@ -432,6 +442,11 @@ renderLineChart <- function(div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
+
+                  "window.addEventListener('resize', function(){",
+                  div_id, ".resize()",
+                  "});",
+
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -486,7 +501,7 @@ renderGauge <- function(div_id, theme = "default",
                   ifelse(animation,
                          "animation:true,",
                          "animation:false,"),
-                  
+
                   "series:[{name:'", gauge_name, "', type:'gauge', detail: {formatter:'{value}%'},data:",
                   series_data,
                   "}]};",
@@ -495,6 +510,11 @@ renderGauge <- function(div_id, theme = "default",
                   ".setOption(option_",
                   div_id,
                   ");",
+
+                  "window.addEventListener('resize', function(){",
+                  div_id, ".resize()",
+                  "});",
+
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -629,7 +649,7 @@ renderScatter <- function(div_id, data,
                                "},",
                                sep=""),
                          ""),
-                  
+
                   ifelse(animation,
                          "animation:true,",
                          "animation:false,"),
@@ -676,6 +696,11 @@ renderScatter <- function(div_id, data,
                   ".setOption(option_",
                   div_id,
                   ");",
+
+                  "window.addEventListener('resize', function(){",
+                  div_id, ".resize()",
+                  "});",
+
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -762,7 +787,7 @@ renderRadarChart <- function(div_id,
                   ifelse(show.tools,
                          "toolbox:{feature:{saveAsImage:{}}}, ",
                          ""),
-                  
+
                   ifelse(animation,
                          "animation:true,",
                          "animation:false,"),
@@ -789,6 +814,11 @@ renderRadarChart <- function(div_id,
                   ".setOption(option_",
                   div_id,
                   ");",
+
+                  "window.addEventListener('resize', function(){",
+                  div_id, ".resize()",
+                  "});",
+
                   sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -851,7 +881,7 @@ renderWordcloud <- function(div_id,
 
                         "option_", div_id,
                         "= {tooltip:{},",
-                        
+
                         "series:[{type: 'wordCloud',gridSize: ", grid_size, ",",
                         "sizeRange:", paste("[", sizeRange[1], ",", sizeRange[2], "]", sep=""), ",",
                         "rotationRange:", paste("[", rotationRange[1], ",", rotationRange[2], "]", sep=""), ",",
@@ -868,6 +898,11 @@ renderWordcloud <- function(div_id,
                         ".setOption(option_",
                         div_id,
                         ");",
+
+                        "window.addEventListener('resize', function(){",
+                        div_id, ".resize()",
+                        "});",
+
                         sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
@@ -960,6 +995,11 @@ renderHeatMap <- function(div_id, data,
                         ".setOption(option_",
                         div_id,
                         ");",
+
+                        "window.addEventListener('resize', function(){",
+                        div_id, ".resize()",
+                        "});",
+
                         sep="")
 
   to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
