@@ -15,6 +15,7 @@ renderBarChart(div_id, data, theme,
                font.size.legend = 12,
                font.size.axis.x = 12, font.size.axis.y = 12,
                rotate.axis.x = 0, rotate.axis.y = 0,
+               bar.max.width = NULL,
                animation = TRUE,
                running_in_shiny)
 }
@@ -67,6 +68,11 @@ The rotation degree of labels on X axis. The default value is 0.
 }
   \item{rotate.axis.y}{
 The rotation degree of labels on Y axis. The default value is 0.
+}
+  \item{bar.max.width}{
+The maximum width of the bar. The default value is NULL, in which case the bar width and maximum width will be automatically adjusted.
+
+Users can also assign a numeric value to it, to customize the maximum bar width. If the width is too big or invalid value (like a character string), it will be automatically adjusted too.
 }
   \item{animation}{
 Whether display the chart with animation. The default value is TRUE.

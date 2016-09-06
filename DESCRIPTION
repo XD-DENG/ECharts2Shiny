@@ -3,8 +3,8 @@ Type: Package
 Title: Embedding Interactive Charts Generated with ECharts Library into Shiny
         Applications
 Depends: shiny,jsonlite
-Version: 0.2.2
-Date: 2016-08-07
+Version: 0.2.3
+Date: 2016-09-06
 Authors@R: c(
     person("Xiaodong", "Deng", role = c("aut", "cre"), email = "xd_deng@hotmail.com"),
     person("Hao", "Zhu", role = "ctr", email = "haozhu233@gmail.com"),

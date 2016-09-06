@@ -1,5 +1,5 @@
 # ECharts2Shiny
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny/)
 
 - [中文版](#echarts2shiny包)
 
@@ -86,7 +86,7 @@ shinyApp(ui = ui, server = server)
 - [7. Word Cloud - Basic](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-7%20word%20cloud)
 - [8. Word Cloud - More Shapes](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-8%20word%20cloud%20-%20more%20shapes)
 - [9. Word Cloud - Use Vector as Data Input](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-9%20word%20cloud%20-%20Use%20vector%20as%20data%20input)
-- [10. Line Chart with Diverse Options](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-10%20Line%20Chart%20with%20diverse%20option)
+- [10. Line Chart with Diverse Options](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-10%20Line%20Chart%20with%20diverse%20options)
 - [11. Scatter with point.type Argument](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-11%20Scatter%20with%20point.type)
 - [12. Step Line Chart](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-12%20Step%20Line%20Chart)
 - [13. Deal with Missing Values](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-13%20Deal%20with%20NA%20Values)
@@ -101,7 +101,7 @@ The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/
 
 
 # ECharts2Shiny包
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny/)
 
 - [English Version](#echarts2shiny)
 
@@ -188,7 +188,7 @@ shinyApp(ui = ui, server = server)
 - [7. Word Cloud - Basic](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-7%20word%20cloud)
 - [8. Word Cloud - More Shapes](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-8%20word%20cloud%20-%20more%20shapes)
 - [9. Word Cloud - Use Vector as Data Input](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-9%20word%20cloud%20-%20Use%20vector%20as%20data%20input)
-- [10. Line Chart with Diverse Options](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-10%20Line%20Chart%20with%20diverse%20option)
+- [10. Line Chart with Diverse Options](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-10%20Line%20Chart%20with%20diverse%20options)
 - [11. Scatter with point.type Argument](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-11%20Scatter%20with%20point.type)
 - [12. Step Line Chart](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-12%20Step%20Line%20Chart)
 - [13. Deal with Missing Values](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-13%20Deal%20with%20NA%20Values)

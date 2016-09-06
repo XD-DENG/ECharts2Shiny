@@ -12,6 +12,7 @@ renderBarChart <- function(div_id,
                            font.size.legend = 12,
                            font.size.axis.x = 12, font.size.axis.y = 12,
                            rotate.axis.x = 0, rotate.axis.y = 0,
+                           bar.max.width = NULL,
                            animation = TRUE,
                            running_in_shiny = TRUE){
 
@@ -42,9 +43,15 @@ renderBarChart <- function(div_id,
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
     temp <- paste("{name:'", names(data)[i], "', type:'bar', ",
+
                   ifelse(stack_plot,
                          " stack:' ', ",
                          " "),
+
+                  ifelse(is.null(bar.max.width),
+                         "barMaxWidth: null,",
+                         paste("barMaxWidth:'", bar.max.width, "',", sep="")),
+
                   "data:[",
                   paste(data[, i], collapse = ", "),
                   "]}",
