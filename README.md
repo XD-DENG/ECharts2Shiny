@@ -1,5 +1,5 @@
 # ECharts2Shiny
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny/)
 
 - [中文版](#echarts2shiny包)
 
@@ -101,7 +101,7 @@ The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/
 
 
 # ECharts2Shiny包
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/ECharts2Shiny)](http://cran.r-project.org/web/packages/ECharts2Shiny/)
 
 - [English Version](#echarts2shiny)
 
