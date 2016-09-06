@@ -1,4 +1,14 @@
 --------------------
+Version 0.2.3
+--------------------
+
+- Refined the built-in HELP documents
+
+- Charts are able to adjust according to the browser window resize, automatically
+
+- Users can specify the maximum bar width in Bar charts.
+
+--------------------
 Version 0.2.0
 --------------------
 
