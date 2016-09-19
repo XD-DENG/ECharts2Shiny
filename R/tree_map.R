@@ -5,7 +5,7 @@
 
 renderTreeMap <- function(div_id,
                            data,
-                           name = "main",
+                           name = "Main",
                            leafDepth = 2,
                            theme = "default",
                            show.tools = TRUE,
@@ -30,7 +30,7 @@ renderTreeMap <- function(div_id,
                         " = {tooltip : {trigger:'item', formatter: '{b}: {c}'}, ",
 
                         ifelse(show.tools,
-                               "toolbox:{feature:{mark : {show: true}, saveAsImage:{}, restore : {show: true}}}, ",
+                               "toolbox:{feature:{mark:{show:true}, restore:{show: true}, saveAsImage:{}}}, ",
                                ""),
 
                         ifelse(animation,

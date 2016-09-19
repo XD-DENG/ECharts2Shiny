@@ -21,13 +21,17 @@ renderTreeMap(div_id,
 The division id users specified for this chart. The division will be specified in ui.R.
 }
   \item{data}{
-The data used for tree map. Not like other charts, here we need to use JSOn data for the tree map charts as there may be nested data which can be handled by JSON much easilier.
+The data used for tree map. Not like other charts, here we need to use JSON data for the tree map charts, since there may be nested data which can be handled by JSON much easilier (please check `example`).
 }
   \item{name}{
 The name of the tree map chart.
 }
   \item{leafDepth}{
-It determines when the 'drill down' feature will be available. This is for nested data, like we have categories 'A-1' and 'A-2' under 'A', and furtherly we have 'A-1-1' and 'A-1-2' under 'A-1'.
+It determines when the 'drill down' feature will start to work.
+
+This is for mainly nested data, like we may ave categories 'A-1' and 'A-2' under 'A', and furtherly we have 'A-1-1' and 'A-1-2' under 'A-1'.
+
+The default value is 2.
 }
   \item{theme}{
  Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
