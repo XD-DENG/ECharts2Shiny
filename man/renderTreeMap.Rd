@@ -31,7 +31,7 @@ It determines when the 'drill down' feature will start to work.
 
 This is for mainly nested data, like we may ave categories 'A-1' and 'A-2' under 'A', and furtherly we have 'A-1-1' and 'A-1-2' under 'A-1'.
 
-The default value is 2.
+The value of this argument must be integer and bigger than 0 (float value will be converted to its ceiling value automatically). The default value is 2.
 }
   \item{theme}{
  Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
@@ -75,7 +75,7 @@ if (interactive()) {
     server <- function(input, output) {
       # Call functions from ECharts2Shiny to render charts
       renderTreeMap(div_id = "test",
-                    data="{
+                    data="[{
                       name: 'A',
                       value: 6,
                       children: [
@@ -115,7 +115,7 @@ if (interactive()) {
                     {
                       name: 'C',
                       value: 4
-                    }")
+                    }]")
         }
 
     # UI layout -------------------------------------------------

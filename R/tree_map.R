@@ -17,6 +17,14 @@ renderTreeMap <- function(div_id,
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # Check the value of 'leafDepth'
+  if(((class(leafDepth) %in% c('integer', 'numeric')) == FALSE)){
+    stop("Argument 'leafDepth' must be integer.")
+  }
+
+  if(leafDepth <=0 ){
+    stop("Argument 'leafDepth' must be bigger than 0.")
+  }
 
   js_statement <- paste("var " ,
                         div_id,
@@ -45,9 +53,9 @@ renderTreeMap <- function(div_id,
 
                         " itemStyle:{normal: {label: {show: true,formatter: '{b}'},borderWidth: 1},emphasis: {label: {show: true}}},",
 
-                        "data:[",
+                        "data:",
                         data,
-                        "]",
+                        "",
 
                         "}]",
 
