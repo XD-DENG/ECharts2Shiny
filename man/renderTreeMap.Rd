@@ -66,56 +66,52 @@ if (interactive()) {
     library(ECharts2Shiny)
 
     # Prepare sample data for plotting --------------------------
-    dat <- data.frame(c(1, 2, 3),
-                      c(2, 4, 6))
-    names(dat) <- c("Type-A", "Type-B")
-    row.names(dat) <- c("Time-1", "Time-2", "Time-3")
+    dat <- "[{name: 'A',
+              value: 6,
+              children: [
+                  {
+                  name: 'A-1',
+                  value: 6,
+                  children:[
+                  {
+                  name: 'A-1-1',
+                  value: 6
+                  },
+                  {
+                  name: 'A-1-2',
+                  value: 2
+                  }
+                  ]
+                  },
+                  {
+                  name: 'A-2',
+                  value: 3
+                  }
+              ]
+            },
+            {
+              name: 'B',
+              value: 6,
+              children: [
+                  {name : 'B-1',
+                  value:10
+                  },
+                  {
+                  name:'B-2',
+                  value:2
+                  }
+              ]
+            },
+            {
+              name: 'C',
+              value: 4
+            }]"
 
     # Server function -------------------------------------------
     server <- function(input, output) {
       # Call functions from ECharts2Shiny to render charts
       renderTreeMap(div_id = "test",
-                    data="[{
-                      name: 'A',
-                      value: 6,
-                      children: [
-                          {
-                          name: 'A-1',
-                          value: 6,
-                          children:[
-                          {
-                          name: 'A-1-1',
-                          value: 6
-                          },
-                          {
-                          name: 'A-1-2',
-                          value: 2
-                          }
-                          ]
-                          },
-                          {
-                          name: 'A-2',
-                          value: 3
-                          }
-                      ]
-                    },
-                    {
-                      name: 'B',
-                      value: 6,
-                      children: [
-                          {name : 'B-1',
-                          value:10
-                          },
-                          {
-                          name:'B-2',
-                          value:2
-                          }
-                      ]
-                    },
-                    {
-                      name: 'C',
-                      value: 4
-                    }]")
+                    data = dat)
         }
 
     # UI layout -------------------------------------------------
