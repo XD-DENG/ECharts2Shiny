@@ -23,6 +23,9 @@ renderBarChart <- function(div_id,
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('stack_plot', 'show.tools', 'show.legend', 'animation', 'running_in_shiny'))
+
   # Check if the "direction" value is valid
   if(direction == "horizontal"){
     direction_vector = c("xAxis", "yAxis")

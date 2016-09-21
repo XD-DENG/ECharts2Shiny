@@ -17,6 +17,9 @@ renderPieChart <- function(div_id,
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('show.label', 'show.tools', 'show.legend', 'animation', 'running_in_shiny'))
+
   # Check if the data input is valid
   # the data input should be either a vector or a data.frame meeting specific requirement.
   if(is.vector(data)){

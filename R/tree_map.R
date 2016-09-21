@@ -9,13 +9,15 @@ renderTreeMap <- function(div_id,
                            leafDepth = 2,
                            theme = "default",
                            show.tools = TRUE,
-                           animation = TRUE,
                            running_in_shiny = TRUE){
 
 
 
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
+
+  # Check logical variables (whether they're logical)
+  .check_logical(c('show.tools', 'running_in_shiny'))
 
   # Check the value of 'leafDepth'
   if(((class(leafDepth) %in% c('integer', 'numeric')) == FALSE)){
@@ -40,10 +42,6 @@ renderTreeMap <- function(div_id,
                         ifelse(show.tools,
                                "toolbox:{feature:{mark:{show:true}, restore:{show: true}, saveAsImage:{}}}, ",
                                ""),
-
-                        ifelse(animation,
-                               "animation:true,",
-                               "animation:false,"),
 
                         "series :[",
 

@@ -23,6 +23,10 @@ renderScatter <- function(div_id, data,
 
   data <- .process_NA(data)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('auto.scale', 'show.tools', 'show.legend', 'animation',
+                   'show.slider.axis.x', 'show.slider.axis.y', 'running_in_shiny'))
+
   # DATA PREPARATION:
   # For scatter plots, the data must be prepared as a data.frame of 3 columns.
   # "x", "y", and "group"

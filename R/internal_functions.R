@@ -48,3 +48,13 @@
 
 
 
+# A function to help check whether these variables who're expected to be logical are logical
+.check_logical <- function(x_to_check){
+  # 'x_to_check': a list of variable names to check. String format,
+  # USAGE: .check_logical(c('var_1', 'var_2', 'var_3'))
+  for(x in x_to_check){
+    if(is.logical(get(x, envir = parent.frame())) == FALSE){
+      stop(paste("Logical variable '", x, "' is not logical. Please check", sep = ""))
+    }
+  }
+}

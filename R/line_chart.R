@@ -19,6 +19,10 @@ renderLineChart <- function(div_id,
 
   data <- .process_NA(data)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('stack_plot', 'show.tools', 'show.legend', 'animation',
+                   'show.slider.axis.x', 'show.slider.axis.y', 'running_in_shiny'))
+
   # check the type of line.width
   if((class(line.width) %in% c("numeric", "integer")) == FALSE){
     stop("The line.width should either be numeric or integer.")

@@ -13,7 +13,7 @@ renderTreeMap(div_id,
               name = "main",
               leafDepth = 2,
               theme = "default",
-              show.tools = TRUE, animation = TRUE,
+              show.tools = TRUE,
               running_in_shiny = TRUE)
 }
 \arguments{
@@ -38,9 +38,6 @@ The value of this argument must be integer and bigger than 0 (float value will b
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.
-}
-  \item{animation}{
-Whether display the chart with animation. The default value is TRUE.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
