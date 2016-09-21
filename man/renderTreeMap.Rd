@@ -10,7 +10,7 @@ renderTreeMap() function helps render interactive tree map chart into Shiny appl
 \usage{
 renderTreeMap(div_id,
               data,
-              name = "main",
+              name = "Main",
               leafDepth = 2,
               theme = "default",
               show.tools = TRUE,
@@ -43,9 +43,7 @@ If display the tool bar. The default value is TRUE.
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
 }
 }
-\details{
 
-}
 
 \author{
   Xiaodong DENG
