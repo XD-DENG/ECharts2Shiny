@@ -14,6 +14,9 @@ renderGauge <- function(div_id, theme = "default",
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('show.tools', 'animation', 'running_in_shiny'))
+
   # Convert raw data into JSON format
   series_data <- paste("[{name:'",gauge_name, "',value:", rate, "}]", sep="")
 

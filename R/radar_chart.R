@@ -16,6 +16,9 @@ renderRadarChart <- function(div_id,
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('show.tools', 'show.legend', 'animation', 'running_in_shiny'))
+
   # check the value for "shape"
   valid_shapes <- c("default", "circle")
   if((shape %in% valid_shapes) == FALSE){

@@ -28,6 +28,9 @@ renderWordcloud <- function(div_id,
     }
   }
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('running_in_shiny'))
+
   # Convert raw data into JSON format
   js_data <- as.character(jsonlite::toJSON(data))
   js_data <- gsub("\"", "\'", js_data)

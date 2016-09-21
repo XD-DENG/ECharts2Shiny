@@ -20,6 +20,9 @@ renderHeatMap <- function(div_id, data,
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
+  # Check logical variables (whether they're logical)
+  .check_logical(c('show.tools','running_in_shiny'))
+
   # Convert raw data into JSON format
   series_data <- paste("[{type: 'heatmap',data:", .prepare_data_for_heatmap(processed_data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]", sep="")
 
