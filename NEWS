@@ -1,4 +1,10 @@
 --------------------
+Version 0.2.5
+--------------------
+
+- Users can sepcify axis names for line chart, bar chart, and scatter plot now.
+
+--------------------
 Version 0.2.4
 --------------------
 
