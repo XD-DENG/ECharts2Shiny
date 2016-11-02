@@ -15,6 +15,7 @@ renderLineChart(div_id, data, theme = "default",
                 show.legend = TRUE, show.tools = TRUE,
                 font.size.legend= 12,
                 font.size.axis.x = 12, font.size.axis.y = 12,
+                axis.x.name = NULL, axis.y.name = NULL,
                 rotate.axis.x = 0, rotate.axis.y = 0,
                 show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                 animation = TRUE,
@@ -81,6 +82,12 @@ The font size of the labels on X axis. The default value is 12.
 }
   \item{font.size.axis.y}{
 The font size of the labels on Y axis. The default value is 12.
+}
+  \item{axis.x.name}{
+The name of X axis. The default value is NULL.
+}
+  \item{axis.y.name}{
+The name of Y axis. The default value is NULL.
 }
   \item{rotate.axis.x}{
 The rotation degree of labels on X axis. The default value is 0.
