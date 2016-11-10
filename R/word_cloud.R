@@ -25,8 +25,6 @@ renderWordcloud <- function(div_id,
   #            rep("Baidu", 1))
   # and we should give "hyperlink" as c(<URL for Google>, <URL for Bing>, <URL for Baidu>)
   # but the data.frame derived from the vector may list these three elements in different order
-  print(is.vector(data))
-  print(is.null(hyperlinks))
   if(is.vector(data) & (is.null(hyperlinks) == FALSE)){
     stop("'hyperlinks' feature doesn't support vector data in word cloud for now. Only data.frame data is supported.")
   }
