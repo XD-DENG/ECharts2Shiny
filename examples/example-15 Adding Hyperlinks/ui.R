@@ -17,13 +17,20 @@ shinyUI(fluidPage(
 
   fluidRow(
     column(6,
-           tags$div(id="test_3", style="width:100%;height:300px;"),
-           deliverChart(div_id = "test_3")
+           tags$div(id="test_2", style="width:100%;height:300px;"),
+           deliverChart(div_id = "test_2")
            ),
     column(6,
-           tags$div(id="test_4", style="width:100%;height:300px;"),
-           deliverChart(div_id = "test_4")
+           tags$div(id="test_3", style="width:100%;height:300px;"),
+           deliverChart(div_id = "test_3")
            )
+  ),
+
+  fluidRow(
+    column(6,
+           tags$div(id="test_4", style="width:80%;height:250px;"),  # Specify the div for the chart. Can also be considered as a space holder
+           deliverChart(div_id = "test_4")  # Deliver the plotting
+    )
   )
 
 

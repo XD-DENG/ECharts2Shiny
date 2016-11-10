@@ -15,6 +15,12 @@ names(dat_2) <- c("Type-A", "Type-B", "Type-C")
 row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
 
 
+sample_data_for_wordcloud <- data.frame(name = c("Asia", "Africa", "North America", "South America",
+                                                 "Antarctica", "Europe", "Australia"),
+                                        value = c(44391162, 30244049, 24247039, 17821029, 14245000,
+                                                  10354636, 7686884))
+
+
 
 
 
@@ -30,20 +36,24 @@ shinyServer(function(input, output) {
                                 "https://www.baidu.com"))
 
 
-  renderBarChart(div_id = "test_3", grid_left = '1%',
+  renderBarChart(div_id = "test_2", grid_left = '1%',
                  data = dat_2,
                  hyperlinks = c("http://me.seekingqed.com",
                                 "https://google.com",
                                 "https://github.com",
                                 "http://www.bjfu.edu.cn"))
 
-  renderBarChart(div_id = "test_4", theme = "vintage",
+  renderBarChart(div_id = "test_3", theme = "vintage",
                  direction = "vertical", grid_left = "10%",
                  data = dat_2,
                  hyperlinks = c("http://me.seekingqed.com",
                                 "https://google.com",
                                 "https://github.com",
                                 "http://www.bjfu.edu.cn"))
+
+  renderWordcloud("test_4", data =sample_data_for_wordcloud,
+                  grid_size = 10, sizeRange = c(20, 50),
+                  hyperlinks = c(rep("http://me.seekingqed.com", 3), rep("https://github.com", 4)))
 
 
   })
