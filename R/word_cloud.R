@@ -25,15 +25,20 @@ renderWordcloud <- function(div_id,
   #            rep("Baidu", 1))
   # and we should give "hyperlink" as c(<URL for Google>, <URL for Bing>, <URL for Baidu>)
   # but the data.frame derived from the vector may list these three elements in different order
+  print(is.vector(data))
+  print(is.null(hyperlinks))
   if(is.vector(data) & (is.null(hyperlinks) == FALSE)){
     stop("'hyperlinks' feature doesn't support vector data in word cloud for now. Only data.frame data is supported.")
   }
 
   # Check if the length of "hyperlink" is the same as the length of the x-axis names
-  item_names <- data$name
-  if((length(hyperlinks) != length(item_names)) & (is.null(hyperlinks) == FALSE)){
-    stop("The length of 'hyperlinks' should be the same as the number of unique items in the pie chart.")
+  if(is.null(hyperlinks) == FALSE){
+    item_names <- data$name
+    if((length(hyperlinks) != length(item_names)) & (is.null(hyperlinks) == FALSE)){
+      stop("The length of 'hyperlinks' should be the same as the number of items in the word cloud.")
+    }
   }
+
 
 
   # the data input should be either a vector or a data.frame meeting specific requirement.
