@@ -53,10 +53,13 @@ renderPieChart <- function(div_id,
   }
 
   # Check if the length of "hyperlink" is the same as the length of the x-axis names
-  item_names <- data$name
-  if((length(hyperlinks) != length(item_names)) & (is.null(hyperlinks) == FALSE)){
-    stop("The length of 'hyperlinks' should be the same as the number of unique items in the pie chart.")
+  if(is.null(hyperlinks) == FALSE){
+    item_names <- data$name
+    if((length(hyperlinks) != length(item_names)) & (is.null(hyperlinks) == FALSE)){
+      stop("The length of 'hyperlinks' should be the same as the number of unique items in the pie chart.")
+    }
   }
+
 
   # Generate legend
   legend_data <- paste(sapply(sort(unique(data$name)), function(x){paste("'", x, "'", sep="")}), collapse=", ")
@@ -79,6 +82,10 @@ renderPieChart <- function(div_id,
                         ifelse(show.tools,
                                "toolbox:{feature:{saveAsImage:{}}}, ",
                                ""),
+
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               "tooltip : {textStyle: {fontStyle:'italic', color:'skyblue'}},"),
 
                         ifelse(show.legend,
                                paste("legend:{orient: 'vertical', left: 'left', data:",

@@ -73,7 +73,11 @@ renderWordcloud <- function(div_id,
                         "'));",
 
                         "option_", div_id,
-                        "= {tooltip:{},",
+                        "= {tooltip:{",
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               "textStyle: {fontStyle:'italic', color:'skyblue'}"),
+                        "},",
 
                         "series:[{type: 'wordCloud',gridSize: ", grid_size, ",",
                         "sizeRange:", paste("[", sizeRange[1], ",", sizeRange[2], "]", sep=""), ",",

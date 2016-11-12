@@ -82,7 +82,11 @@ renderBarChart <- function(div_id,
                         ");",
 
                         "option_", div_id,
-                        " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, ",
+                        " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}",
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               ", textStyle:{fontStyle:'italic', color:'skyblue'}"),
+                        "}, ",
 
                         ifelse(show.tools,
                                "toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
