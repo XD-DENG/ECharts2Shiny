@@ -15,6 +15,7 @@ renderBarChart <- function(div_id,
                            rotate.axis.x = 0, rotate.axis.y = 0,
                            bar.max.width = NULL,
                            animation = TRUE,
+                           hyperlinks = NULL,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -36,6 +37,12 @@ renderBarChart <- function(div_id,
     }else{
       stop("The 'direction' argument can be either 'horizontal' or 'vertical'")
     }
+  }
+
+
+  # Check if the length of "hyperlink" is the same as the length of the x-axis names
+  if((length(hyperlinks) != dim(data)[1]) & (is.null(hyperlinks) == FALSE)){
+    stop("The length of 'hyperlinks' should be the same as the number of observations (the number of rows of the data).")
   }
 
   xaxis_name <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
@@ -75,7 +82,11 @@ renderBarChart <- function(div_id,
                         ");",
 
                         "option_", div_id,
-                        " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}}, ",
+                        " = {tooltip : {trigger:'axis', axisPointer:{type:'shadow'}",
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               ", textStyle:{fontStyle:'italic', color:'skyblue'}"),
+                        "}, ",
 
                         ifelse(show.tools,
                                "toolbox:{feature:{magicType:{type: ['stack', 'tiled']}, saveAsImage:{}}}, ",
@@ -110,6 +121,25 @@ renderBarChart <- function(div_id,
                         "window.addEventListener('resize', function(){",
                         div_id, ".resize()",
                         "});",
+
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               paste(div_id,
+                                    ".on('click', function (param){
+                                    var name=param.name;",
+
+                                     paste(sapply(1:length(hyperlinks),
+                                                  function(i){
+                                                    paste("if(name=='", row.names(data)[i], "'){",
+                                                          "window.location.href='", hyperlinks[i], "';}",
+                                                          sep="")
+                                                  }),
+                                           collapse = ""),
+
+                                "});",
+                                div_id, ".on('click');",
+                                sep="")
+                               ),
 
                         sep="")
 

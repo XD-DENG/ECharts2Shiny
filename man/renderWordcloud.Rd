@@ -11,6 +11,7 @@ renderWordcloud(div_id, data,
                 shape = 'circle',
                 grid_size = 5, sizeRange = c(15, 50),
                 rotationRange = c(-45, 45),
+                hyperlinks = NULL,
                 running_in_shiny = TRUE)
 }
 \arguments{
@@ -35,6 +36,11 @@ The division id users specified for this chart. The division will be specified i
 }
   \item{rotationRange}{
  The rotation angle range in the word cloud. It should be a vector of length two. The default value is c(-45, 45).
+}
+  \item{hyperlinks}{
+Vector. Users can link each element in the chart to a hyperlink (URL like http://***.com). Please note this is only supported when the data is in data.frame format, and the length of the "hyperlinks" vector should be the same to the number of rows in the data given.
+
+Note that if hyperlinks are available, the fonts in the pop-up window will be in skyblue color and italic style.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

@@ -10,6 +10,7 @@ renderPieChart <- function(div_id,
                            show.legend = TRUE, show.tools = TRUE,
                            font.size.legend = 12,
                            animation = TRUE,
+                           hyperlinks = NULL,
                            running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -19,6 +20,20 @@ renderPieChart <- function(div_id,
 
   # Check logical variables (whether they're logical)
   .check_logical(c('show.label', 'show.tools', 'show.legend', 'animation', 'running_in_shiny'))
+
+  # Check if the data source support "hyperlink" feature is user is using "hyperlink" feature
+  # this is due to that the program will convert vector data into data.frame,
+  # and the order may dismatch with the vector given for "hyperlink".
+  # for example, the data may be
+  # dat <- c(rep("Google", 8),
+  #            rep("Bing", 5),
+  #            rep("Baidu", 1))
+  # and we should give "hyperlink" as c(<URL for Google>, <URL for Bing>, <URL for Baidu>)
+  # but the data.frame derived from the vector may list these three elements in different order
+  if(is.vector(data) & (is.null(hyperlinks) == FALSE)){
+    stop("'hyperlinks' feature doesn't support vector data for now. Only data.frame data is supported.")
+  }
+
 
   # Check if the data input is valid
   # the data input should be either a vector or a data.frame meeting specific requirement.
@@ -36,6 +51,15 @@ renderPieChart <- function(div_id,
       stop("The 'value' column must be numeric or integer.")
     }
   }
+
+  # Check if the length of "hyperlink" is the same as the length of the x-axis names
+  if(is.null(hyperlinks) == FALSE){
+    item_names <- data$name
+    if((length(hyperlinks) != length(item_names)) & (is.null(hyperlinks) == FALSE)){
+      stop("The length of 'hyperlinks' should be the same as the number of unique items in the pie chart.")
+    }
+  }
+
 
   # Generate legend
   legend_data <- paste(sapply(sort(unique(data$name)), function(x){paste("'", x, "'", sep="")}), collapse=", ")
@@ -58,6 +82,10 @@ renderPieChart <- function(div_id,
                         ifelse(show.tools,
                                "toolbox:{feature:{saveAsImage:{}}}, ",
                                ""),
+
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               "tooltip : {textStyle: {fontStyle:'italic', color:'skyblue'}},"),
 
                         ifelse(show.legend,
                                paste("legend:{orient: 'vertical', left: 'left', data:",
@@ -88,6 +116,25 @@ renderPieChart <- function(div_id,
                         "window.addEventListener('resize', function(){",
                         div_id, ".resize()",
                         "});",
+
+                        ifelse(is.null(hyperlinks),
+                               "",
+                               paste(div_id,
+                                     ".on('click', function (param){
+                                     var name=param.name;",
+
+                                     paste(sapply(1:length(hyperlinks),
+                                                  function(i){
+                                                    paste("if(name=='", item_names[i], "'){",
+                                                          "window.location.href='", hyperlinks[i], "';}",
+                                                          sep="")
+                                                  }),
+                                           collapse = ""),
+
+                                     "});",
+                                     div_id, ".on('click');",
+                                     sep="")
+                        ),
 
                         sep="")
 

@@ -14,6 +14,7 @@ renderPieChart(div_id, data,
                show.legend = TRUE, show.tools = TRUE,
                font.size.legend= 12,
                animation = TRUE,
+               hyperlinks = NULL,
                running_in_shiny)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -54,6 +55,12 @@ The font size of legend bar. The default value is 12.
 }
   \item{animation}{
 Whether display the chart with animation. The default value is TRUE.
+}
+  \item{hyperlinks}{
+Vector. Users can link each element in the chart to a hyperlink (URL like http://***.com). Please note this is only supported when the data is in data.frame format, and the length of the "hyperlinks" vector should be the same to the number of rows in the data given.
+
+
+Note that if hyperlinks are available, the fonts in the pop-up window will be in skyblue color and italic style.
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.
