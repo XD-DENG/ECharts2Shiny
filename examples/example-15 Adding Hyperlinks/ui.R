@@ -8,6 +8,13 @@ shinyUI(fluidPage(
   loadEChartsTheme('shine'),
   loadEChartsTheme('vintage'),
 
+  h2("Adding Hyperlinks to Your Interactive Charts"),
+
+  wellPanel(
+    p("You can refer to the documentation of pie chart, bar chart, and word cloud for this feature."),
+    p("Please note, if hyperlinks are added into your charts, the fonts in the pop-up window will be in skyblue color and italic style.")
+    ),
+
   fluidRow(
     column(6,
            tags$div(id="test_1", style="width:100%;height:300px;"),  # Specify the div for the chart. Can also be considered as a space holder
