@@ -53,7 +53,13 @@ shinyServer(function(input, output) {
 
   renderWordcloud("test_4", data =sample_data_for_wordcloud,
                   grid_size = 10, sizeRange = c(20, 50),
-                  hyperlinks = c(rep("http://me.seekingqed.com", 3), rep("https://github.com", 4)))
+                  hyperlinks = c("https://en.wikipedia.org/wiki/Asia",
+                                 "https://en.wikipedia.org/wiki/Africa",
+                                 "https://en.wikipedia.org/wiki/North_America",
+                                 "https://en.wikipedia.org/wiki/South_America",
+                                 "https://en.wikipedia.org/wiki/Antarctica",
+                                 "https://en.wikipedia.org/wiki/Europe",
+                                 "https://en.wikipedia.org/wiki/Australia"))
 
 
   })
