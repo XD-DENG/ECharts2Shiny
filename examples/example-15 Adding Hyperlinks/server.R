@@ -8,11 +8,10 @@ library(ECharts2Shiny)
 dat_1 <- data.frame(name=c("Google", "Bing", "Baidu"),
                     value=c(8, 5, 1))
 
-dat_2 <- data.frame(c(1, 2, 3, 1),
-                  c(2, 4, 6, 6),
-                  c(3, 2, 7, 5))
-names(dat_2) <- c("Type-A", "Type-B", "Type-C")
-row.names(dat_2) <- c("Time-1", "Time-2", "Time-3", "Time-4")
+dat_2 <- data.frame(c(1, 2, 3),
+                  c(2, 4, 6))
+names(dat_2) <- c("Area", "Population")
+row.names(dat_2) <- c("Russia", "China", "United States")
 
 
 sample_data_for_wordcloud <- data.frame(name = c("Asia", "Africa", "North America", "South America",
