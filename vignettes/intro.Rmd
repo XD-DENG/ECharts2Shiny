@@ -1,7 +1,7 @@
 ---
 title: "Introduction to ECharts2Shiny"
 author: "Xiaodong DENG"
-date: "August 02, 2016"
+date: "February 24, 2017"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to ECharts2Shiny}
@@ -97,7 +97,7 @@ knitr::include_graphics("Capture.png")
 - [12. Step Line Chart](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-12%20Step%20Line%20Chart)
 - [13. Deal with Missing Values](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-13%20Deal%20with%20NA%20Values)
 - [14. Heat Map](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-14%20Heat%20Map)
-
+- [15. Add Hyperlinks](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-15%20Adding%20Hyperlinks)
 
 ## Note
 
