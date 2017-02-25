@@ -92,6 +92,10 @@ shinyApp(ui = ui, server = server)
 - [12. Step Line Chart](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-12%20Step%20Line%20Chart)
 - [13. Deal with Missing Values](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-13%20Deal%20with%20NA%20Values)
 - [14. Heat Map](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-14%20Heat%20Map)
+- [15. Add Hyperlinks](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-15%20Adding%20Hyperlinks)
+
+
+
 
 
 ## License
@@ -195,6 +199,7 @@ shinyApp(ui = ui, server = server)
 - [12. Step Line Chart](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-12%20Step%20Line%20Chart)
 - [13. Deal with Missing Values](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-13%20Deal%20with%20NA%20Values)
 - [14. Heat Map](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-14%20Heat%20Map)
+- [15. Add Hyperlinks](https://github.com/XD-DENG/ECharts2Shiny/tree/master/examples/example-15%20Adding%20Hyperlinks)
 
 
 ## 许可证
