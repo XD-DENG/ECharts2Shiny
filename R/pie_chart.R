@@ -138,9 +138,9 @@ renderPieChart <- function(div_id,
 
                         sep="")
 
-  to_eval <- paste("output$", div_id ," <- renderUI({fluidPage(tags$script(\"",
+  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\"))})",
+                   "\")})",
                    sep="")
 
   if(running_in_shiny == TRUE){
