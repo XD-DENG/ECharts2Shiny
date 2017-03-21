@@ -127,13 +127,13 @@ ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*EC
 - 热力图 (heat map)
 
 
-###目录
+### 目录
 - [安装](#安装)
 - [例子](#例子)
 - [许可证](#许可证)
 
 
-##安装
+## 安装
 
 CRAN版本
 ```{r}
@@ -146,7 +146,7 @@ library(devtools)
 install_github("XD-DENG/ECharts2Shiny")
 ```
 
-##例子
+## 例子
 
 ```{r}
 library(shiny)
