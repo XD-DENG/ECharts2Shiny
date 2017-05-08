@@ -34,7 +34,7 @@ This is for mainly nested data, like we may ave categories 'A-1' and 'A-2' under
 The value of this argument must be integer and bigger than 0 (float value will be converted to its ceiling value automatically). The default value is 2.
 }
   \item{theme}{
- Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.

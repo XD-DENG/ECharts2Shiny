@@ -8,13 +8,13 @@ shinyUI(fluidPage(
 
   fluidRow(
     column(6,
-           h4("To Give A Matrix without Row Names or Column Names", align = "center"),
+           h4("Normal Example", align = "center"),
            tags$div(id="test_1", style="width:100%;height:400px;"),
            deliverChart(div_id = "test_1")
            ),
 
     column(6,
-           h4("To Give A Matrix with Row Names & Column Names", align = "center"),
+           h4("Example with NA", align = "center"),
            tags$div(id="test_2", style="width:100%;height:400px;"),
            deliverChart(div_id = "test_2")
            )

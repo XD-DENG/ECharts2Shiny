@@ -19,7 +19,7 @@ renderGauge(div_id, theme = "default", gauge_name, rate,
   The division id users specified for this chart. The division will be specified in ui.R.
 }
   \item{theme}{
-  Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{gauge_name}{
   The title to show on the gauge. It can not be ignored.

@@ -1,4 +1,12 @@
 --------------------
+Version 0.2.10
+--------------------
+- Upgrade ECharts Javascript file. This also helped fix the bug of word cloud raised in GitHub issue #46
+- Added the themes contributed by Janet Wagner
+- Removed some unnecessary tedious codes
+- Fix the issues arose due to the JS file upgrade (data input must be with row names and column names)
+
+--------------------
 Version 0.2.8
 --------------------
 - New feature added: for bar chart, pie chart and word cloud, users can add hyperlinks to each part of the chart. For example, if there are 3 elements in the word cloud, users can specify a hyperlink(URL like http://***.com) for each element.

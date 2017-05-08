@@ -22,7 +22,7 @@ The division id users specified for this chart. The division will be specified i
   The data used for the plotting. It should be a data.frame. For radar chart, the data must have row names and column names specified.
 }
   \item{theme}{
-Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{shape}{
 The shape of the radar chart. Valid values include "default" and "circle".

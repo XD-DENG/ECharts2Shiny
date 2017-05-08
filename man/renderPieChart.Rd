@@ -30,7 +30,7 @@ The division id users specified for this chart. The division will be specified i
   If it's a data.frame, the data must be made up of only two columns, "name" and "value". The "value" column must be numeric or integer.
 }
   \item{theme}{
-Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{radius}{
 The radius of the pie chart. The default value is "75\%".
