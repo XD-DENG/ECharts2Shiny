@@ -37,7 +37,7 @@ Valid values include 'emptyCircle', 'circle', 'rect', 'roundRect', 'triangle', '
 The length of this argument should either be one or be the same as the number of UNIQUE groups (the number of unique elements in 'group' column of the data input).
 }
   \item{theme}{
-Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{auto.scale}{
 A logical argument to determine if the scatter plot should be scaled again automatically after the users exclude any group of observations. The default value is TRUE.

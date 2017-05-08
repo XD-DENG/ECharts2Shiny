@@ -9,9 +9,9 @@
 # if valid, return the theme place holder statement
 .theme_placeholder <- function(theme){
 
-  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine")
+  valid_themes <- c("default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", "london")
   if((theme %in% valid_themes) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage', 'shine', 'caravan', 'dark-digerati', 'jazz', and 'london'.")
   }
 
   return(ifelse(theme == "default",

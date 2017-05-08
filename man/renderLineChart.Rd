@@ -30,7 +30,7 @@ The division id users specified for this chart. The division will be specified i
   The data used for the plotting. It should be a data.frame. Each column of the data.frame is one category, and each row is one observation (like one timepoint).
 }
   \item{theme}{
-Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{line.width}{
 This is to help set the width of the lines.

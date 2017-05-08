@@ -18,10 +18,12 @@ renderHeatMap(div_id, data,
 The division id users specified for this chart. The division will be specified in ui.R.
 }
   \item{data}{
-The data input must be a matrix containing numeric or integer values. Users can choose to have or not have row names or columns names. If row names or column names are assigned to the matrix, the names will be the axis label. Otherwise, the axis label will be empty.
+The data input must be a matrix containing numeric or integer values. Users can choose to have or not have row names or columns names.
+
+From version 2.10, the data input (matrix) must be with row names and column names.
 }
   \item{theme}{
-Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine".
+Which ECharts theme to use. Valid values include "default", "roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", and "london".
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.
@@ -51,8 +53,12 @@ if (interactive()) {
 
   # Server function -------------------------------------------
   server <- function(input, output) {
+    dat <- volcano
+    row.names(dat) <- 1:dim(dat)[1]
+    colnames(dat) <- 1:dim(dat)[2]
+
     renderHeatMap(div_id = "test",
-                  data = volcano)
+                  data = dat)
   }
 
   # UI layout -------------------------------------------------
