@@ -1,10 +1,10 @@
 loadEChartsTheme <- function(theme){
 
   # Check if the value entered for "theme" is valid
-  valid_values <- c("roma", "infographic", "macarons", "vintage", "shine")
+  valid_values <- c("roma", "infographic", "macarons", "vintage", "shine", "caravan", "dark-digerati", "jazz", "london")
 
   if((theme %in% valid_values) == FALSE){
-    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'roma', 'infographic', 'macarons', 'vintage' and 'shine'.")
+    stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage', 'shine', 'caravan', 'dark-digerati', 'jazz', and 'london'.")
   }
 
   to_eval=paste('includeScript(system.file("',
