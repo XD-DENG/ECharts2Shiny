@@ -28,7 +28,7 @@ renderTreeMap <- function(div_id,
     stop("Argument 'leafDepth' must be bigger than 0.")
   }
 
-  js_statement <- paste("var " ,
+  js_statement <- paste0("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
                         div_id,
@@ -66,14 +66,11 @@ renderTreeMap <- function(div_id,
 
                         "window.addEventListener('resize', function(){",
                         div_id, ".resize()",
-                        "});",
+                        "});")
 
-                        sep="")
-
-  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
+  to_eval <- paste0("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\")})",
-                   sep="")
+                   "\")})")
 
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())

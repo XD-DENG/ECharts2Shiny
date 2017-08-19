@@ -7,10 +7,9 @@ loadEChartsTheme <- function(theme){
     stop("The ECharts theme you specified is invalid. Please check. Valid values include: 'default', 'roma', 'infographic', 'macarons', 'vintage', 'shine', 'caravan', 'dark-digerati', 'jazz', and 'london'.")
   }
 
-  to_eval=paste('includeScript(system.file("',
+  to_eval=paste0('includeScript(system.file("',
                 theme,
-                '.js", package = "ECharts2Shiny"))',
-                sep="")
+                '.js", package = "ECharts2Shiny"))')
   eval(parse(text = to_eval), envir = parent.frame())
 }
 

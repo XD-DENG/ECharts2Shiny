@@ -62,14 +62,14 @@ renderPieChart <- function(div_id,
 
 
   # Generate legend
-  legend_data <- paste(sapply(sort(unique(data$name)), function(x){paste("'", x, "'", sep="")}), collapse=", ")
-  legend_data <- paste("[", legend_data, "]", sep="")
+  legend_data <- paste(sapply(sort(unique(data$name)), function(x){paste0("'", x, "'")}), collapse=", ")
+  legend_data <- paste0("[", legend_data, "]")
 
   # Convert raw data into JSON format
   data <- as.character(jsonlite::toJSON(data))
   data <- gsub("\"", "\'", data)
 
-  js_statement <- paste("var " ,
+  js_statement <- paste0("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
                         div_id,
@@ -88,11 +88,10 @@ renderPieChart <- function(div_id,
                                "tooltip : {textStyle: {fontStyle:'italic', color:'skyblue'}},"),
 
                         ifelse(show.legend,
-                               paste("legend:{orient: 'vertical', left: 'left', data:",
+                               paste0("legend:{orient: 'vertical', left: 'left', data:",
                                      legend_data,
                                      ", textStyle:{fontSize:", font.size.legend, "}",
-                                     "},",
-                                     sep=""),
+                                     "},"),
                                ""),
                         "series : [{type: 'pie', radius:'", radius, "', center :['", center_x, "','", center_y, "'],",
 
@@ -119,29 +118,24 @@ renderPieChart <- function(div_id,
 
                         ifelse(is.null(hyperlinks),
                                "",
-                               paste(div_id,
+                               paste0(div_id,
                                      ".on('click', function (param){
                                      var name=param.name;",
 
                                      paste(sapply(1:length(hyperlinks),
                                                   function(i){
-                                                    paste("if(name=='", item_names[i], "'){",
-                                                          "window.location.href='", hyperlinks[i], "';}",
-                                                          sep="")
+                                                    paste0("if(name=='", item_names[i], "'){",
+                                                          "window.location.href='", hyperlinks[i], "';}")
                                                   }),
                                            collapse = ""),
 
                                      "});",
-                                     div_id, ".on('click');",
-                                     sep="")
-                        ),
+                                     div_id, ".on('click');")
+                        ))
 
-                        sep="")
-
-  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
+  to_eval <- paste0("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\")})",
-                   sep="")
+                   "\")})")
 
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())
