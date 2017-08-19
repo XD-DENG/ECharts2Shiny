@@ -1,5 +1,5 @@
 --------------------
-Version 0.2.10
+Version 0.2.12
 --------------------
 - Add "grid to container distance adjustment" feature for Line Chart, Heat Map, and Scatter. In previous version, only Bar Chart supports this feature.
 
