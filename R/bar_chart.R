@@ -45,15 +45,15 @@ renderBarChart <- function(div_id,
     stop("The length of 'hyperlinks' should be the same as the number of observations (the number of rows of the data).")
   }
 
-  xaxis_name <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
-  xaxis_name <- paste("[", xaxis_name, "]", sep="")
-  legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
-  legend_name <- paste("[", legend_name, "]", sep="")
+  xaxis_name <- paste(sapply(row.names(data), function(x){paste0("'", x, "'")}), collapse=", ")
+  xaxis_name <- paste0("[", xaxis_name, "]")
+  legend_name <- paste(sapply(names(data), function(x){paste0("'", x, "'")}), collapse=", ")
+  legend_name <- paste0("[", legend_name, "]")
 
   # Convert raw data into JSON format (Prepare the data in "series" part)
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
-    temp <- paste("{name:'", names(data)[i], "', type:'bar', ",
+    temp <- paste0("{name:'", names(data)[i], "', type:'bar', ",
 
                   ifelse(stack_plot,
                          " stack:' ', ",
@@ -61,19 +61,18 @@ renderBarChart <- function(div_id,
 
                   ifelse(is.null(bar.max.width),
                          "barMaxWidth: null,",
-                         paste("barMaxWidth:'", bar.max.width, "',", sep="")),
+                         paste0("barMaxWidth:'", bar.max.width, "',")),
 
                   "data:[",
                   paste(data[, i], collapse = ", "),
-                  "]}",
-                  sep=""
+                  "]}"
     )
     series_data[i] <- temp
   }
   series_data <- paste(series_data, collapse = ", ")
-  series_data <- paste("[", series_data, "]", sep="")
+  series_data <- paste0("[", series_data, "]")
 
-  js_statement <- paste("var " ,
+  js_statement <- paste0("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
                         div_id,
@@ -97,17 +96,16 @@ renderBarChart <- function(div_id,
                                "animation:false,"),
 
                         ifelse(show.legend,
-                               paste("legend:{data:",
+                               paste0("legend:{data:",
                                      legend_name,
                                      ", textStyle:{fontSize:", font.size.legend, "}",
-                                     "},",
-                                     sep=""),
+                                     "},"),
                                ""),
                         "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
                         direction_vector[1],
-                        ":[{type:'value', name:", ifelse(is.null(axis.y.name), 'null', paste("'", axis.y.name, "'", sep="")), ", axisLabel:{rotate:", rotate.axis.y, ",textStyle:{fontSize:", font.size.axis.y, "}}}], ",
+                        ":[{type:'value', name:", ifelse(is.null(axis.y.name), 'null', paste0("'", axis.y.name, "'")), ", axisLabel:{rotate:", rotate.axis.y, ",textStyle:{fontSize:", font.size.axis.y, "}}}], ",
                         direction_vector[2],
-                        ":[{type:'category', name:", ifelse(is.null(axis.x.name), 'null', paste("'", axis.x.name, "'", sep="")), ", axisTick:{show:false}, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, data:",
+                        ":[{type:'category', name:", ifelse(is.null(axis.x.name), 'null', paste0("'", axis.x.name, "'")), ", axisTick:{show:false}, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, data:",
                         xaxis_name,
                         "}],series :",
                         series_data,
@@ -124,29 +122,24 @@ renderBarChart <- function(div_id,
 
                         ifelse(is.null(hyperlinks),
                                "",
-                               paste(div_id,
+                               paste0(div_id,
                                     ".on('click', function (param){
                                     var name=param.name;",
 
                                      paste(sapply(1:length(hyperlinks),
                                                   function(i){
-                                                    paste("if(name=='", row.names(data)[i], "'){",
-                                                          "window.location.href='", hyperlinks[i], "';}",
-                                                          sep="")
+                                                    paste0("if(name=='", row.names(data)[i], "'){",
+                                                          "window.location.href='", hyperlinks[i], "';}")
                                                   }),
                                            collapse = ""),
 
                                 "});",
-                                div_id, ".on('click');",
-                                sep="")
-                               ),
+                                div_id, ".on('click');")
+                               ))
 
-                        sep="")
-
-  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
+  to_eval <- paste0("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\")})",
-                   sep="")
+                   "\")})")
 
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())

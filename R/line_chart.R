@@ -14,6 +14,7 @@ renderLineChart <- function(div_id,
                             rotate.axis.x = 0, rotate.axis.y = 0,
                             show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                             animation = TRUE,
+                            grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                             running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -92,10 +93,10 @@ renderLineChart <- function(div_id,
   # Check the value for theme
   theme_placeholder <- .theme_placeholder(theme)
 
-  xaxis_name <- paste(sapply(row.names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
-  xaxis_name <- paste("[", xaxis_name, "]", sep="")
-  legend_name <- paste(sapply(names(data), function(x){paste("'", x, "'", sep="")}), collapse=", ")
-  legend_name <- paste("[", legend_name, "]", sep="")
+  xaxis_name <- paste(sapply(row.names(data), function(x){paste0("'", x, "'")}), collapse=", ")
+  xaxis_name <- paste0("[", xaxis_name, "]")
+  legend_name <- paste(sapply(names(data), function(x){paste0("'", x, "'")}), collapse=", ")
+  legend_name <- paste0("[", legend_name, "]")
 
   step_statement <- ifelse(step == 'null',
                            "step:false,",
@@ -104,12 +105,12 @@ renderLineChart <- function(div_id,
   # Convert raw data into JSON format
   series_data <- rep("", dim(data)[2])
   for(i in 1:length(series_data)){
-    temp <- paste("{name:'", names(data)[i], "', type:'line', ",
+    temp <- paste0("{name:'", names(data)[i], "', type:'line', ",
 
                   step_statement,
 
-                  paste("symbolSize:", point.size[i], ",", sep=""),
-                  paste("symbol:'", point.type[i], "',", sep=""),
+                  paste0("symbolSize:", point.size[i], ","),
+                  paste0("symbol:'", point.type[i], "',"),
 
                   "itemStyle:{normal:{lineStyle: {width:", line.width[i],", type:'", line.type[i], "'}}},",
 
@@ -118,15 +119,14 @@ renderLineChart <- function(div_id,
                          " "),
                   "data:[",
                   paste(data[, i], collapse = ", "),
-                  "]}",
-                  sep=""
-    )
+                  "]}")
+
     series_data[i] <- temp
   }
   series_data <- paste(series_data, collapse = ", ")
 
 
-  js_statement <- paste("var " ,
+  js_statement <- paste0("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
                         div_id,
@@ -139,6 +139,8 @@ renderLineChart <- function(div_id,
                                "toolbox:{feature:{saveAsImage:{}}}, ",
                                ""),
 
+                        "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
+
                         ifelse(show.slider.axis.x == TRUE & show.slider.axis.y == FALSE,
                                "dataZoom: [{type:'slider', xAxisIndex : 0}],",
                                ifelse(show.slider.axis.x == FALSE & show.slider.axis.y == TRUE,
@@ -149,19 +151,18 @@ renderLineChart <- function(div_id,
                                )),
 
                         ifelse(show.legend,
-                               paste("legend:{data:",
+                               paste0("legend:{data:",
                                      legend_name,
                                      ", textStyle:{fontSize:", font.size.legend, "}",
-                                     "},",
-                                     sep=""),
+                                     "},"),
                                ""),
 
                         ifelse(animation,
                                "animation:true,",
                                "animation:false,"),
 
-                        "yAxis:{type: 'value', name:", ifelse(is.null(axis.y.name), 'null', paste("'", axis.y.name, "'", sep="")), ", axisLabel:{rotate:",rotate.axis.y,",textStyle:{fontSize:", font.size.axis.y, "}}}, ",
-                        "xAxis:{type:'category', name:", ifelse(is.null(axis.x.name), 'null', paste("'", axis.x.name, "'", sep="")), ", boundaryGap: false, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, data:",
+                        "yAxis:{type: 'value', name:", ifelse(is.null(axis.y.name), 'null', paste0("'", axis.y.name, "'")), ", axisLabel:{rotate:",rotate.axis.y,",textStyle:{fontSize:", font.size.axis.y, "}}}, ",
+                        "xAxis:{type:'category', name:", ifelse(is.null(axis.x.name), 'null', paste0("'", axis.x.name, "'")), ", boundaryGap: false, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, data:",
                         xaxis_name,
                         "}, series:[",
                         series_data,
@@ -174,14 +175,11 @@ renderLineChart <- function(div_id,
 
                         "window.addEventListener('resize', function(){",
                         div_id, ".resize()",
-                        "});",
+                        "});")
 
-                        sep="")
-
-  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
+  to_eval <- paste0("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\")})",
-                   sep="")
+                   "\")})")
 
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())
