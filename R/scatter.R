@@ -13,6 +13,7 @@ renderScatter <- function(div_id, data,
                           rotate.axis.x = 0, rotate.axis.y = 0,
                           show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                           animation = TRUE,
+                          grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -65,8 +66,8 @@ renderScatter <- function(div_id, data,
   # get the unique values of "group" column
   group_names <- sort(unique(data$group))
 
-  legend_name <- paste(sapply(group_names, function(x){paste("'", x, "'", sep="")}), collapse=", ")
-  legend_name <- paste("[", legend_name, "]", sep="")
+  legend_name <- paste(sapply(group_names, function(x){paste0("'", x, "'")}), collapse=", ")
+  legend_name <- paste0("[", legend_name, "]")
 
 
   # Convert raw data into JSON format (Prepare the data in "series" part)
@@ -75,29 +76,27 @@ renderScatter <- function(div_id, data,
 
     temp_data <- data[data$group == group_names[i],]
 
-    temp <- paste("{name:'", group_names[i], "', type:'scatter', ",
+    temp <- paste0("{name:'", group_names[i], "', type:'scatter', ",
 
-                  paste("symbolSize:", point.size, ",", sep=""),
-                  paste("symbol:'", point.type[i], "',", sep=""),
+                  paste0("symbolSize:", point.size, ","),
+                  paste0("symbol:'", point.type[i], "',"),
 
                   "data:[",
                   paste(sapply(1:dim(temp_data)[1],
                                function(j){
-                                 paste("[", temp_data[j, "x"],
+                                 paste0("[", temp_data[j, "x"],
                                        ",",
-                                       temp_data[j, "y"],"]",
-                                       sep="")
+                                       temp_data[j, "y"],"]")
                                }),
                         collapse = ","),
-                  "]}",
-                  sep="")
+                  "]}")
     series_data[i] <- temp
   }
   series_data <- paste(series_data, collapse = ", ")
-  series_data <- paste("[", series_data, "]", sep="")
+  series_data <- paste0("[", series_data, "]")
 
 
-  js_statement <- paste("var " ,
+  js_statement <- paste0("var " ,
                         div_id,
                         " = echarts.init(document.getElementById('",
                         div_id,
@@ -111,12 +110,13 @@ renderScatter <- function(div_id, data,
                                "toolbox:{feature:{dataZoom:{show: true},restore:{show: true},saveAsImage:{show: true}}}, ",
                                ""),
 
+                        "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
+
                         ifelse(show.legend,
-                               paste("legend:{data:",
+                               paste0("legend:{data:",
                                      legend_name,
                                      ", textStyle:{fontSize:", font.size.legend, "}",
-                                     "},",
-                                     sep=""),
+                                     "},"),
                                ""),
 
                         ifelse(animation,
@@ -134,18 +134,18 @@ renderScatter <- function(div_id, data,
 
                         ifelse(auto.scale,
 
-                               paste("xAxis:[{type : 'value', name:", ifelse(is.null(axis.x.name), 'null', paste("'", axis.x.name, "'", sep="")), ", scale:true, axisLabel:{rotate:",
+                               paste0("xAxis:[{type : 'value', name:", ifelse(is.null(axis.x.name), 'null', paste0("'", axis.x.name, "'")), ", scale:true, axisLabel:{rotate:",
                                      rotate.axis.x,
                                      ",textStyle:{fontSize:",
                                      font.size.axis.x,
                                      "}}}],",
-                                     "yAxis:[{type:'value', name:", ifelse(is.null(axis.y.name), 'null', paste("'", axis.y.name, "'", sep="")), ", scale:true,axisLabel:{rotate:",
+                                     "yAxis:[{type:'value', name:", ifelse(is.null(axis.y.name), 'null', paste0("'", axis.y.name, "'")), ", scale:true,axisLabel:{rotate:",
                                      rotate.axis.y,
                                      ",textStyle:{fontSize:",
                                      font.size.axis.y,
-                                     "}}}],", sep=""),
+                                     "}}}],"),
 
-                               paste("xAxis:[{gridIndex: 0, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, min: ",
+                               paste0("xAxis:[{gridIndex: 0, axisLabel:{rotate:", rotate.axis.x, ",textStyle:{fontSize:", font.size.axis.x, "}}, min: ",
                                      round(min(data$x) - 0.03 * diff(range(data$x)), 1) - 0.1,
                                      ", max: ",
                                      round(max(data$x) + 0.03 * diff(range(data$x)), 1) + 0.1,
@@ -153,8 +153,7 @@ renderScatter <- function(div_id, data,
                                      round(min(data$y) - 0.03 * diff(range(data$y)), 1) - 0.1,
                                      ", max: ",
                                      round(max(data$y) + 0.03 * diff(range(data$y)), 1) + 0.1,
-                                     "}],",
-                                     sep="")
+                                     "}],")
                         ),
 
                         "series :",
@@ -168,14 +167,11 @@ renderScatter <- function(div_id, data,
 
                         "window.addEventListener('resize', function(){",
                         div_id, ".resize()",
-                        "});",
+                        "});")
 
-                        sep="")
-
-  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
+  to_eval <- paste0("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\")})",
-                   sep="")
+                   "\")})")
 
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())

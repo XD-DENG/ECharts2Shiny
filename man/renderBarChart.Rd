@@ -39,16 +39,16 @@ Whether do stack bar chart. The default value is FALSE.
   The direction of the bar chart. Valid values include "vertical" and "horizontal". Default value is "horizontal".
 }
   \item{grid_left}{
-  The grid left for the left side. Default value is "3\%".
+  Distance between grid component and the left side of the container. Default value is "3\%".
 }
   \item{grid_right}{
-  The grid left for the right side. Default value is "4\%".
+  Distance between grid component and the right side of the container. Default value is "4\%".
 }
   \item{grid_top}{
-  The grid left for the top side. Default value is "16\%".
+  Distance between grid component and the top side of the container. Default value is "16\%".
 }
   \item{grid_bottom}{
-  The grid left for the bottom side. Default value is "3\%".
+  Distance between grid component and the bottom side of the container. Default value is "3\%".
 }
   \item{show.legend}{
 If display the legends. The default value is TRUE.

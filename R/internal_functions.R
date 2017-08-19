@@ -16,7 +16,7 @@
 
   return(ifelse(theme == "default",
                 "",
-                paste(", '",theme,  "'", sep=""))
+                paste0(", '",theme,  "'"))
   )
 
 }
@@ -38,7 +38,7 @@
   temp <- c()
   for(i in 1:n_row){
     for(j in 1:n_col){
-      temp <- c(temp, paste("[", i, ",", j, ",", dat[i,j], "]", sep=""))
+      temp <- c(temp, paste0("[", i, ",", j, ",", dat[i,j], "]"))
     }
   }
   temp <- paste(temp, collapse = ", ")

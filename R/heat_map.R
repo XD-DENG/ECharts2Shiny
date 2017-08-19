@@ -5,6 +5,7 @@
 renderHeatMap <- function(div_id, data,
                           theme = "default",
                           show.tools = TRUE,
+                          grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -24,7 +25,7 @@ renderHeatMap <- function(div_id, data,
   .check_logical(c('show.tools','running_in_shiny'))
 
   # Convert raw data into JSON format
-  series_data <- paste("[{type: 'heatmap',data:", .prepare_data_for_heatmap(processed_data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]", sep="")
+  series_data <- paste0("[{type: 'heatmap',data:", .prepare_data_for_heatmap(processed_data), ",itemStyle: {emphasis: {shadowBlur: 10,shadowColor: 'rgba(0, 0, 0, 0.5)'}}}]")
 
   # prepare axis labels
 
@@ -32,7 +33,7 @@ renderHeatMap <- function(div_id, data,
   col_names <- colnames(data)
 
 
-  js_statement <- paste("var ",
+  js_statement <- paste0("var ",
                         div_id,
                         " = echarts.init(document.getElementById('",
                         div_id,
@@ -46,12 +47,14 @@ renderHeatMap <- function(div_id, data,
                                "toolbox: {feature: {saveAsImage: {}}},",
                                ""),
 
+                        "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
+
                         "xAxis: {type: 'category',data: [",
                         ifelse(is.null(row_names),
                                "' '",
                                paste(sapply(row_names,
                                             function(x){
-                                              paste("'", x, "'", sep="")
+                                              paste0("'", x, "'")
                                             }), collapse = ",")),
                         "],splitArea: {show: true}},",
 
@@ -61,7 +64,7 @@ renderHeatMap <- function(div_id, data,
                                "' '",
                                paste(sapply(col_names,
                                             function(x){
-                                              paste("'", x, "'", sep="")
+                                              paste0("'", x, "'")
                                             }), collapse = ",")),
                         "],splitArea: {show: true}},",
 
@@ -78,14 +81,11 @@ renderHeatMap <- function(div_id, data,
 
                         "window.addEventListener('resize', function(){",
                         div_id, ".resize()",
-                        "});",
+                        "});")
 
-                        sep="")
-
-  to_eval <- paste("output$", div_id ," <- renderUI({tags$script(\"",
+  to_eval <- paste0("output$", div_id ," <- renderUI({tags$script(\"",
                    js_statement,
-                   "\")})",
-                   sep="")
+                   "\")})")
 
   if(running_in_shiny == TRUE){
     eval(parse(text = to_eval), envir = parent.frame())
