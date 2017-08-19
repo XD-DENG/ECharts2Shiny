@@ -1,6 +1,11 @@
 --------------------
 Version 0.2.10
 --------------------
+- Add "grid to container distance adjustment" feature for Line Chart, Heat Map, and Scatter. In previous version, only Bar Chart supports this feature.
+
+--------------------
+Version 0.2.10
+--------------------
 - Upgrade ECharts Javascript file. This also helped fix the bug of word cloud raised in GitHub issue #46
 - Added the themes contributed by Janet Wagner
 - Removed some unnecessary tedious codes
