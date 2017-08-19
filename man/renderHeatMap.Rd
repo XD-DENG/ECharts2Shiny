@@ -10,6 +10,7 @@ renderHeatMap() function helps render heat map charts into Shiny applications.
 renderHeatMap(div_id, data,
               theme = "default",
               show.tools = TRUE,
+              grid_left = "3\%", grid_right = "4\%", grid_top = "16\%", grid_bottom = "3\%",
               running_in_shiny = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -27,6 +28,18 @@ Which ECharts theme to use. Valid values include "default", "roma", "infographic
 }
   \item{show.tools}{
 If display the tool bar. The default value is TRUE.
+}
+  \item{grid_left}{
+  Distance between grid component and the left side of the container. Default value is "3\%".
+}
+  \item{grid_right}{
+  Distance between grid component and the right side of the container. Default value is "4\%".
+}
+  \item{grid_top}{
+  Distance between grid component and the top side of the container. Default value is "16\%".
+}
+  \item{grid_bottom}{
+  Distance between grid component and the bottom side of the container. Default value is "3\%".
 }
   \item{running_in_shiny}{
       If we're actually running this in a Shiny library, or we're simply doing testing. Default valus is "TRUE". If "FALSE", the function will print what it's supposed to evaluate.

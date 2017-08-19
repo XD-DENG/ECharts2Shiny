@@ -13,6 +13,7 @@ renderScatter <- function(div_id, data,
                           rotate.axis.x = 0, rotate.axis.y = 0,
                           show.slider.axis.x = FALSE, show.slider.axis.y = FALSE,
                           animation = TRUE,
+                          grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -110,6 +111,8 @@ renderScatter <- function(div_id, data,
                         ifelse(show.tools,
                                "toolbox:{feature:{dataZoom:{show: true},restore:{show: true},saveAsImage:{show: true}}}, ",
                                ""),
+
+                        "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
 
                         ifelse(show.legend,
                                paste("legend:{data:",

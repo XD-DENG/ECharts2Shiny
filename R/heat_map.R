@@ -5,6 +5,7 @@
 renderHeatMap <- function(div_id, data,
                           theme = "default",
                           show.tools = TRUE,
+                          grid_left = "3%", grid_right = "4%", grid_top = "16%", grid_bottom = "3%",
                           running_in_shiny = TRUE){
 
   data <- isolate(data)
@@ -45,6 +46,8 @@ renderHeatMap <- function(div_id, data,
                         ifelse(show.tools,
                                "toolbox: {feature: {saveAsImage: {}}},",
                                ""),
+
+                        "grid: {left:'", grid_left, "', right:'", grid_right, "', top:'", grid_top, "', bottom:'", grid_bottom, "', containLabel: true},",
 
                         "xAxis: {type: 'category',data: [",
                         ifelse(is.null(row_names),
