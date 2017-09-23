@@ -7,6 +7,10 @@
 <img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/NOT_remove_for_ECharts2Shiny_repo_new.png" alt="Drawing" style="width:80%;"/>
 </p>
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/gif_diverse_charts.gif" alt="Drawing" style="width:80%;"/>
+</p>
+
 As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
 
 - Pie charts
@@ -71,7 +75,7 @@ ui <- fluidPage(
 shinyApp(ui = ui, server = server)
 ```
 <p align="center">
-<img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="width:50%;"/>
+<img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/gif_simple_example.gif" alt="Drawing" style="width:50%;"/>
 </p>
 
 **(For more examples, please refer to the `/examples` folder)**
@@ -112,6 +116,10 @@ The ***ECharts*** JS library is under BSD license ([ECharts](https://github.com/
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/NOT_remove_for_ECharts2Shiny_repo_new.png" alt="Drawing" style="width:80%;"/>
+</p>
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/gif_diverse_charts.gif" alt="Drawing" style="width:80%;"/>
 </p>
 
 ECharts2Shiny作为一个R包，可以帮助在Shiny应用程序中插入由[*ECharts*](https://github.com/ecomfe/echarts)库绘出的交互图形。当前支持的图形包括
@@ -179,7 +187,7 @@ shinyApp(ui = ui, server = server)
 ```
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/do_NOT_remove-used_by_ECharts2Shiny_repo.png" alt="Drawing" style="width:50%;"/>
+<img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/gif_simple_example.gif" alt="Drawing" style="width:50%;"/>
 </p>
 
 **(请参考`/examples` 文件夹以获得更多实例信息)**
