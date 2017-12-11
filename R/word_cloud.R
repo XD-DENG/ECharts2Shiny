@@ -41,6 +41,7 @@ renderWordcloud <- function(div_id,
 
   # the data input should be either a vector or a data.frame meeting specific requirement.
   if(is.vector(data)){
+    data <- gsub("[\n]"," ", data)
     data <- data.frame(table(data))
     names(data) <- c("name", "value")
   } else {
@@ -53,6 +54,8 @@ renderWordcloud <- function(div_id,
     if(class(data$value) != 'numeric' & class(data$value) != 'integer'){
       stop("The 'value' column must be numeric or integer.")
     }
+
+    data$name <- gsub("[\n]"," ", data$name)
   }
 
   # Check logical variables (whether they're logical)

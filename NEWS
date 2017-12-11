@@ -1,4 +1,9 @@
 --------------------
+Version 0.2.13
+--------------------
+- Word cloud doesn't work if the vector/dataframe contains \n. Replace \n with space.
+
+--------------------
 Version 0.2.12
 --------------------
 - Add "grid to container distance adjustment" feature for Line Chart, Heat Map, and Scatter. In previous version, only Bar Chart supports this feature.
