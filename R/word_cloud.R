@@ -41,6 +41,7 @@ renderWordcloud <- function(div_id,
 
   # the data input should be either a vector or a data.frame meeting specific requirement.
   if(is.vector(data)){
+    data <- gsub("[\n]"," ", data)
     data <- data.frame(table(data))
     names(data) <- c("name", "value")
   } else {
