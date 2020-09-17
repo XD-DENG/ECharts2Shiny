@@ -11,7 +11,7 @@
 <img src="https://raw.githubusercontent.com/XD-DENG/ECharts2Shiny/master/images_for_github/gif_diverse_charts.gif" alt="Drawing" style="width:80%;"/>
 </p>
 
-As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*ECharts*](https://github.com/ecomfe/echarts) library into our *Shiny* application. Currently, we can support 
+As an R package, *ECharts2Shiny* can help embed the interactive charts plotted by [*Apache ECharts (incubating)*](https://github.com/apache/incubator-echarts) library into our *Shiny* application. Currently, we can support 
 
 - Pie charts
 - Line charts
